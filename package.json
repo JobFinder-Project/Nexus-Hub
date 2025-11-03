@@ -1,0 +1,29 @@
+{
+  "name": "nexus-hub",
+  "version": "1.0.0",
+  "description": "Marketplace de Chaves Digitais de Jogos",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "keywords": [],
+  "authors": [
+    "Felipe William (FelipeWilliam-dev)",
+    "João Carlos (JoaoCarlos22)"
+  ],
+  "license": "UNLICENSED",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "express-handlebars": "^8.0.3",
+    "pg": "^8.16.3",
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
