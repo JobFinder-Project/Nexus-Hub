@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-
-  const ProductKey = sequelize.define('ProductKey', {
+    
+  const Promotion = sequelize.define('Promotion', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -8,20 +8,24 @@ module.exports = (sequelize, DataTypes) => {
     },
     produto_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    item_compra_id: { 
-      type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
       unique: true
     },
-    valor_chave: {
-      type: DataTypes.TEXT,
+    percentual_desconto: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
-    foi_vendida: {
+    data_inicio: {
+      type: DataTypes.DATE, 
+      allowNull: false
+    },
+    data_fim: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    esta_ativo: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false,
+      defaultValue: true,
       allowNull: false
     },
     criado_em: {
@@ -30,9 +34,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     }
   }, {
-    tableName: 'chaves_produto',
-    timestamps: false 
+    tableName: 'promocoes',
+    timestamps: false
   });
 
-  return ProductKey;
+  return Promotion;
 };

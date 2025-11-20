@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     
-  const Platform = sequelize.define('Platform', {
+  const Genre = sequelize.define('Genre', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -17,9 +17,9 @@ module.exports = (sequelize, DataTypes) => {
       unique: true
     }
   }, {
-    tableName: 'plataformas',
+    tableName: 'generos',
     timestamps: false
   });
 
-  return Platform;
+  return Genre;
 };
