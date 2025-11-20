@@ -1,4 +1,6 @@
-module.exports = (sequelize, DataTypes) => {
+import { DataTypes } from 'sequelize';
+
+export default (sequelize) => {
     
   const PurchaseItem = sequelize.define('PurchaseItem', {
     id: {
