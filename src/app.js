@@ -1,12 +1,7 @@
-import express from 'express';
-import { create } from 'express-handlebars';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-import allRoutes from './routes/index.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const express = require('express');
+const { create } = require('express-handlebars');
+const path = require('path');
+const allRoutes = require('./routes/index');
 
 const app = express();
 
@@ -16,7 +11,7 @@ const hbs = create({
   partialsDir: path.join(__dirname, 'views/partials'),
   extname: '.handlebars',
   helpers: {
-    // helpers customizados
+
   }
 });
 
@@ -24,13 +19,10 @@ app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
-
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: true })); 
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', allRoutes); 
+app.use('/', allRoutes);
 
-
-export default app;
+module.exports = app;
