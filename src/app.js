@@ -1,8 +1,12 @@
-const express = require('express');
-const { create } = require('express-handlebars');
-const path = require('path');
-//const allRoutes = require('./routes/index');
+import express from 'express';
+import { create } from 'express-handlebars'; 
+import path from 'path'; 
+import { fileURLToPath } from 'url'; 
+//import allRoutes from './routes/index.js';
 
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
 
 const hbs = create({
@@ -25,4 +29,4 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //app.use('/', allRoutes);
 
-module.exports = app;
+export default app;
