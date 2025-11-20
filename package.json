@@ -2,6 +2,7 @@
   "name": "nexus-hub",
   "version": "1.0.0",
   "description": "Marketplace de Chaves Digitais de Jogos",
+  "type": "module",
   "main": "index.js",
   "directories": {
     "doc": "docs"
