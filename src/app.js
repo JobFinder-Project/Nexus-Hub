@@ -1,7 +1,7 @@
 const express = require('express');
 const { create } = require('express-handlebars');
 const path = require('path');
-const allRoutes = require('./routes/index');
+//const allRoutes = require('./routes/index');
 
 const app = express();
 
@@ -23,6 +23,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', allRoutes);
+//app.use('/', allRoutes);
 
 module.exports = app;
