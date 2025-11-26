@@ -5,13 +5,13 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   {
-    languageOptions: { 
+    languageOptions: {
       globals: globals.node,
       ecmaVersion: 'latest',
-      sourceType: 'module'
-    }
+      sourceType: 'module',
+    },
   },
-  
+
   pluginJs.configs.recommended,
 
   eslintPluginPrettierRecommended,
@@ -19,12 +19,12 @@ export default [
   {
     rules: {
       // aviso se houver console.log (bom para evitar sujeira em produção)
-      'no-console': 'warn', 
-      
+      'no-console': 'warn',
+
       // permite variáveis não usadas se começarem com underline (ex: _req)
-      'no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }]
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     },
     // ignorar pastas específicas
-    ignores: ['node_modules/', 'dist/']
-  }
+    ignores: ['node_modules/', 'dist/'],
+  },
 ];

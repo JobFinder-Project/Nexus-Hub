@@ -1,27 +1,30 @@
 import { DataTypes } from 'sequelize';
 
 export default (sequelize) => {
-    
-  const Platform = sequelize.define('Platform', {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
+  const Platform = sequelize.define(
+    'Platform',
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      nome: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      slug: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
     },
-    nome: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
-    },
-    slug: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+    {
+      tableName: 'plataformas',
+      timestamps: false,
     }
-  }, {
-    tableName: 'plataformas',
-    timestamps: false
-  });
+  );
 
   return Platform;
 };

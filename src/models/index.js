@@ -1,5 +1,5 @@
 import { Sequelize, DataTypes } from 'sequelize';
-import sequelize from '../config/database.js'; 
+import sequelize from '../config/database.js';
 
 // 1. Importação dos definidores de Modelos (Factory Functions)
 import createUserModel from './User.js';
@@ -56,17 +56,17 @@ Product.hasOne(Promotion, { foreignKey: 'produto_id', as: 'promotion' });
 Promotion.belongsTo(Product, { foreignKey: 'produto_id', as: 'product' });
 
 // Product <-> Genre (N:M)
-Product.belongsToMany(Genre, { 
-  through: 'produto_generos', 
+Product.belongsToMany(Genre, {
+  through: 'produto_generos',
   foreignKey: 'produto_id',
   otherKey: 'genero_id',
-  as: 'genres'
+  as: 'genres',
 });
-Genre.belongsToMany(Product, { 
-  through: 'produto_generos', 
+Genre.belongsToMany(Product, {
+  through: 'produto_generos',
   foreignKey: 'genero_id',
   otherKey: 'produto_id',
-  as: 'products'
+  as: 'products',
 });
 
 // 4. Exportação
@@ -81,19 +81,9 @@ const db = {
   Purchase,
   PurchaseItem,
   ProductKey,
-  Promotion
+  Promotion,
 };
 
-export {
-  sequelize, 
-  User, 
-  Platform, 
-  Genre, 
-  Product, 
-  Purchase, 
-  PurchaseItem, 
-  ProductKey, 
-  Promotion 
-};
+export { sequelize, User, Platform, Genre, Product, Purchase, PurchaseItem, ProductKey, Promotion };
 
 export default db;
