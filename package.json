@@ -9,7 +9,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "keywords": [],
   "authors": [
@@ -22,10 +24,15 @@
     "express": "^5.1.0",
     "express-handlebars": "^8.0.3",
     "mysql2": "^3.15.3",
-    "pg": "^8.16.3",
     "sequelize": "^6.37.7"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "@eslint/js": "^9.39.1",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "globals": "^16.5.0",
+    "nodemon": "^3.1.10",
+    "prettier": "^3.6.2"
   }
 }

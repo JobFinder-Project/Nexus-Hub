@@ -1,9 +1,8 @@
 import express from 'express';
-import { create } from 'express-handlebars'; 
-import path from 'path'; 
-import { fileURLToPath } from 'url'; 
+import { create } from 'express-handlebars';
+import path from 'path';
+import { fileURLToPath } from 'url';
 //import allRoutes from './routes/index.js';
-
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,9 +13,7 @@ const hbs = create({
   layoutsDir: path.join(__dirname, 'views/layouts'),
   partialsDir: path.join(__dirname, 'views/partials'),
   extname: '.hbs',
-  helpers: {
-
-  }
+  helpers: {},
 });
 
 app.engine('hbs', hbs.engine);

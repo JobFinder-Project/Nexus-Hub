@@ -5,7 +5,7 @@ const router = express.Router();
 // router.use('/auth', authRoutes);
 
 router.get('/', (req, res) => {
-    res.render('home', { title: 'Nexus Hub - Home' });
+  res.render('home', { title: 'Nexus Hub - Home' });
 });
 
 module.exports = router;
