@@ -2,7 +2,8 @@ import express from 'express';
 import { create } from 'express-handlebars';
 import path from 'path';
 import { fileURLToPath } from 'url';
-//import allRoutes from './routes/index.js';
+import allRoutes from './routes/index.js';
+import { notFound, globalError } from './middlewares/errorHandler.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,6 +25,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-//app.use('/', allRoutes);
+app.use('/', allRoutes);
+app.use(globalError);
+app.use(notFound);
 
 export default app;
