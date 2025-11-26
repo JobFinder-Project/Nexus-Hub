@@ -2,6 +2,7 @@ import express from 'express';
 import { create } from 'express-handlebars';
 import path from 'path';
 import { fileURLToPath } from 'url';
+
 import allRoutes from './routes/index.js';
 import { notFound, globalError } from './middlewares/errorHandler.js';
 
