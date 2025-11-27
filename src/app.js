@@ -2,11 +2,11 @@ import express from 'express';
 import { create } from 'express-handlebars';
 import path from 'path';
 import { fileURLToPath } from 'url';
-
+import session from 'express-session'; 
+import sessionConfig from './config/session.js';
 import allRoutes from './routes/index.js';
 import { notFound, globalError } from './middlewares/errorHandler.js';
-import helpers from './helpers/handlebars-helpers';
-//import allRoutes from './routes/index.js';
+import helpers from './helpers/handlebars-helpers.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -27,6 +27,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session(sessionConfig));
 
 app.use('/', allRoutes);
 app.use(globalError);
