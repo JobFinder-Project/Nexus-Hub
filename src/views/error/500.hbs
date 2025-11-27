@@ -1,0 +1,33 @@
+<section
+    style="min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;background:#f8f9fb;">
+    <div
+        style="max-width:760px;width:100%;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,0.08);padding:1rem;background:#fff;">
+
+        <h1 style="font-size:6rem;margin:0;color:#e74c3c;letter-spacing:2px;">500</h1>
+
+        <h2 style="font-size:1.5rem;margin:0.5rem 0;color:#333;">Erro Interno do Servidor</h2>
+        <p style="color:#666;margin:1rem 0 1.5rem;">
+            Ocorreu um erro inesperado no servidor. Se o problema persistir, entre em contato com o suporte.
+        </p>
+
+        <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:2rem;">
+            <strong style="color:#333;margin-bottom:0.25rem;">Mensagem:</strong>
+            <div style="background:#f8f8f8;padding:0.75rem;width:85%;border-radius:6px;color:#c0392b;overflow-wrap:break-word;">
+                {{message}}
+            </div>
+        </div>
+
+        {{#if stack}}
+        <div style="margin-bottom:1rem;">
+            <strong style="display:block;color:#333;margin-bottom:0.25rem;">Stack (detalhes para debug):</strong>
+            <pre
+                style="white-space:pre-wrap;background:#1e1e1e;color:#e6e6e6;padding:1rem;border-radius:6px;max-height:220px;overflow:auto;font-size:0.85rem;">{{stack}}</pre>
+        </div>
+        {{/if}}
+
+        <a href="/"
+            style="display:inline-block;padding:0.65rem 1rem;background:#2b2a2a;color:#fff;border-radius:6px;text-decoration:none;font-weight:600;box-shadow:0 6px 18px rgba(25, 43, 66, 0.18);">
+            Voltar para a página inicial
+        </a>
+    </div>
+</section>

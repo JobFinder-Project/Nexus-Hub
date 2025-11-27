@@ -1,4 +1,4 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 
 // const authRoutes = require('./auth.routes');
@@ -8,4 +8,4 @@ router.get('/', (req, res) => {
   res.render('home', { title: 'Nexus Hub - Home' });
 });
 
-module.exports = router;
+export default router;

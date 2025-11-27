@@ -2,6 +2,9 @@ import express from 'express';
 import { create } from 'express-handlebars';
 import path from 'path';
 import { fileURLToPath } from 'url';
+
+import allRoutes from './routes/index.js';
+import { notFound, globalError } from './middlewares/errorHandler.js';
 import helpers from './helpers/handlebars-helpers';
 //import allRoutes from './routes/index.js';
 
@@ -25,6 +28,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-//app.use('/', allRoutes);
+app.use('/', allRoutes);
+app.use(globalError);
+app.use(notFound);
 
 export default app;
