@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session(sessionConfig));
 
 app.use('/', allRoutes);
-app.use(globalError);
 app.use(notFound);
+app.use(globalError);
 
 export default app;
