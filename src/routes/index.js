@@ -1,11 +1,11 @@
 import express from 'express';
+import authRoutes from './auth.routes.js';
 const router = express.Router();
-
-// const authRoutes = require('./auth.routes');
-// router.use('/auth', authRoutes);
 
 router.get('/', (req, res) => {
   res.render('home', { title: 'Nexus Hub - Home' });
 });
+
+router.use('/', authRoutes);
 
 export default router;

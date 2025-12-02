@@ -2,7 +2,7 @@ import express from 'express';
 import { create } from 'express-handlebars';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import session from 'express-session'; 
+import session from 'express-session';
 import sessionConfig from './config/session.js';
 import allRoutes from './routes/index.js';
 import { notFound, globalError } from './middlewares/errorHandler.js';
