@@ -1,0 +1,263 @@
+/* =========================================
+   8. PÁGINA DE PRODUTO (Detalhes)
+   ========================================= */
+
+.product-page {
+    padding: 40px 20px;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    color: var(--text-gray);
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+.breadcrumb a {
+    color: var(--text-gray);
+}
+
+.breadcrumb a:hover {
+    color: var(--primary-color);
+}
+
+.breadcrumb .current {
+    color: var(--text-light);
+    font-weight: bold;
+}
+
+/* Header Info */
+.product-title-large {
+    font-size: 2.5rem;
+    margin: 0 0 15px 0;
+    line-height: 1.1;
+}
+
+.product-meta {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.meta-tag {
+    background: #222;
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #333;
+}
+
+.meta-tag i {
+    color: var(--primary-color);
+}
+
+/* Layout Grid (Esquerda/Direita) */
+.product-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    /* 2 partes galeria, 1 parte compra */
+    gap: 40px;
+}
+
+/* Galeria */
+.product-gallery .main-image {
+    width: 100%;
+    height: 400px;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    border: 1px solid #333;
+}
+
+.product-gallery .main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.thumbnail-list {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+}
+.thumbnail-list li{
+    gap: 10px;
+}
+
+.thumb-img {
+    width: 100px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: 0.2s;
+    border: 1px solid transparent;
+}
+
+.thumb-img:hover {
+    opacity: 1;
+    border-color: var(--primary-color);
+}
+
+/* Descrição */
+.product-description-box {
+    margin-top: 40px;
+    background: var(--bg-card);
+    padding: 40px;
+    border-radius: 8px;
+    min-height: 300px;
+}
+
+.product-description-box h2,
+.product-description-box h3 {
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+    display: inline-block;
+    margin-bottom: 25px;
+    margin-bottom: 20px;
+}
+
+.product-description-box p {
+    color: #ccc;
+    line-height: 1.8;
+}
+
+.divider {
+    border: 0;
+    border-top: 1px solid #333;
+    margin: 30px 0;
+}
+
+.requirements-list li {
+    margin-bottom: 10px;
+    color: #aaa;
+    
+}
+
+.requirements-list strong {
+    color: #fff;
+    width: 120px;
+    display: inline-block;
+    margin-right: 50px;
+}
+
+/* Buy Box (Direita) */
+.buy-box {
+    background: var(--bg-card);
+    padding: 25px;
+    border-radius: 8px;
+    position: sticky;
+    top: 180px;
+    /* Gruda ao rolar */
+    border: 1px solid #333;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.product-cover-mini {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.price-block {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.old-price-lg {
+    text-decoration: line-through;
+    color: #777;
+    font-size: 1.1rem;
+    display: block;
+}
+
+.current-price-lg {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+    display: block;
+    line-height: 1;
+    margin-top: 5px;
+}
+
+.promo-timer {
+    margin-top: 15px;
+    background: rgba(112, 0, 255, 0.1);
+    color: var(--primary-color);
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border: 1px solid var(--primary-color);
+}
+
+.btn-block {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.wishlist-btn {
+    margin-top: 10px;
+    color: #aaa;
+    border-color: #444;
+}
+
+.wishlist-btn:hover {
+    border-color: var(--danger-color);
+    color: var(--danger-color);
+    background: transparent;
+}
+
+.security-features {
+    margin-top: 25px;
+    border-top: 1px solid #333;
+    padding-top: 20px;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.feature i {
+    color: var(--secondary-color);
+    width: 20px;
+    text-align: center;
+}
+
+/* Responsivo Produto */
+@media (max-width: 900px) {
+    .product-layout {
+        grid-template-columns: 1fr;
+    }
+
+    /* Vira uma coluna só */
+    .buy-box {
+        position: static;
+        order: -1;
+        margin-bottom: 30px;
+    }
+
+    /* Buybox sobe no mobile */
+    .product-cover-mini {
+        display: none;
+    }
+
+    /* Esconde capa duplicada no mobile */
+}
