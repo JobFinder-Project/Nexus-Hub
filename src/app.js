@@ -2,7 +2,7 @@ import express from 'express';
 import { create } from 'express-handlebars';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import session from 'express-session'; 
+import session from 'express-session';
 import sessionConfig from './config/session.js';
 import allRoutes from './routes/index.js';
 import { notFound, globalError } from './middlewares/errorHandler.js';
@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session(sessionConfig));
 
 app.use('/', allRoutes);
-app.use(globalError);
 app.use(notFound);
+app.use(globalError);
 
 export default app;
