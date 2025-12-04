@@ -26,9 +26,12 @@ const renderHome = async (req, res, next) => {
       ],
     });
 
+    // converte instâncias Sequelize para objetos plain (JSON) — facilita o consumo no Handlebars
+    const productsPlain = products.map((p) => p.get({ plain: true }));
+
     return res.render('catalog/home', {
       title: 'Nexus Hub - Home',
-      products,
+      products: productsPlain,
       message,
       status,
     });
@@ -50,9 +53,11 @@ const renderCatalog = async (req, res, next) => {
       ],
     });
 
+    const productsPlain = products.map((p) => p.get({ plain: true }));
+
     return res.render('catalog/catalog', {
       title: 'Nexus Hub - Catálogo',
-      products,
+      products: productsPlain,
       message,
       status,
     });
@@ -80,10 +85,15 @@ const renderCatalogByPlatform = async (req, res, next) => {
       order: [['criado_em', 'DESC']],
     });
 
+    const productsPlain = products.map((p) => p.get({ plain: true }));
+
     return res.render('catalog/catalog', {
       title: `Catálogo - ${platform.nome}`,
-      products,
-      filter: { type: 'platform', platform },
+      products: productsPlain,
+      filter: {
+        type: 'platform',
+        platform: platform.get ? platform.get({ plain: true }) : platform,
+      },
     });
   } catch (err) {
     return next(err);
@@ -99,18 +109,22 @@ const renderCatalogByGenre = async (req, res, next) => {
       return res.status(404).render('error/404', { title: '404 - Página Não Encontrada' });
     }
 
+    // usando a associação N:M — getProducts retorna instâncias
     const products = await genre.getProducts({
       include: [
         { model: Platform, as: 'platform' },
         { model: Promotion, as: 'promotion' },
+        { model: Genre, as: 'genres' }, // garante que cada produto contenha seu array de genres
       ],
       order: [['criado_em', 'DESC']],
     });
 
+    const productsPlain = products.map((p) => p.get({ plain: true }));
+
     return res.render('catalog/catalog', {
       title: `Catálogo - ${genre.nome}`,
-      products,
-      filter: { type: 'genre', genre },
+      products: productsPlain,
+      filter: { type: 'genre', genre: genre.get ? genre.get({ plain: true }) : genre },
     });
   } catch (err) {
     return next(err);
@@ -134,13 +148,26 @@ const renderProductDetails = async (req, res, next) => {
       return res.status(404).render('error/404', { title: '404 - Página Não Encontrada' });
     }
 
-    return res.render('catalog/product', {
-      title: product.titulo,
-      product,
+    const productPlain = product.get({ plain: true });
+
+    // no template usamos product.genres como array — map não é necessário aqui, mas deixamos pronto
+    if (!Array.isArray(productPlain.genres)) {
+      productPlain.genres = productPlain.genres ? [productPlain.genres] : [];
+    }
+
+    return res.render('catalog/product-details', {
+      title: productPlain.titulo,
+      product: productPlain,
     });
   } catch (err) {
     return next(err);
   }
 };
 
-export { renderHome, renderCatalog, renderCatalogByPlatform, renderCatalogByGenre, renderProductDetails };
+export {
+  renderHome,
+  renderCatalog,
+  renderCatalogByPlatform,
+  renderCatalogByGenre,
+  renderProductDetails,
+};
