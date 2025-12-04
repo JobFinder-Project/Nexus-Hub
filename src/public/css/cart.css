@@ -1,0 +1,271 @@
+/* src/public/css/cart.css */
+
+/* Container Principal do Carrinho */
+.nh-cart-container {
+    padding: 40px 0;
+    min-height: 80vh;
+}
+
+.nh-cart-title {
+    font-size: 2rem;
+    color: var(--text-light);
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Layout de Grid: Lista (Esq) + Resumo (Dir) */
+.nh-cart-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 30px;
+}
+
+/* --- LISTA DE PRODUTOS --- */
+.nh-cart-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.nh-cart-item {
+    display: flex;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.3s ease;
+}
+
+.nh-cart-item:hover {
+    border-color: #444;
+}
+
+/* Imagem do Produto */
+.nh-item-thumb {
+    width: 120px;
+    height: 160px;
+    flex-shrink: 0;
+}
+
+.nh-item-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Detalhes do Produto */
+.nh-item-details {
+    flex-grow: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.nh-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.nh-item-platform {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--text-gray);
+    border: 1px solid #333;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+.nh-item-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-light);
+    margin: 0;
+}
+
+/* Preços na Lista */
+.nh-item-pricing {
+    text-align: right;
+}
+
+.nh-price-old {
+    font-size: 0.9rem;
+    color: var(--text-gray);
+    text-decoration: line-through;
+    display: block;
+}
+
+.nh-price-current {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+}
+
+/* Ações (Remover) */
+.nh-item-actions {
+    margin-top: 15px;
+}
+
+.nh-btn-remove {
+    background: none;
+    border: none;
+    color: var(--text-gray);
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: 0.2s;
+}
+
+.nh-btn-remove:hover {
+    color: var(--danger-color);
+}
+
+/* --- SIDEBAR DE RESUMO E PAGAMENTO --- */
+.nh-cart-sidebar {
+    position: sticky;
+    top: 100px; /* Ajuste conforme a altura do seu header */
+    height: fit-content;
+}
+
+.nh-summary-box {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 25px;
+}
+
+.nh-summary-title {
+    font-size: 1.2rem;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--primary-color);
+    padding-left: 10px;
+    color: var(--text-light);
+}
+
+/* Opções de Pagamento (Radio Cards) */
+.nh-payment-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.nh-pay-card {
+    position: relative;
+    cursor: pointer;
+}
+
+.nh-pay-card input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.nh-pay-content {
+    background-color: #222;
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 15px;
+    text-align: center;
+    transition: 0.2s;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.nh-pay-content i {
+    font-size: 1.5rem;
+    color: #888;
+}
+
+.nh-pay-content span {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #ccc;
+}
+
+/* Estado Selecionado do Pagamento */
+.nh-pay-card input:checked + .nh-pay-content {
+    background-color: rgba(112, 0, 255, 0.15);
+    border-color: var(--primary-color);
+}
+
+.nh-pay-card input:checked + .nh-pay-content i,
+.nh-pay-card input:checked + .nh-pay-content span {
+    color: var(--primary-color);
+}
+
+/* Valores do Resumo */
+.nh-summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    color: #ccc;
+    font-size: 0.95rem;
+}
+
+.nh-summary-row.discount {
+    color: var(--secondary-color);
+}
+
+.nh-summary-divider {
+    height: 1px;
+    background-color: #444;
+    margin: 15px 0;
+}
+
+.nh-summary-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 25px;
+}
+
+.nh-btn-checkout {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.nh-btn-checkout:hover {
+    background-color: var(--primary-hover);
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+    .nh-cart-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .nh-item-thumb {
+        width: 100px;
+        height: 130px;
+    }
+}

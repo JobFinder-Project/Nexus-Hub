@@ -1,0 +1,123 @@
+{{!-- src/views/user/cart.hbs --}}
+<link rel="stylesheet" href="/css/cart.css">
+<div class="container nh-cart-container">
+    <h1 class="nh-cart-title">
+        <i class="fas fa-shopping-cart"></i> Meu Carrinho
+    </h1>
+
+    <div class="nh-cart-layout">
+        
+        <!-- COLUNA 1: Lista de Itens -->
+        <div class="nh-cart-list">
+            {{#if cartItems.length}}
+                {{#each cartItems}}
+                <div class="nh-cart-item">
+                    <!-- Imagem -->
+                    <div class="nh-item-thumb">
+                        <img src="{{this.imagem}}" alt="{{this.titulo}}">
+                    </div>
+
+                    <!-- Informações -->
+                    <div class="nh-item-details">
+                        <div class="nh-item-header">
+                            <div>
+                                <span class="nh-item-platform">{{this.plataforma}}</span>
+                                <h3 class="nh-item-title">{{this.titulo}}</h3>
+                            </div>
+                            
+                            <div class="nh-item-pricing">
+                                {{#if this.desconto}}
+                                    <span class="nh-price-old">{{formatPrice this.preco}}</span>
+                                    <span class="nh-price-current">{{calculateDiscount this.preco this.desconto}}</span>
+                                {{else}}
+                                    <span class="nh-price-current">{{formatPrice this.preco}}</span>
+                                {{/if}}
+                            </div>
+                        </div>
+
+                        <div class="nh-item-actions">
+                            <button class="nh-btn-remove">
+                                <i class="fas fa-trash-alt"></i> Remover
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            {{else}}
+                <div class="nh-empty-cart">
+                    <p>Seu carrinho está vazio.</p>
+                    <a href="/catalog" class="btn btn-primary">Ir às compras</a>
+                </div>
+            {{/if}}
+        </div>
+
+        <!-- COLUNA 2: Resumo e Pagamento -->
+        <div class="nh-cart-sidebar">
+            <div class="nh-summary-box">
+                <form action="/checkout/summary" method="GET">
+                    
+                    <h3 class="nh-summary-title">Forma de Pagamento</h3>
+                    
+                    <div class="nh-payment-options">
+                        <!-- PIX -->
+                        <label class="nh-pay-card">
+                            <input type="radio" name="payment" value="pix" checked>
+                            <div class="nh-pay-content">
+                                <i class="fab fa-pix"></i>
+                                <span>PIX</span>
+                            </div>
+                        </label>
+                        
+                        <!-- Cartão -->
+                        <label class="nh-pay-card">
+                            <input type="radio" name="payment" value="credit_card">
+                            <div class="nh-pay-content">
+                                <i class="far fa-credit-card"></i>
+                                <span>Cartão</span>
+                            </div>
+                        </label>
+
+                        <!-- PayPal -->
+                        <label class="nh-pay-card">
+                            <input type="radio" name="payment" value="paypal">
+                            <div class="nh-pay-content">
+                                <i class="fab fa-paypal"></i>
+                                <span>PayPal</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <h3 class="nh-summary-title">Resumo do Pedido</h3>
+                    
+                    <div class="nh-summary-row">
+                        <span>Subtotal</span>
+                        <span>{{formatPrice summary.subtotal}}</span>
+                    </div>
+
+                    {{#if summary.discount}}
+                    <div class="nh-summary-row discount">
+                        <span>Descontos</span>
+                        <span>- {{formatPrice summary.discount}}</span>
+                    </div>
+                    {{/if}}
+
+                    <div class="nh-summary-divider"></div>
+
+                    <div class="nh-summary-total">
+                        <span>Total</span>
+                        <span>{{formatPrice summary.total}}</span>
+                    </div>
+
+                    <button type="submit" class="nh-btn-checkout">
+                        Continuar <i class="fas fa-arrow-right"></i>
+                    </button>
+                    
+                    <p style="text-align: center; font-size: 0.8rem; color: #777; margin-top: 15px;">
+                        <i class="fas fa-lock"></i> Compra 100% Segura
+                    </p>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
