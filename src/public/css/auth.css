@@ -1,0 +1,190 @@
+.nh-auth-body {
+  background-color: var(--bg-dark);
+  background-image: url('/img/games-background.png');
+  background-size: cover;
+  background-position: center;
+  font-family: 'Rajdhani', sans-serif;
+  background-blend-mode: overlay;
+  min-height: 100vh;
+}
+
+.nh-auth-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 15px;
+  backdrop-filter: blur(5px);
+}
+
+.nh-auth-card {
+  background-color: rgba(21, 21, 26, 0.95);
+  border: 1px solid var(--border-color);
+  border-top: 3px solid var(--primary-color);
+  border-radius: 8px;
+  padding: 30px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.nh-auth-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.nh-auth-logo {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-light);
+  text-decoration: none;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.nh-auth-logo span {
+  color: var(--primary-color);
+}
+
+.nh-auth-header p {
+  color: var(--text-gray);
+  font-size: 0.85rem;
+}
+
+.nh-form-group {
+  margin-bottom: 15px;
+}
+
+.nh-label {
+  display: block;
+  margin-bottom: 6px;
+  color: #ccc;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.nh-input {
+  width: 100%;
+  padding: 10px 12px;
+  background-color: #0b0b0e;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: white;
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+
+.nh-input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(112, 0, 255, 0.2);
+}
+
+.nh-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.nh-checkbox-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--text-gray);
+  line-height: 1.3;
+}
+.nh-checkbox-group input {
+  margin-top: 2px;
+}
+.nh-checkbox-group a {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+.nh-btn-auth {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 5px;
+}
+.nh-btn-auth:hover {
+  background-color: var(--primary-hover);
+  box-shadow: 0 0 10px rgba(112, 0, 255, 0.4);
+}
+
+.nh-auth-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+  color: #555;
+  font-size: 0.75rem;
+}
+.nh-auth-divider::before,
+.nh-auth-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #333;
+}
+.nh-auth-divider span {
+  padding: 0 10px;
+}
+
+.nh-social-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.nh-btn-social {
+  flex: 1;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #333;
+  background: #1a1a20;
+  color: white;
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s;
+}
+
+.nh-auth-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.85rem;
+  color: var(--text-gray);
+}
+.nh-auth-footer a {
+  color: var(--secondary-color);
+  font-weight: 600;
+}
+.nh-auth-footer a:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,57 @@
+<div class="nh-auth-card" style="max-width: 400px;"> <div class="nh-auth-header">
+        <a href="/" class="nh-auth-logo">NEXUS<span>HUB</span></a>
+        <p>Crie sua conta e comece sua jornada gamer.</p>
+    </div>
+
+    <form action="/auth/register" method="POST">
+        
+        <div class="nh-form-group">
+            <label for="nome" class="nh-label">Nome Completo</label>
+            <input type="text" id="nome" name="nome" class="nh-input" placeholder="Ex: Felipe Silva" required>
+        </div>
+
+        <div class="nh-form-group">
+            <label for="data_nascimento" class="nh-label">Data de Nascimento</label>
+            <input type="date" id="data_nascimento" name="data_nascimento" class="nh-input" required>
+            <small style="color: #666; font-size: 0.75rem;">Necessário para validar idade (+18).</small>
+        </div>
+
+        <div class="nh-form-group">
+            <label for="email" class="nh-label">E-mail</label>
+            <input type="email" id="email" name="email" class="nh-input" placeholder="seu@email.com" required>
+        </div>
+
+        <div class="nh-form-row">
+            <div class="nh-form-group">
+                <label for="senha" class="nh-label">Senha</label>
+                <input type="password" id="senha" name="senha" class="nh-input" placeholder="Mín. 6 caracteres" required>
+            </div>
+            <div class="nh-form-group">
+                <label for="confirm_senha" class="nh-label">Confirmar Senha</label>
+                <input type="password" id="confirm_senha" name="confirm_senha" class="nh-input" placeholder="Repita a senha" required>
+            </div>
+        </div>
+
+        <div class="nh-form-group nh-checkbox-group">
+            <input type="checkbox" id="terms" name="terms" required>
+            <label for="terms">
+                Eu concordo com os <a href="#">Termos de Serviço</a> e a <a href="#">Política de Privacidade</a> do Nexus Hub.
+            </label>
+        </div>
+
+        <button type="submit" class="nh-btn-auth">Criar Conta</button>
+    </form>
+
+    {{!-- <div class="nh-auth-divider">
+        <span>OU CADASTRE-SE COM</span>
+    </div>
+    <div class="nh-social-buttons" title="Em breve">
+        <button class="nh-btn-social google"><i class="fab fa-google"></i></button>
+        <button class="nh-btn-social steam"><i class="fab fa-steam"></i></button>
+        <button class="nh-btn-social discord"><i class="fab fa-discord"></i></button>
+    </div> --}}
+
+    <div class="nh-auth-footer">
+        Já possui uma conta? <a href="/login">Fazer Login</a>
+    </div>
+</div>

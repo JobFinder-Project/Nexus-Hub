@@ -1,0 +1,43 @@
+<div class="nh-auth-card">
+    <div class="nh-auth-header">
+        <a href="/" class="nh-auth-logo">NEXUS<span>HUB</span></a>
+        <p>Bem-vindo de volta! Faça login para acessar sua biblioteca.</p>
+    </div>
+
+    <form action="/auth/login" method="POST">
+        <div class="nh-form-group">
+            <label for="email" class="nh-label">E-mail</label>
+            <input type="email" id="email" name="email" class="nh-input" placeholder="seu@email.com" required>
+        </div>
+
+        <div class="nh-form-group">
+            <div style="display: flex; justify-content: space-between;">
+                <label for="password" class="nh-label">Senha</label>
+                <a href="/auth/forgot-password" style="font-size: 0.8rem; color: #888;">Esqueceu a senha?</a>
+            </div>
+            <input type="password" id="password" name="password" class="nh-input" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="nh-btn-auth">Entrar</button>
+    </form>
+
+    {{!-- <div class="nh-auth-divider">
+        <span>OU ENTRE COM (EM BREVE)</span>
+    </div>
+
+    <div class="nh-social-buttons" title="Funcionalidade em desenvolvimento">
+        <button class="nh-btn-social google">
+            <i class="fab fa-google"></i>
+        </button>
+        <button class="nh-btn-social steam">
+            <i class="fab fa-steam"></i>
+        </button>
+        <button class="nh-btn-social discord">
+            <i class="fab fa-discord"></i>
+        </button>
+    </div> --}}
+
+    <div class="nh-auth-footer">
+        Não tem uma conta? <a href="/register">Cadastre-se gratuitamente</a>
+    </div>
+</div>
