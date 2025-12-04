@@ -1,0 +1,95 @@
+<link rel="stylesheet" href="css/catalog.css">
+<div class="container" style="padding: 40px 20px;">
+    
+    <div class="catalog-header">
+        <h1 class="catalog-title"><i class="fas fa-filter"></i> Explorar Catálogo</h1>
+        
+        <form action="/catalog" method="GET" class="filter-form">
+            
+            <div class="filter-group">
+                <label>Plataforma</label>
+                <select name="platform" class="filter-select">
+                    <option value="">Todas</option>
+                    <option value="steam" {{#if (eq filters.platform 'steam')}}selected{{/if}}>Steam</option>
+                    <option value="xbox" {{#if (eq filters.platform 'xbox')}}selected{{/if}}>Xbox</option>
+                    <option value="playstation" {{#if (eq filters.platform 'playstation')}}selected{{/if}}>PlayStation</option>
+                    <option value="nintendo" {{#if (eq filters.platform 'nintendo')}}selected{{/if}}>Nintendo</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Sistema</label>
+                <select name="system" class="filter-select">
+                    <option value="">Todos</option>
+                    <option value="windows" {{#if (eq filters.system 'windows')}}selected{{/if}}>Windows</option>
+                    <option value="android" {{#if (eq filters.system 'android')}}selected{{/if}}>Android</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Tipo</label>
+                <select name="type" class="filter-select">
+                    <option value="">Todos</option>
+                    <option value="game" {{#if (eq filters.type 'game')}}selected{{/if}}>Jogos</option>
+                    <option value="software" {{#if (eq filters.type 'software')}}selected{{/if}}>Software</option>
+                    <option value="giftcard" {{#if (eq filters.type 'giftcard')}}selected{{/if}}>Gift Cards</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Ordenar por</label>
+                <select name="sort" class="filter-select">
+                    <option value="relevance">Relevância</option>
+                    <option value="price_asc">Menor Preço</option>
+                    <option value="price_desc">Maior Preço</option>
+                    <option value="newest">Lançamentos</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-filter">
+                <i class="fas fa-search"></i> Filtrar
+            </button>
+        </form>
+    </div>
+
+    <div class="product-grid">
+        {{#each products}}
+            <div class="product-card">
+                <div class="card-image">
+                    <img src="{{this.imagem_url}}" alt="{{this.titulo}}">
+                </div>
+                
+                <div class="card-info">
+                    <span class="platform-tag">{{this.platform.nome}}</span>
+                    <h3 class="product-title">{{this.titulo}}</h3>
+                    
+                    <div class="price-container">
+                        <span class="new-price">{{formatPrice this.preco}}</span>
+                    </div>
+                    
+                    <a href="/product/{{this.slug}}" class="btn-add-cart">
+                        <i class="fas fa-shopping-bag"></i> Ver Detalhes
+                    </a>
+                </div>
+            </div>
+        {{else}}
+            <p>Nenhum produto encontrado com esses filtros.</p>
+        {{/each}}
+    </div>
+    
+		<div class="pagination-container">
+						<button class="btn-page" disabled>
+								<i class="fas fa-chevron-left"></i>
+						</button>
+						
+						<button class="btn-page active">1</button>
+						
+						<button class="btn-page" disabled>2</button>
+						<button class="btn-page" disabled>3</button>
+						
+						<button class="btn-page" disabled>
+								<i class="fas fa-chevron-right"></i>
+						</button>
+				</div>
+		</div>
+</div>
