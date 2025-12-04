@@ -51,3 +51,35 @@
         {{/each}}
     </div>
 </section>
+
+<section class="container popular-section">
+    <div class="section-header">
+        <h2><i class="fas fa-chart-line" style="color: var(--secondary-color);"></i> Mais Populares</h2>
+        <a href="/catalog?sort=popularity" class="view-all">Ver Ranking Completo</a>
+    </div>
+
+    <div class="popular-grid">
+        {{#each popularProducts}}
+        <a href="/product/{{this.slug}}" class="horizontal-card">
+            <div class="rank-number">#{{this.rank}}</div>
+            
+            <div class="h-card-img">
+                <img src="{{this.imagem}}" alt="{{this.titulo}}">
+            </div>
+
+            <div class="h-card-info">
+                <div class="h-card-meta">
+                    <span style="color: var(--primary-color);">{{this.platform}}</span>
+                    <span>• Key</span>
+                </div>
+                
+                <h3 class="h-card-title">{{this.titulo}}</h3>
+                
+                <div class="h-card-price">
+                    <span class="h-price-new">{{formatPrice this.preco}}</span>
+                </div>
+            </div>
+        </a>
+        {{/each}}
+    </div>
+</section>

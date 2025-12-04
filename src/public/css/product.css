@@ -1,12 +1,7 @@
-/* =========================================
-   8. PÁGINA DE PRODUTO (Detalhes)
-   ========================================= */
-
 .product-page {
     padding: 40px 20px;
 }
 
-/* Breadcrumb */
 .breadcrumb {
     color: var(--text-gray);
     margin-bottom: 20px;
@@ -26,7 +21,6 @@
     font-weight: bold;
 }
 
-/* Header Info */
 .product-title-large {
     font-size: 2.5rem;
     margin: 0 0 15px 0;
@@ -54,15 +48,12 @@
     color: var(--primary-color);
 }
 
-/* Layout Grid (Esquerda/Direita) */
 .product-layout {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    /* 2 partes galeria, 1 parte compra */
     gap: 40px;
 }
 
-/* Galeria */
 .product-gallery .main-image {
     width: 100%;
     height: 400px;
@@ -104,7 +95,6 @@
     border-color: var(--primary-color);
 }
 
-/* Descrição */
 .product-description-box {
     margin-top: 40px;
     background: var(--bg-card);
@@ -146,14 +136,12 @@
     margin-right: 50px;
 }
 
-/* Buy Box (Direita) */
 .buy-box {
     background: var(--bg-card);
     padding: 25px;
     border-radius: 8px;
     position: sticky;
     top: 180px;
-    /* Gruda ao rolar */
     border: 1px solid #333;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
@@ -241,23 +229,19 @@
     text-align: center;
 }
 
-/* Responsivo Produto */
 @media (max-width: 900px) {
     .product-layout {
         grid-template-columns: 1fr;
     }
 
-    /* Vira uma coluna só */
     .buy-box {
         position: static;
         order: -1;
         margin-bottom: 30px;
     }
 
-    /* Buybox sobe no mobile */
     .product-cover-mini {
         display: none;
     }
 
-    /* Esconde capa duplicada no mobile */
 }

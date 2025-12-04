@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/css/header.css">
 <header class="nexus-header">
     <div class="header-top">
         <div class="container">
@@ -40,14 +41,30 @@
             </div>
 
             <div class="header-actions">
-                <div class="action-item user-account">
-                    <a href="{{#if session.userId}}/profile{{else}}/login{{/if}}">
+                <div class="action-item user-account has-dropdown">
+                    <a href="{{#if session.userId}}#{{else}}/login{{/if}}" onclick="{{#if session.userId}}return false;{{/if}}">
                         <i class="far fa-user"></i>
                         <div class="action-text">
-                            
-                            <strong>{{#if session.userName}}<span>Bem-vindo,</span>{{session.userName}}{{else}}Conta{{/if}}</strong>
+                            <span>{{#if session.userId}}Olá, {{session.userName}}{{else}}Bem-vindo{{/if}}</span>
+                            <strong>{{#if session.userId}}Minha Conta{{else}}Entrar / Cadastrar{{/if}}</strong>
                         </div>
                     </a>
+
+                    {{#if session.userId}}
+                    <div class="user-dropdown">
+                        <div class="user-dropdown-header">
+                            <strong>{{session.userName}}</strong>
+                            <span>{{session.email}}</span> </div>
+                        <ul>
+                            <li><a href="/profile/library"><i class="fas fa-gamepad"></i> Minha Biblioteca</a></li>
+                            <li><a href="/profile/orders"><i class="fas fa-box-open"></i> Meus Pedidos</a></li>
+                            <li><a href="/wishlist"><i class="far fa-heart"></i> Lista de Desejos</a></li>
+                            <li><a href="/profile/settings"><i class="fas fa-cog"></i> Configurações</a></li>
+                            <li class="separator"></li>
+                            <li><a href="/logout" class="logout-link"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+                        </ul>
+                    </div>
+                    {{/if}}
                 </div>
 
                 <div class="action-item wishlist">
