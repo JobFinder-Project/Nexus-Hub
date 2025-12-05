@@ -33,6 +33,7 @@ const renderHome = async (req, res, next) => {
       title: 'Nexus Hub - Home',
       products: productsPlain,
       activePage: 'home',
+      session: req.session,
     });
   } catch (err) {
     return next(err);

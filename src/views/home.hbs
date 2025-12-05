@@ -22,7 +22,7 @@
         {{#each products}}
             <div class="product-card">
                 <div class="card-image">
-                    <img src="{{this.imagem_url}}" alt="{{this.titulo}}" onerror="this.src='https://placehold.co/300x400/1a1a1a/FFF?text=GAME'">
+                    <img src="{{this.cover}}" alt="{{this.titulo}}" onerror="this.src='https://placehold.co/300x400/1a1a1a/FFF?text=GAME'">
                     {{#if this.promotion}}
                         <span class="discount-tag">-{{this.promotion.percentual_desconto}}%</span>
                     {{/if}}
