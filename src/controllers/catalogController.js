@@ -53,7 +53,7 @@ const renderCatalog = async (req, res, next) => {
 
     // normaliza tipo (aceita 'game' -> 'jogo', ou já o valor em pt)
     const typeMap = { game: 'jogo', software: 'software', 'gift card': 'gift card' };
-    const tipoValue = filters.type ? (typeMap[filters.type] || filters.type) : null;
+    const tipoValue = filters.type ? typeMap[filters.type] || filters.type : null;
 
     const where = {};
     if (filters.system) where.sistema = filters.system;
@@ -152,8 +152,4 @@ const renderProductDetails = async (req, res, next) => {
   }
 };
 
-export {
-  renderHome,
-  renderCatalog,
-  renderProductDetails,
-};
+export { renderHome, renderCatalog, renderProductDetails };

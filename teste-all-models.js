@@ -8,48 +8,48 @@ import {
   Purchase,
   PurchaseItem,
   ProductKey,
-} from "./src/models/index.js";
+} from './src/models/index.js';
 
 async function runFullTest() {
   try {
-    console.log("🔄 Conectando e Recriando o Banco...");
+    console.log('🔄 Conectando e Recriando o Banco...');
     // Force: true limpa tudo para testarmos do zero
     await sequelize.sync({ force: true });
 
     // --------------------------------------
     // 1. CONFIGURAÇÃO INICIAL (User, Platform, Genre)
     // --------------------------------------
-    console.log("\n1️⃣  Criando Dados Básicos...");
+    console.log('\n1️⃣  Criando Dados Básicos...');
 
     const parceiro = await User.create({
-      nome: "Parceiro Games",
-      email: "parceiro@teste.com",
-      senha_hash: "123",
-      data_nascimento: "1990-01-01",
-      perfil: "parceiro",
+      nome: 'Parceiro Games',
+      email: 'parceiro@teste.com',
+      senha_hash: '123',
+      data_nascimento: '1990-01-01',
+      perfil: 'parceiro',
     });
 
     const cliente = await User.create({
-      nome: "Cliente Feliz",
-      email: "cliente@teste.com",
-      senha_hash: "123",
-      data_nascimento: "2000-01-01",
-      perfil: "cliente",
+      nome: 'Cliente Feliz',
+      email: 'cliente@teste.com',
+      senha_hash: '123',
+      data_nascimento: '2000-01-01',
+      perfil: 'cliente',
     });
 
-    const steam = await Platform.create({ nome: "Steam", slug: "steam" });
-    const generoAcao = await Genre.create({ nome: "Ação", slug: "acao" });
-    const generoRPG = await Genre.create({ nome: "RPG", slug: "rpg" });
+    const steam = await Platform.create({ nome: 'Steam', slug: 'steam' });
+    const generoAcao = await Genre.create({ nome: 'Ação', slug: 'acao' });
+    const generoRPG = await Genre.create({ nome: 'RPG', slug: 'rpg' });
 
     // --------------------------------------
     // 2. CRIAÇÃO DO PRODUTO COM ASSOCIAÇÕES
     // --------------------------------------
-    console.log("2️⃣  Criando Produto e Promoção...");
+    console.log('2️⃣  Criando Produto e Promoção...');
 
     const produto = await Product.create({
-      titulo: "Elden Ring",
-      slug: "elden-ring",
-      descricao: "GOTY",
+      titulo: 'Elden Ring',
+      slug: 'elden-ring',
+      descricao: 'GOTY',
       preco: 250.0,
       parceiro_id: parceiro.id,
       plataforma_id: steam.id,
@@ -69,22 +69,22 @@ async function runFullTest() {
     // Criando chaves para estoque
     await ProductKey.create({
       produto_id: produto.id,
-      valor_chave: "KEY-AAAA-1111",
+      valor_chave: 'KEY-AAAA-1111',
     }); // Estoque
     const chaveParaVender = await ProductKey.create({
       produto_id: produto.id,
-      valor_chave: "KEY-BBBB-2222",
+      valor_chave: 'KEY-BBBB-2222',
     });
 
     // --------------------------------------
     // 3. SIMULAÇÃO DE COMPRA (Fluxo Complexo)
     // --------------------------------------
-    console.log("3️⃣  Simulando Compra...");
+    console.log('3️⃣  Simulando Compra...');
 
     const compra = await Purchase.create({
       cliente_id: cliente.id,
       preco_total: 225.0,
-      status_pagamento: "aprovado",
+      status_pagamento: 'aprovado',
     });
 
     const itemCompra = await PurchaseItem.create({
@@ -101,23 +101,19 @@ async function runFullTest() {
     // --------------------------------------
     // 4. VERIFICAÇÃO FINAL (Consultas)
     // --------------------------------------
-    console.log("\n🔍 VERIFICANDO RELACIONAMENTOS:");
+    console.log('\n🔍 VERIFICANDO RELACIONAMENTOS:');
 
     // Busca Completa: Produto + Generos + Promoção
     const produtoChecagem = await Product.findOne({
-      where: { slug: "elden-ring" },
+      where: { slug: 'elden-ring' },
       include: [
-        { model: Genre, as: "genres" },
-        { model: Promotion, as: "promotion" },
+        { model: Genre, as: 'genres' },
+        { model: Promotion, as: 'promotion' },
       ],
     });
     console.log(`> Produto: ${produtoChecagem.titulo}`);
-    console.log(
-      `> Gêneros: ${produtoChecagem.genres.map((g) => g.nome).join(", ")}`,
-    ); // Deve imprimir: Ação, RPG
-    console.log(
-      `> Promoção: ${produtoChecagem.promotion.percentual_desconto}% OFF`,
-    );
+    console.log(`> Gêneros: ${produtoChecagem.genres.map((g) => g.nome).join(', ')}`); // Deve imprimir: Ação, RPG
+    console.log(`> Promoção: ${produtoChecagem.promotion.percentual_desconto}% OFF`);
 
     // Busca Completa: Compra + Itens + Chave Entregue
     const compraChecagem = await Purchase.findOne({
@@ -125,8 +121,8 @@ async function runFullTest() {
       include: [
         {
           model: PurchaseItem,
-          as: "items",
-          include: [{ model: ProductKey, as: "deliveredKey" }], // Nested include (Item -> Chave)
+          as: 'items',
+          include: [{ model: ProductKey, as: 'deliveredKey' }], // Nested include (Item -> Chave)
         },
       ],
     });
@@ -135,12 +131,12 @@ async function runFullTest() {
     console.log(`> Compra de: ${cliente.nome}`);
     console.log(`> Item Comprado ID: ${item.id}`);
     console.log(
-      `> Chave Recebida: ${item.deliveredKey ? item.deliveredKey.valor_chave : "NENHUMA (Erro)"}`,
+      `> Chave Recebida: ${item.deliveredKey ? item.deliveredKey.valor_chave : 'NENHUMA (Erro)'}`
     );
 
-    console.log("\n✅ TODOS OS MODELS FORAM TESTADOS COM SUCESSO!");
+    console.log('\n✅ TODOS OS MODELS FORAM TESTADOS COM SUCESSO!');
   } catch (error) {
-    console.error("❌ Erro no teste:", error);
+    console.error('❌ Erro no teste:', error);
   } finally {
     await sequelize.close();
   }

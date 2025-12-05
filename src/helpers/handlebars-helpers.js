@@ -1,5 +1,5 @@
 const helpers = {
-    formatPrice: (price) => {
+  formatPrice: (price) => {
     const value = Number(price) || 0;
 
     return new Intl.NumberFormat('pt-BR', {
@@ -16,7 +16,7 @@ const helpers = {
     if (isNaN(dateObj.getTime())) return date;
 
     return new Intl.DateTimeFormat('pt-BR', {
-      timeZone: 'UTC', 
+      timeZone: 'UTC',
     }).format(dateObj);
   },
   eq: (a, b) => a === b,
@@ -24,19 +24,25 @@ const helpers = {
   calculateDiscount: (price, discountPercent) => {
     if (!price) return 'R$ 0,00';
     if (!discountPercent) return helpers.formatPrice(price);
-    
-    const finalPrice = price - (price * (discountPercent / 100));
+
+    const finalPrice = price - price * (discountPercent / 100);
     return helpers.formatPrice(finalPrice);
   },
 
   getStatusClass: (status) => {
     switch (status) {
-      case 'aprovado': return 'bg-success';
-      case 'pendente': return 'bg-warning'; 
-      case 'rejeitado': return 'bg-danger';
-      case 'ativo': return 'bg-success';
-      case 'inativo': return 'bg-secondary';
-      default: return 'bg-primary';
+      case 'aprovado':
+        return 'bg-success';
+      case 'pendente':
+        return 'bg-warning';
+      case 'rejeitado':
+        return 'bg-danger';
+      case 'ativo':
+        return 'bg-success';
+      case 'inativo':
+        return 'bg-secondary';
+      default:
+        return 'bg-primary';
     }
   },
 
@@ -46,9 +52,8 @@ const helpers = {
     }
     return str;
   },
-  
+
   mult: (a, b) => a * b,
 };
-
 
 export default helpers;
