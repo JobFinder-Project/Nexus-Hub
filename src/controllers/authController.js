@@ -10,7 +10,10 @@ const renderLogin = (req, res) => {
     req.session.message = null;
     req.session.status = null;
   }
-  res.render('auth/login', { message, status });
+  res.render('auth/login', {
+          title: 'Login | Nexus Hub',
+          layout: 'auth'
+      });
 };
 
 const renderRegister = (req, res) => {
@@ -22,7 +25,10 @@ const renderRegister = (req, res) => {
     req.session.message = null;
     req.session.status = null;
   }
-  res.render('auth/register', { message, status });
+  res.render('auth/register', {
+        title: 'Criar Conta | Nexus Hub',
+        layout: 'auth' 
+    });
 };
 
 const processRegister = async (req, res, next) => {

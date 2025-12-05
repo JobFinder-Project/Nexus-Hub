@@ -1,4 +1,85 @@
-<h1>Bem-vindo ao Nexus Hub!</h1>
-<p>O servidor está rodando e o Handlebars está funcionando.</p>
+<section class="hero-section" style="background-image: url('/img/thumb-1920-1370582.jpeg');">
+    <div class="hero-overlay">
+        <div class="container hero-content">
+            <span class="hero-subtitle">LANÇAMENTO</span>
+            <h1 class="hero-title">GOD OF WAR:<br>RAGNAROK</h1>
+            <p class="hero-description">Explore as terras das sombras nesta nova expansão épica.</p>
+            <div class="hero-buttons">
+                <a href="/product/elden-ring" class="btn btn-primary">Comprar Agora</a>
+                <a href="/catalog" class="btn btn-outline destaque">Ver Catálogo</a>
+            </div>
+        </div>
+    </div>
+</section>
 
-<!--Temporario -->
+<section class="products-section container">
+    <div class="section-header">
+        <h2>Destaques da Semana</h2>
+        <a href="/catalog" class="view-all">Ver todos <i class="fas fa-arrow-right"></i></a>
+    </div>
+
+    <div class="product-grid">
+        {{#each products}}
+            <div class="product-card">
+                <div class="card-image">
+                    <img src="{{this.imagem_url}}" alt="{{this.titulo}}" onerror="this.src='https://placehold.co/300x400/1a1a1a/FFF?text=GAME'">
+                    {{#if this.promotion}}
+                        <span class="discount-tag">-{{this.promotion.percentual_desconto}}%</span>
+                    {{/if}}
+                </div>
+                
+                <div class="card-info">
+                    <span class="platform-tag">{{this.platform.nome}}</span>
+                    <h3 class="product-title">{{this.titulo}}</h3>
+                    
+                    <div class="price-container">
+                        {{#if this.promotion}}
+                            <span class="old-price">{{formatPrice this.preco}}</span>
+                            <span class="new-price">{{calculateDiscount this.preco this.promotion.percentual_desconto}}</span>
+                        {{else}}
+                            <span class="new-price">{{formatPrice this.preco}}</span>
+                        {{/if}}
+                    </div>
+                    
+                    <a href="/product/{{this.slug}}" class="btn-add-cart">
+                        <i class="fas fa-shopping-bag"></i> Ver Detalhes
+                    </a>
+                </div>
+            </div>
+        {{else}}
+            <p>Nenhum produto em destaque no momento.</p>
+        {{/each}}
+    </div>
+</section>
+
+<section class="container popular-section">
+    <div class="section-header">
+        <h2><i class="fas fa-chart-line" style="color: var(--secondary-color);"></i> Mais Populares</h2>
+        <a href="/catalog?sort=popularity" class="view-all">Ver Ranking Completo</a>
+    </div>
+
+    <div class="popular-grid">
+        {{#each popularProducts}}
+        <a href="/product/{{this.slug}}" class="horizontal-card">
+            <div class="rank-number">#{{this.rank}}</div>
+            
+            <div class="h-card-img">
+                <img src="{{this.imagem}}" alt="{{this.titulo}}">
+            </div>
+
+            <div class="h-card-info">
+                <div class="h-card-meta">
+                    <span style="color: var(--primary-color);">{{this.platform}}</span>
+                    <span>• Key</span>
+                </div>
+                
+                <h3 class="h-card-title">{{this.titulo}}</h3>
+                
+                <div class="h-card-price">
+                    <span class="h-price-new">{{formatPrice this.preco}}</span>
+                </div>
+            </div>
+        </a>
+        {{/each}}
+    </div>
+</section>

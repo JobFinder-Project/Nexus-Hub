@@ -1,0 +1,344 @@
+:root {
+    /* Paleta de Cores */
+    --primary-color: #7000ff;
+    /* Roxo Gamer Principal */
+    --primary-hover: #5a00cc;
+    /* Tom mais escuro para hover */
+    --secondary-color: #00ff88;
+    /* Verde Neon (Acentos/Preço) */
+    --danger-color: #ff4757;
+    /* Vermelho (Erros/Admin) */
+
+    /* Fundos e Textos */
+    --bg-dark: #0f0f12;
+    /* Fundo da Página */
+    --bg-header: #15151a;
+    /* Fundo do Header */
+    --bg-card: #1a1a20;
+    /* Fundo dos Cards/Menus */
+    --text-light: #ffffff;
+    /* Texto Principal */
+    --text-gray: #a0a0a0;
+    /* Texto Secundário */
+    --border-color: rgba(255, 255, 255, 0.1);
+
+    --font-main: 'Rajdhani', sans-serif;
+    --container-width: 1400px;
+    --header-height: 160px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body.nexus-body {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    font-family: var(--font-main);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+a {
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+/* Menu Vertical */
+.vertical-menu {
+    width: 260px;
+    background: var(--primary-color);
+    color: white;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.menu-title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.btn {
+    padding: 12px 30px;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 4px;
+    display: inline-block;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    box-shadow: 0 0 20px rgba(112, 0, 255, 0.4);
+}
+.btn.btn-outline.destaque {
+    border: 2px solid white;
+    color: white;
+    margin-left: 10px;
+}
+.btn-outline {
+    border: 2px solid white;
+    color: white;
+}
+
+.btn-outline:hover {
+    background: white;
+    color: black;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.product-card {
+    background: var(--bg-card);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid transparent;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    border-color: var(--primary-color);
+}
+
+.card-image {
+    position: relative;
+    height: 350px;
+    overflow: hidden;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.discount-tag {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--secondary-color);
+    color: black;
+    padding: 5px 10px;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.card-info {
+    padding: 20px;
+}
+
+.platform-tag {
+    font-size: 0.8rem;
+    color: var(--text-gray);
+    text-transform: uppercase;
+    border: 1px solid var(--border-color);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.product-title {
+    margin: 10px 0;
+    font-size: 1.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.price-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: var(--text-gray);
+    font-size: 0.9rem;
+}
+
+.new-price {
+    color: var(--secondary-color);
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.btn-add-cart {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.btn-add-cart:hover {
+    background: var(--text-light);
+    color: black;
+}
+@media (max-width: 1200px) {
+    .nexus-header .container {
+        padding: 0 15px;
+    }
+
+    .search-bar-container {
+        order: 3;
+        width: 100%;
+        max-width: 100%;
+        margin-top: 15px;
+    }
+
+    .main-nav a {
+        font-size: 0.75rem;
+        padding: 15px 5px;
+    }
+
+    .header-main .container {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-nav {
+        display: none;
+        /* Em breve: Criar menu mobile */
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+.badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #000;
+}
+
+.bg-success {
+    background-color: var(--secondary-color); 
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
+}
+
+.bg-warning {
+    background-color: #ffc107;
+    box-shadow: 0 0 10px rgba(255, 193, 7, 0.4);
+}
+
+.bg-danger {
+    background-color: var(--danger-color); 
+    color: white;
+}
+@media (max-width: 768px) {
+    /* Top Bar: Esconde e-mail/telefone para economizar espaço */
+    .header-top { display: none; }
+
+    /* Header Main: Layout flexível */
+    .header-main .container {
+        gap: 15px;
+        justify-content: space-between;
+    }
+
+    /* Logo menor */
+    .logo-text { font-size: 1.5rem; }
+
+    /* Botão Mobile aparece */
+    .mobile-menu-trigger { display: block; order: 1; }
+    .logo { order: 2; }
+    .header-actions { order: 3; gap: 15px; }
+
+    /* Busca continua em baixo, full width */
+    .search-bar-container { order: 4; margin-top: 10px; }
+    .search-category { display: none; }
+
+    .action-text { display: none; }
+    .action-item i { font-size: 1.4rem; }
+
+    .header-nav {
+        display: none; /* Escondido por padrão */
+        background: var(--bg-dark);
+        border-bottom: 1px solid var(--primary-color);
+        width: 100%;
+    }
+
+    /* Classe ativada via JS (toggle) */
+    .header-nav.active { display: block; }
+
+    .main-nav ul {
+        flex-direction: column; /* Itens um embaixo do outro */
+        gap: 0;
+        align-items: flex-start;
+    }
+
+    .main-nav ul li { width: 100%; border-bottom: 1px solid #333; }
+
+    .main-nav a {
+        padding: 15px 20px;
+        width: 100%;
+        justify-content: space-between; /* Ícone na esquerda, seta na direita se tiver */
+    }
+
+    .mega-menu {
+        position: static; /* Remove posição absoluta */
+        width: 100%;
+        max-width: 100%;
+        display: none; /* Escondido até clicar (futuro JS) ou hover */
+        background: #111;
+        border: none;
+        box-shadow: none;
+        grid-template-columns: 1fr; /* 1 Coluna só */
+        padding: 10px 20px;
+    }
+
+    /* Em mobile, hover é ruim. Idealmente usaria JS click.
+       Por enquanto, deixamos visível se hover (hack) ou sempre expandido */
+    .has-dropdown:hover .mega-menu {
+        display: block;
+    }
+    
+    /* Inversão do Mega Menu não se aplica no mobile */
+    .main-nav ul li:nth-last-child(-n+3) .mega-menu {
+        left: 0; right: auto;
+    }
+}

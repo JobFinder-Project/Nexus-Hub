@@ -1,0 +1,112 @@
+<link rel="stylesheet" href="/css/library.css">
+<div class="container nh-library-container">
+    <div class="nh-library-header">
+        <h1 class="nh-library-title">
+            <i class="fas fa-gamepad"></i> Minha Biblioteca
+        </h1>
+        <div class="library-filter">
+            </div>
+    </div>
+
+    <div class="nh-library-grid">
+        {{#each games}}
+        <div class="nh-game-card" id="game-card-{{this.id}}">
+            
+            <div class="nh-game-cover">
+                <img src="{{this.imagem}}" alt="{{this.titulo}}">
+            </div>
+
+            <div class="nh-game-info">
+                <div class="nh-game-platform">
+                    <i class="fas fa-desktop"></i> {{this.plataforma}}
+                </div>
+                <h2 class="nh-game-title">{{this.titulo}}</h2>
+                <span class="nh-game-date">Comprado em: {{this.data_compra}}</span>
+                
+                <div style="margin-top: 10px;">
+									<span class="badge {{#if (eq this.status 'active')}}bg-success{{else}}bg-warning{{/if}}">
+											{{#if (eq this.status 'active')}}ATIVO{{else}}PENDENTE{{/if}}
+									</span>
+                </div>
+            </div>
+
+            <div class="nh-game-actions">
+                
+                {{#if (eq this.status 'pending')}}
+                    <div class="nh-key-locked">
+                        <i class="fas fa-clock"></i>
+                        <p>Aguardando Pagamento</p>
+                        <small style="color: #888;">A chave será liberada automaticamente.</small>
+                    </div>
+
+                {{else}}
+                    {{#if this.key_revealed}}
+                        <div class="nh-key-display">
+                            <span class="nh-key-label">SUA CHAVE DE ATIVAÇÃO:</span>
+                            <div class="nh-key-box">
+                                <input type="text" class="nh-input-key" value="{{this.key_code}}" readonly id="key-{{this.id}}">
+                                <button class="nh-btn-copy" onclick="copyKey('key-{{this.id}}')" title="Copiar">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <div class="nh-install-guide">
+                                <a href="#" target="_blank"><i class="fas fa-download"></i> Como ativar na {{this.plataforma}}?</a>
+                            </div>
+                        </div>
+                    
+                    {{else}}
+                        <div id="reveal-area-{{this.id}}">
+                            <button class="nh-btn-reveal" onclick="revealKey({{this.id}}, '{{this.key_code}}')">
+                                <i class="fas fa-eye"></i> Revelar Chave
+                            </button>
+                            <p class="nh-refund-warning">
+                                <i class="fas fa-exclamation-triangle"></i> Atenção: Ao revelar a chave, o produto torna-se não reembolsável.
+                            </p>
+                        </div>
+
+                        <div id="revealed-area-{{this.id}}" class="nh-key-display" style="display: none;">
+                            <span class="nh-key-label">SUA CHAVE DE ATIVAÇÃO:</span>
+                            <div class="nh-key-box">
+                                <input type="text" class="nh-input-key" id="input-key-{{this.id}}" readonly>
+                                <button class="nh-btn-copy" onclick="copyKey('input-key-{{this.id}}')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <div class="nh-install-guide">
+                                <a href="#" target="_blank">Como ativar?</a>
+                            </div>
+                        </div>
+                    {{/if}}
+
+                {{/if}}
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
+
+<script>
+    function revealKey(id, code) {
+        if(confirm('Tem certeza? Ao revelar a chave, você perde o direito de reembolso.')) {
+            document.getElementById(`reveal-area-${id}`).style.display = 'none';
+            const revealedArea = document.getElementById(`revealed-area-${id}`);
+            revealedArea.style.display = 'block';
+            
+            document.getElementById(`input-key-${id}`).value = code;
+        }
+    }
+
+    function copyKey(elementId) {
+        const copyText = document.getElementById(elementId);
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); 
+        navigator.clipboard.writeText(copyText.value);
+        
+        const btn = copyText.nextElementSibling;
+        const originalIcon = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i>';
+        setTimeout(() => {
+            btn.innerHTML = originalIcon;
+        }, 2000);
+    }
+</script>

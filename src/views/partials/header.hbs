@@ -1,8 +1,218 @@
-<header style="background-color: #333; color: white; padding: 1rem;">
-    <nav>
-        <a href="/" style="color: white; text-decoration: none; font-weight: bold; font-size: 1.2rem;">Nexus Hub</a>
-        <span style="float: right;">
-            <a href="/login" style="color: white;">Login</a>
-        </span>
-    </nav>
+<link rel="stylesheet" href="/css/header.css">
+<header class="nexus-header">
+    <div class="header-top">
+        <div class="container">
+            <div class="top-left">
+                <span><i class="fas fa-headset"></i> Suporte 24/7</span>
+                <span><i class="fas fa-envelope"></i> contato@nexushub.com</span>
+            </div>
+            <div class="top-right">
+                <span class="welcome-msg">A melhor loja de chaves digitais do Brasil!</span>
+                {{#if session.userId}}
+                     <a href="/logout">Sair</a>
+                {{else}}
+                     <a href="/register">Criar Conta</a>
+                     <a href="/login">Entrar</a>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+
+    <div class="header-main">
+        <div class="container">
+            <button class="mobile-menu-trigger" onclick="document.querySelector('.header-nav').classList.toggle('active')">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <div class="logo">
+                <a href="/">
+                    <span class="logo-text">NEXUS<span class="highlight">HUB</span></span>
+                </a>
+            </div>
+
+            <div class="search-bar-container">
+                <form action="/catalog" method="GET" class="search-form">
+                    <div class="search-category">
+                        <span>Todos <i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <input type="text" name="q" placeholder="Buscar jogos, softwares ou gift cards...">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+
+            <div class="header-actions">
+                <div class="action-item user-account has-dropdown">
+                    <a href="{{#if session.userId}}#{{else}}/login{{/if}}" onclick="{{#if session.userId}}return false;{{/if}}">
+                        <i class="far fa-user"></i>
+                        <div class="action-text">
+                            <span>{{#if session.userId}}Olá, {{session.userName}}{{else}}Bem-vindo{{/if}}</span>
+                            <strong>{{#if session.userId}}Minha Conta{{else}}Entrar / Cadastrar{{/if}}</strong>
+                        </div>
+                    </a>
+
+                    {{#if session.userId}}
+                    <div class="user-dropdown">
+                        <div class="user-dropdown-header">
+                            <strong>{{session.userName}}</strong>
+                            <span>{{session.email}}</span> </div>
+                        <ul>
+                            <li><a href="/profile/library"><i class="fas fa-gamepad"></i> Minha Biblioteca</a></li>
+                            <li><a href="/profile/orders"><i class="fas fa-box-open"></i> Meus Pedidos</a></li>
+                            <li><a href="/wishlist"><i class="far fa-heart"></i> Lista de Desejos</a></li>
+                            <li><a href="/profile/settings"><i class="fas fa-cog"></i> Configurações</a></li>
+                            <li class="separator"></li>
+                            <li><a href="/logout" class="logout-link"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+                        </ul>
+                    </div>
+                    {{/if}}
+                </div>
+
+                <div class="action-item wishlist">
+                    <a href="/wishlist">
+                        <i class="far fa-heart"></i>
+                        <span class="count-badge">0</span>
+                    </a>
+                </div>
+
+                <div class="action-item cart">
+                    <a href="/cart">
+                        <i class="fas fa-shopping-basket"></i>
+                        <span class="count-badge">0</span>
+                        <div class="action-text">
+                            <span>Total</span>
+                            <strong>R$ 0,00</strong>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-nav">
+        <div class="container">
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/" class="{{#if (eq activePage 'home')}}active{{/if}}">HOME</a></li>
+                    
+                    <li class="has-dropdown">
+                        <a href="#" onclick="return false;" class="highlight-link"><i class="fas fa-fire"></i> OFERTAS</a>
+                        <div class="mega-menu">
+                            <div class="mega-column">
+                                <h4>Por Tipo</h4>
+                                <a href="/promotions/flash">Ofertas Relâmpago</a>
+                                <a href="/promotions/bundles">Bundles de Jogos</a>
+                                <a href="/promotions/pre-order">Pré-Vendas</a>
+                            </div>
+                            <div class="mega-column">
+                                <h4>Por Preço</h4>
+                                <a href="/catalog?priceMax=20">Abaixo de R$ 20</a>
+                                <a href="/catalog?priceMax=50">Abaixo de R$ 50</a>
+                                <a href="/catalog?priceMax=100">Abaixo de R$ 100</a>
+                            </div>
+                            <div class="mega-column promo-img">
+                                <img src="https://placehold.co/200x120/7000ff/fff?text=Promo" alt="Destaque">
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li class="has-dropdown">
+                        <a href="#" onclick="return false;"><i class="fas fa-desktop"></i> JOGOS PC</a>
+                        <div class="mega-menu wide">
+                            <div class="mega-column">
+                                <h4>Plataformas</h4>
+                                <a href="/catalog?platform=steam">Steam</a>
+                                <a href="/catalog?platform=epic">Epic Games</a>
+                                <a href="/catalog?platform=origin">EA App</a>
+                                <a href="/catalog?platform=ubisoft">Ubisoft Connect</a>
+                            </div>
+                            <div class="mega-column">
+                                <h4>Gêneros</h4>
+                                <a href="/catalog/genre/rpg">RPG & MMORPG</a>
+                                <a href="/catalog/genre/fps">FPS / Tiro</a>
+                                <a href="/catalog/genre/strategy">Estratégia</a>
+                                <a href="/catalog/genre/simulation">Simulação</a>
+                            </div>
+                            <div class="mega-column">
+                                <h4>Top Vendas</h4>
+                                <a href="/product/elden-ring">Elden Ring</a>
+                                <a href="/product/cyberpunk-2077">Cyberpunk 2077</a>
+                                <a href="/product/minecraft-java">Minecraft Java</a>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li class="has-dropdown">
+                        <a href="#" onclick="return false;"><i class="fas fa-gamepad"></i> CONSOLES</a>
+                        <div class="mega-menu">
+                            <div class="mega-column">
+                                <h4><i class="fab fa-xbox"></i> Xbox</h4>
+                                <a href="/catalog?category=gamepass">Game Pass</a>
+                                <a href="/catalog?category=xbox-live">Live Gold</a>
+                                <a href="/catalog?platform=xbox">Jogos Digitais</a>
+                            </div>
+                            <div class="mega-column">
+                                <h4><i class="fab fa-playstation"></i> PlayStation</h4>
+                                <a href="/catalog?category=psn-plus">PSN Plus</a>
+                                <a href="/catalog?category=psn-gift">Gift Cards PSN</a>
+                                <a href="/catalog?platform=playstation">Jogos PS4/PS5</a>
+                            </div>
+                            <div class="mega-column">
+                                <h4><i class="fas fa-gamepad"></i> Nintendo</h4>
+                                <a href="/catalog?category=nintendo-online">Nintendo Switch Online</a>
+                                <a href="/catalog?category=eshop">Nintendo eShop Cards</a>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li class="has-dropdown">
+                        <a href="#" onclick="return false;"><i class="fas fa-gift"></i> GIFT CARDS</a>
+                        <div class="mega-menu">
+                            <div class="mega-column">
+                                <h4>Serviços</h4>
+                                <a href="/catalog?q=google-play">Google Play</a>
+                                <a href="/catalog?q=apple">Apple Store</a>
+                                <a href="/catalog?q=netflix">Netflix</a>
+                                <a href="/catalog?q=spotify">Spotify</a>
+                            </div>
+                            <div class="mega-column">
+                                <h4>Jogos Online</h4>
+                                <a href="/catalog?q=roblox">Roblox</a>
+                                <a href="/catalog?q=valorant">Valorant Points</a>
+                                <a href="/catalog?q=lol">League of Legends</a>
+                                <a href="/catalog?q=free-fire">Free Fire</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="has-dropdown">
+                        <a href="#" onclick="return false;"><i class="fab fa-windows"></i> SOFTWARE</a>
+                        <div class="mega-menu">
+                            <div class="mega-column">
+                                <h4>Sistemas</h4>
+                                <a href="/catalog?q=windows-10">Windows 10</a>
+                                <a href="/catalog?q=windows-11">Windows 11</a>
+                            </div>
+                            <div class="mega-column">
+                                <h4>Produtividade</h4>
+                                <a href="/catalog?q=office-365">Office 365</a>
+                                <a href="/catalog?q=office-2021">Office 2021</a>
+                                <a href="/catalog?q=project">Project / Visio</a>
+                            </div>
+                            <div class="mega-column">
+                                <h4>Segurança</h4>
+                                <a href="/catalog?q=kaspersky">Kaspersky</a>
+                                <a href="/catalog?q=mcafee">McAfee</a>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li><a href="/catalog/category/mobile"><i class="fas fa-mobile-alt"></i> MOBILE</a></li>
+                    
+                    {{#if (eq session.userRole 'admin')}}
+                        <li><a href="/admin/dashboard" style="color: #ff4757;">ADMIN</a></li>
+                    {{/if}}
+                </ul>
+            </nav>
+        </div>
+    </div>
 </header>

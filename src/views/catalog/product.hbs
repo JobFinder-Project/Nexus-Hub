@@ -1,0 +1,126 @@
+{{!-- src/views/catalog/product.hbs --}}
+<link rel="stylesheet" href="/css/product.css">
+<div class="product-page container">
+    
+    <nav class="breadcrumb">
+        <a href="/">Home</a> &gt; 
+        <a href="/catalog">Catálogo</a> &gt; 
+        <span class="current">{{product.titulo}}</span>
+    </nav>
+
+    <div class="product-header-info">
+        <h1 class="product-title-large">{{product.titulo}}</h1>
+        <div class="product-meta">
+            <span class="meta-tag platform"><i class="fas fa-desktop"></i> {{product.plataforma}}</span>
+            {{!-- <span class="meta-tag type"><i class="fas fa-key"></i> {{product.tipo}}</span> --}}
+            <span class="meta-tag developer"><i class="fas fa-code"></i> {{product.developer}}</span>
+        </div>
+    </div>
+
+    <div class="product-layout">
+        
+        <div class="product-left-col">
+            <div class="product-gallery">
+                <div class="main-image">
+                    <img id="mainDisplay" src="{{product.images.[0]}}" alt="{{product.titulo}} Gameplay">
+                </div>
+                <div class="thumbnail-list">
+                    {{#each product.images}}
+                        <img src="{{this}}" class="thumb-img" onclick="changeImage(this.src)" alt="Thumb">
+                    {{/each}}
+                </div>
+            </div>
+
+            <div class="product-description-box">
+                <h2>Sobre o Jogo</h2>
+                <p>{{product.descricao}}</p>
+                
+                <hr class="divider">
+
+                <h3>Requisitos de Sistema</h3>
+                <ul class="requirements-list">
+                    <li><strong>OS:</strong> {{product.requirements.os}}</li>
+                    <li><strong>Processador:</strong> {{product.requirements.processor}}</li>
+                    <li><strong>Memória:</strong> {{product.requirements.memory}}</li>
+                    <li><strong>Gráficos:</strong> {{product.requirements.graphics}}</li>
+                    <li><strong>Armazenamento:</strong> {{product.requirements.storage}}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="product-right-col">
+            <div class="buy-box">
+                <img src="{{product.cover}}" class="product-cover-mini" alt="Capa">
+                
+                <div class="price-block">
+                    {{#if product.promotion}}
+                        <div class="discount-badge">-{{product.promotion.percentual_desconto}}%</div>
+                        <span class="old-price-lg">{{formatPrice product.preco}}</span>
+                        <span class="current-price-lg">{{calculateDiscount product.preco product.promotion.percentual_desconto}}</span>
+                        
+                        <div class="promo-timer" data-endtime="{{product.promotion.data_fim}}">
+                            <i class="far fa-clock"></i> A oferta acaba em: <span id="countdown">Carregando...</span>
+                        </div>
+                    {{else}}
+                        <span class="current-price-lg">{{formatPrice product.preco}}</span>
+                    {{/if}}
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary btn-lg btn-block">
+                        <i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho
+                    </button>
+                    <button class="btn btn-outline btn-lg btn-block wishlist-btn">
+                        <i class="far fa-heart"></i> Lista de Desejos
+                    </button>
+                </div>
+
+                <div class="security-features">
+                    <div class="feature">
+                        <i class="fas fa-bolt"></i>
+                        <span>Entrega Imediata</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Pagamento Seguro</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Chave Oficial</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Função da Galeria
+    function changeImage(src) {
+        document.getElementById('mainDisplay').src = src;
+    }
+
+    // Função do Timer (Contagem Regressiva)
+    const timerElement = document.querySelector('.promo-timer');
+    if (timerElement) {
+        const endTime = new Date(timerElement.dataset.endtime).getTime();
+        
+        const interval = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = endTime - now;
+
+            if (distance < 0) {
+                clearInterval(interval);
+                document.getElementById('countdown').innerHTML = "EXPIRADO";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }, 1000);
+    }
+</script>
