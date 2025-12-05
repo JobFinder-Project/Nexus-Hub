@@ -1,0 +1,52 @@
+<link rel="stylesheet" href="/css/success.css">
+<div class="container nh-success-container">
+    
+    <div class="success-icon-box {{pageDetails.colorClass}}">
+        <i class="fas fa-{{pageDetails.icon}}"></i>
+    </div>
+
+    <h1 class="success-title">{{pageDetails.title}}</h1>
+    <p class="success-message">
+        {{pageDetails.message}}
+    </p>
+
+    <div class="order-details-card">
+        <div class="order-row">
+            <span>Número do Pedido</span>
+            <span class="highlight-order">{{orderId}}</span>
+        </div>
+        <div class="order-row">
+            <span>Enviado para</span>
+            <span>{{userEmail}}</span>
+        </div>
+        <div class="order-row">
+            <span>Status</span>
+            <span class="status-text {{status}}">
+                {{#if (eq status 'approved')}}Concluído{{else}}Em Análise{{/if}}
+            </span>
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <a href="/" class="btn btn-outline">
+            <i class="fas fa-home"></i> Voltar à Loja
+        </a>
+        
+        {{#if (eq status 'approved')}}
+            <a href="/profile/library" class="btn-library">
+                <i class="fas fa-key"></i> Acessar Minha Biblioteca
+            </a>
+        {{else}}
+            <button class="btn-library btn-disabled">
+                <i class="fas fa-lock"></i> Chaves Bloqueadas
+            </button>
+        {{/if}}
+    </div>
+    
+    {{#if (eq status 'pending')}}
+        <p style="margin-top: 20px; font-size: 0.9rem; color: #aaa;">
+            <i class="fas fa-info-circle"></i> Boleto pode levar até 3 dias úteis. Cartão geralmente aprova em minutos.
+        </p>
+    {{/if}}
+
+</div>

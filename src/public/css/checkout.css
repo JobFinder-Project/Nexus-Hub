@@ -1,0 +1,208 @@
+/* src/public/css/checkout.css */
+
+.nh-checkout-container {
+    padding: 40px 0;
+    min-height: 80vh;
+}
+
+.nh-checkout-header {
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+}
+
+.nh-checkout-title {
+    font-size: 2rem;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Grid Layout: Formulários (Esq) + Resumo (Dir) */
+.nh-checkout-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 40px;
+}
+
+/* --- SEÇÕES DO FORMULÁRIO --- */
+.nh-checkout-section {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.nh-section-title {
+    font-size: 1.3rem;
+    color: var(--text-light);
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nh-section-title i {
+    color: var(--primary-color);
+}
+
+/* Inputs e Labels */
+.nh-form-group {
+    margin-bottom: 20px;
+}
+
+.nh-label {
+    display: block;
+    color: #ccc;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.nh-input {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: #0f0f12;
+    border: 1px solid #333;
+    border-radius: 6px;
+    color: white;
+    font-family: var(--font-main);
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.nh-input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(112, 0, 255, 0.2);
+}
+
+.nh-input:disabled {
+    background-color: #1a1a1a;
+    color: #666;
+    cursor: not-allowed;
+}
+
+/* Grid de Inputs (ex: Cidade/Estado na mesma linha) */
+.nh-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* --- ÁREA DE PAGAMENTO DINÂMICA --- */
+.nh-payment-details {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 6px;
+    border: 1px solid #333;
+}
+
+.nh-payment-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.nh-payment-icon {
+    font-size: 2rem;
+    color: var(--secondary-color);
+}
+
+/* --- SIDEBAR (RESUMO) --- */
+.nh-checkout-sidebar {
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+}
+
+.nh-order-box {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 25px;
+}
+
+.nh-mini-product {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 15px;
+}
+
+.nh-mini-img {
+    width: 50px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.nh-mini-info h4 {
+    margin: 0 0 5px 0;
+    font-size: 0.9rem;
+    color: #eee;
+}
+
+.nh-mini-price {
+    font-size: 0.85rem;
+    color: var(--secondary-color);
+}
+
+/* Totais */
+.nh-order-totals {
+    margin-top: 20px;
+}
+
+.nh-total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: #bbb;
+    font-size: 0.9rem;
+}
+
+.nh-total-row.final {
+    margin-top: 15px;
+    border-top: 1px solid #444;
+    padding-top: 15px;
+    font-size: 1.4rem;
+    color: var(--text-light);
+    font-weight: 700;
+}
+
+.nh-btn-confirm {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--secondary-color);
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: 0.3s;
+}
+
+.nh-btn-confirm:hover {
+    background-color: #00cc6a;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+    .nh-checkout-layout {
+        grid-template-columns: 1fr;
+    }
+    .nh-checkout-sidebar {
+        order: -1; /* Resumo sobe no mobile */
+        position: static;
+        margin-bottom: 30px;
+    }
+}

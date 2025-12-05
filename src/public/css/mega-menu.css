@@ -1,0 +1,130 @@
+/* Menu Horizontal Principal */
+.main-nav {
+    flex-grow: 0;
+    margin-left: 20px;
+}
+
+.main-nav ul {
+    display: flex;
+    gap: 30px;
+    justify-content: center; 
+    flex-wrap: wrap;
+}
+
+.main-nav ul li {
+    position: relative;
+}
+
+.main-nav a {
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 2px solid transparent;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.main-nav i {
+    color: var(--text-gray);
+    font-size: 1rem;
+}
+
+.main-nav a:hover i {
+    color: var(--primary-color);
+}
+
+.highlight-link {
+    color: var(--secondary-color) !important;
+}
+
+.mega-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--bg-header);
+    border: 1px solid #333;
+    border-top: 3px solid var(--primary-color);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    z-index: 1000;
+    width: max-content;
+    max-width: 90vw;
+    border-radius: 0 0 8px 8px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.has-dropdown:hover .mega-menu {
+    display: grid;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+.main-nav ul li:nth-last-child(-n+3) .mega-menu {
+    left: auto;
+    right: 0;
+}
+
+.mega-menu.wide {
+    min-width: 600px;
+}
+
+.mega-column {
+    min-width: 180px;
+}
+
+.mega-column h4 {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.mega-menu a {
+    padding: 6px 0 !important;
+    font-size: 0.85rem !important;
+    text-transform: none !important;
+    color: #aaa !important;
+    border-bottom: none !important;
+    font-weight: 400 !important;
+}
+
+.mega-menu a:hover {
+    color: var(--primary-color) !important;
+    padding-left: 5px !important;
+}
+
+.promo-img img {
+    border-radius: 4px;
+    width: 100%;
+    border: 1px solid #333;
+    transition: 0.3s;
+}
+
+.promo-img img:hover {
+    border-color: var(--primary-color);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

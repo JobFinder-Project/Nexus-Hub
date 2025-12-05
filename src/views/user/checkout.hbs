@@ -1,0 +1,144 @@
+<link rel="stylesheet" href="/css/checkout.css">
+<div class="container nh-checkout-container">
+    <div class="nh-checkout-header">
+        <h1 class="nh-checkout-title">
+            <i class="fas fa-check-circle"></i> Finalizar Pedido
+        </h1>
+    </div>
+
+    <form action="/order/place" method="POST" class="nh-checkout-layout">
+        
+        <div class="nh-checkout-main">
+            
+            <div class="nh-checkout-section">
+                <h3 class="nh-section-title">
+                    <i class="fas fa-user-shield"></i> Dados do Comprador
+                </h3>
+                
+                <div class="nh-form-group">
+                    <label class="nh-label">Nome Completo</label>
+                    <input type="text" class="nh-input" value="{{user.nome}}" disabled>
+                    <small style="color: #666;">Conta autenticada</small>
+                </div>
+
+                <div class="nh-form-row">
+                    <div class="nh-form-group">
+                        <label class="nh-label">E-mail (para envio das chaves)</label>
+                        <input type="email" class="nh-input" value="{{user.email}}" disabled>
+                    </div>
+                    <div class="nh-form-group">
+                        <label class="nh-label">CPF (Obrigatório para Nota Fiscal)</label>
+                        <input type="text" class="nh-input" value="{{user.cpf}}" placeholder="000.000.000-00">
+                    </div>
+                </div>
+            </div>
+
+            <div class="nh-checkout-section">
+                <h3 class="nh-section-title">
+                    <i class="fas fa-credit-card"></i> Pagamento Selecionado
+                </h3>
+
+                {{#if (eq selectedMethod 'pix')}}
+                    <div class="nh-payment-details">
+                        <div class="nh-payment-info">
+                            <i class="fab fa-pix nh-payment-icon"></i>
+                            <div>
+                                <strong>Pagamento via PIX</strong>
+                                <p style="font-size: 0.9rem; color: #ccc;">Aprovação imediata. O código QR será gerado na próxima tela.</p>
+                            </div>
+                        </div>
+                        <div class="nh-form-group">
+                            <label class="nh-label">Tem cupom de desconto?</label>
+                            <input type="text" class="nh-input" placeholder="Digite seu código aqui">
+                        </div>
+                    </div>
+
+                {{else if (eq selectedMethod 'credit_card')}}
+                    <div class="nh-payment-details">
+                        <div class="nh-payment-info">
+                            <i class="far fa-credit-card nh-payment-icon"></i>
+                            <div>
+                                <strong>Cartão de Crédito</strong>
+                                <p style="font-size: 0.9rem; color: #ccc;">Ambiente criptografado. Seus dados não são salvos.</p>
+                            </div>
+                        </div>
+
+                        <div class="nh-form-group">
+                            <label class="nh-label">Número do Cartão</label>
+                            <input type="text" class="nh-input" placeholder="0000 0000 0000 0000">
+                        </div>
+
+                        <div class="nh-form-row">
+                            <div class="nh-form-group">
+                                <label class="nh-label">Validade</label>
+                                <input type="text" class="nh-input" placeholder="MM/AA">
+                            </div>
+                            <div class="nh-form-group">
+                                <label class="nh-label">CVV</label>
+                                <input type="text" class="nh-input" placeholder="123">
+                            </div>
+                        </div>
+                        
+                        <div class="nh-form-group">
+                            <label class="nh-label">Nome impresso no cartão</label>
+                            <input type="text" class="nh-input" placeholder="IGUAL NO CARTÃO">
+                        </div>
+                    </div>
+
+                {{else}}
+                    <div class="nh-payment-details">
+                        <p>Você será redirecionado para o {{selectedMethod}} para concluir o pagamento com segurança.</p>
+                    </div>
+                {{/if}}
+                
+                <a href="/cart" style="display: inline-block; margin-top: 15px; color: var(--secondary-color); font-size: 0.9rem;">
+                    <i class="fas fa-sync"></i> Alterar forma de pagamento
+                </a>
+            </div>
+        </div>
+
+        <div class="nh-checkout-sidebar">
+            <div class="nh-order-box">
+                <h3 class="nh-section-title">Resumo do Pedido</h3>
+                
+                <div class="nh-products-list">
+                    {{#each cartItems}}
+                    <div class="nh-mini-product">
+                        <img src="{{this.imagem}}" alt="{{this.titulo}}" class="nh-mini-img">
+                        <div class="nh-mini-info">
+                            <h4>{{this.titulo}}</h4>
+                            <span class="nh-mini-price">{{formatPrice this.preco}}</span>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+
+                <div class="nh-order-totals">
+                    <div class="nh-total-row">
+                        <span>Subtotal</span>
+                        <span>{{formatPrice summary.subtotal}}</span>
+                    </div>
+                    {{#if summary.discount}}
+                    <div class="nh-total-row" style="color: var(--secondary-color);">
+                        <span>Descontos</span>
+                        <span>- {{formatPrice summary.discount}}</span>
+                    </div>
+                    {{/if}}
+                    
+                    <div class="nh-total-row final">
+                        <span>Total a Pagar</span>
+                        <span style="color: var(--secondary-color);">{{formatPrice summary.total}}</span>
+                    </div>
+                </div>
+
+                <button type="button" onclick="alert('Funcionalidade de API ainda não implementada!')" class="nh-btn-confirm">
+                    CONFIRMAR PAGAMENTO <i class="fas fa-lock"></i>
+                </button>
+                
+                <p style="text-align: center; margin-top: 15px; font-size: 0.8rem; color: #777;">
+                    Ao confirmar, você concorda com nossos <a href="#" style="color: #aaa;">Termos de Serviço</a>.
+                </p>
+            </div>
+        </div>
+    </form>
+</div>
