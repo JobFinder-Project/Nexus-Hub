@@ -11,9 +11,9 @@ const renderLogin = (req, res) => {
     req.session.status = null;
   }
   res.render('auth/login', {
-          title: 'Login | Nexus Hub',
-          layout: 'auth'
-      });
+    title: 'Login | Nexus Hub',
+    layout: 'auth',
+  });
 };
 
 const renderRegister = (req, res) => {
@@ -26,17 +26,17 @@ const renderRegister = (req, res) => {
     req.session.status = null;
   }
   res.render('auth/register', {
-        title: 'Criar Conta | Nexus Hub',
-        layout: 'auth' 
-    });
+    title: 'Criar Conta | Nexus Hub',
+    layout: 'auth',
+  });
 };
 
 const processRegister = async (req, res, next) => {
   try {
-    const { nome, email, senha, nascimento, role } = req.body;
+    const { nome, email, senha, nascimento } = req.body;
 
     // Valida os campos obrigatórios
-    if (!nome || !email || !senha || !nascimento || !role) {
+    if (!nome || !email || !senha || !nascimento) {
       req.session.message = 'Por favor, preencha todos os campos.';
       req.session.status = 'error';
       return res.redirect('/register');
@@ -83,12 +83,12 @@ const processRegister = async (req, res, next) => {
     const data_nascimento_str = nascimentoDateOnly.toISOString().slice(0, 10);
 
     // Valida o role
-    const perfisValidos = ['cliente', 'parceiro', 'admin'];
+    /* const perfisValidos = ['cliente', 'parceiro', 'admin'];
     if (!perfisValidos.includes(role)) {
       req.session.message = 'Perfil inválido selecionado.';
       req.session.status = 'error';
       return res.redirect('/register');
-    }
+    } */
 
     // Cria o hash da senha
     const senha_hash = bcrypt.hashSync(senha, 10);
@@ -99,7 +99,7 @@ const processRegister = async (req, res, next) => {
       email,
       senha_hash,
       data_nascimento: data_nascimento_str,
-      perfil: role,
+      perfil: 'cliente', // registra sempre como 'cliente'
     });
 
     // Verifica se o usuário foi criado com sucesso
