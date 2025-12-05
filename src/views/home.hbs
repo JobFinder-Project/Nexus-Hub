@@ -5,7 +5,7 @@
             <h1 class="hero-title">GOD OF WAR:<br>RAGNAROK</h1>
             <p class="hero-description">Explore as terras das sombras nesta nova expansão épica.</p>
             <div class="hero-buttons">
-                <a href="/product/elden-ring" class="btn btn-primary">Comprar Agora</a>
+                <a href="/catalog/product/god-of-war-ragnarok" class="btn btn-primary">Comprar Agora</a>
                 <a href="/catalog" class="btn btn-outline destaque">Ver Catálogo</a>
             </div>
         </div>
@@ -22,7 +22,7 @@
         {{#each products}}
             <div class="product-card">
                 <div class="card-image">
-                    <img src="{{this.imagem_url}}" alt="{{this.titulo}}" onerror="this.src='https://placehold.co/300x400/1a1a1a/FFF?text=GAME'">
+                    <img src="{{this.cover}}" alt="{{this.titulo}}" onerror="this.src='https://placehold.co/300x400/1a1a1a/FFF?text=GAME'">
                     {{#if this.promotion}}
                         <span class="discount-tag">-{{this.promotion.percentual_desconto}}%</span>
                     {{/if}}

@@ -33,10 +33,10 @@ const renderRegister = (req, res) => {
 
 const processRegister = async (req, res, next) => {
   try {
-    const { nome, email, senha, nascimento } = req.body;
+    const { nome, email, senha, nascimento, confirm_senha } = req.body;
 
     // Valida os campos obrigatórios
-    if (!nome || !email || !senha || !nascimento) {
+    if (!nome || !email || !senha || !nascimento || !confirm_senha) {
       req.session.message = 'Por favor, preencha todos os campos.';
       req.session.status = 'error';
       return res.redirect('/register');
@@ -89,6 +89,13 @@ const processRegister = async (req, res, next) => {
       req.session.status = 'error';
       return res.redirect('/register');
     } */
+
+    // Valida a confirmação de senha
+    if (senha != confirm_senha) {
+      req.session.message = 'As senhas não coincidem.';
+      req.session.status = 'error';
+      return res.redirect('/register');
+    }
 
     // Cria o hash da senha
     const senha_hash = bcrypt.hashSync(senha, 10);
@@ -148,6 +155,7 @@ const processLogin = async (req, res, next) => {
     // Configura a sessão do usuário
     req.session.userId = user.id;
     req.session.userName = user.nome;
+    req.session.userEmail = user.email;
     req.session.userRole = user.perfil;
 
     // Redireciona com base no perfil do usuário
