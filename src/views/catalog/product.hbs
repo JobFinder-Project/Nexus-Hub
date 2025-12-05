@@ -11,9 +11,9 @@
     <div class="product-header-info">
         <h1 class="product-title-large">{{product.titulo}}</h1>
         <div class="product-meta">
-            <span class="meta-tag platform"><i class="fas fa-desktop"></i> {{product.plataforma}}</span>
+            <span class="meta-tag platform"><i class="fas fa-desktop"></i> {{product.plataform.nome}}</span>
             {{!-- <span class="meta-tag type"><i class="fas fa-key"></i> {{product.tipo}}</span> --}}
-            <span class="meta-tag developer"><i class="fas fa-code"></i> {{product.developer}}</span>
+            <span class="meta-tag developer"><i class="fas fa-code"></i> {{product.desenvolvedor}}</span>
         </div>
     </div>
 
@@ -22,11 +22,11 @@
         <div class="product-left-col">
             <div class="product-gallery">
                 <div class="main-image">
-                    <img id="mainDisplay" src="{{product.images.[0]}}" alt="{{product.titulo}} Gameplay">
+                    <img id="mainDisplay" src="{{product.galleryImages.[0].url}}" alt="{{product.titulo}} Gameplay">
                 </div>
                 <div class="thumbnail-list">
-                    {{#each product.images}}
-                        <img src="{{this}}" class="thumb-img" onclick="changeImage(this.src)" alt="Thumb">
+                    {{#each product.imagens_galeria}}
+                        <img src="{{this.url}}" class="thumb-img" onclick="changeImage(this.src)" alt="Thumb">
                     {{/each}}
                 </div>
             </div>
@@ -39,11 +39,11 @@
 
                 <h3>Requisitos de Sistema</h3>
                 <ul class="requirements-list">
-                    <li><strong>OS:</strong> {{product.requirements.os}}</li>
-                    <li><strong>Processador:</strong> {{product.requirements.processor}}</li>
-                    <li><strong>Memória:</strong> {{product.requirements.memory}}</li>
-                    <li><strong>Gráficos:</strong> {{product.requirements.graphics}}</li>
-                    <li><strong>Armazenamento:</strong> {{product.requirements.storage}}</li>
+                    <li><strong>OS:</strong> {{product.systemRequirements.os}}</li>
+                    <li><strong>Processador:</strong> {{product.systemRequirements.processador}}</li>
+                    <li><strong>Memória:</strong> {{product.systemRequirements.memoria}}</li>
+                    <li><strong>Gráficos:</strong> {{product.systemRequirements.graficos}}</li>
+                    <li><strong>Armazenamento:</strong> {{product.systemRequirements.armazenamento}}</li>
                 </ul>
             </div>
         </div>

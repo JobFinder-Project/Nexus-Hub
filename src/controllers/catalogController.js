@@ -1,4 +1,4 @@
-import { Product, Platform, Genre, Promotion } from '../models/index.js';
+import { Product, Platform, Genre, Promotion, Requirement, Galery } from '../models/index.js';
 
 const getSessionMessage = (req) => {
   let message = null;
@@ -29,11 +29,10 @@ const renderHome = async (req, res, next) => {
     // converte instâncias Sequelize para objetos plain (JSON) — facilita o consumo no Handlebars
     const productsPlain = products.map((p) => p.get({ plain: true }));
 
-    return res.render('catalog/home', {
+    return res.render('home', {
       title: 'Nexus Hub - Home',
       products: productsPlain,
-      message,
-      status,
+      activePage: 'home',
     });
   } catch (err) {
     return next(err);
@@ -43,6 +42,14 @@ const renderHome = async (req, res, next) => {
 const renderCatalog = async (req, res, next) => {
   try {
     const { message, status } = getSessionMessage(req);
+    // Recupera os filtros da URL (ex: ?platform=steam&priceMax=50)
+    const filters = {
+      platform: req.query.platform || '',
+      system: req.query.system || '',
+      service: req.query.service || '',
+      type: req.query.type || '',
+      sort: req.query.sort || 'relevance',
+    };
 
     const products = await Product.findAll({
       order: [['criado_em', 'DESC']],
@@ -55,9 +62,11 @@ const renderCatalog = async (req, res, next) => {
 
     const productsPlain = products.map((p) => p.get({ plain: true }));
 
-    return res.render('catalog/catalog', {
+    return res.render('catalog/index', {
       title: 'Nexus Hub - Catálogo',
       products: productsPlain,
+      activePage: 'catalog',
+      filters,
       message,
       status,
     });
@@ -141,6 +150,8 @@ const renderProductDetails = async (req, res, next) => {
         { model: Platform, as: 'platform' },
         { model: Genre, as: 'genres' },
         { model: Promotion, as: 'promotion' },
+        { model: Requirement, as: 'systemRequirements' },
+        { model: Galery, as: 'galleryImages' },
       ],
     });
 
@@ -154,10 +165,16 @@ const renderProductDetails = async (req, res, next) => {
     if (!Array.isArray(productPlain.genres)) {
       productPlain.genres = productPlain.genres ? [productPlain.genres] : [];
     }
+    if (!Array.isArray(productPlain.imagens_galeria)) {
+      productPlain.imagens_galeria = productPlain.imagens_galeria
+        ? [productPlain.imagens_galeria]
+        : [];
+    }
 
-    return res.render('catalog/product-details', {
+    return res.render('catalog/product', {
       title: productPlain.titulo,
       product: productPlain,
+      activePage: 'catalog',
     });
   } catch (err) {
     return next(err);

@@ -17,10 +17,6 @@ export default (sequelize) => {
         type: DataTypes.STRING(512),
         allowNull: false,
       },
-      descricao: {
-        type: DataTypes.STRING(255),
-        allowNull: true,
-      },
     },
     {
       tableName: 'imagens_galeria',
