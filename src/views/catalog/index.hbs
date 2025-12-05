@@ -30,9 +30,9 @@
                 <label>Tipo</label>
                 <select name="type" class="filter-select">
                     <option value="">Todos</option>
-                    <option value="game" {{#if (eq filters.type 'game')}}selected{{/if}}>Jogos</option>
+                    <option value="game" {{#if (eq filters.type 'jogo')}}selected{{/if}}>Jogos</option>
                     <option value="software" {{#if (eq filters.type 'software')}}selected{{/if}}>Software</option>
-                    <option value="giftcard" {{#if (eq filters.type 'giftcard')}}selected{{/if}}>Gift Cards</option>
+                    <option value="gift card" {{#if (eq filters.type 'gift card')}}selected{{/if}}>Gift Cards</option>
                 </select>
             </div>
 
@@ -56,7 +56,7 @@
         {{#each products}}
             <div class="product-card">
                 <div class="card-image">
-                    <img src="{{this.imagem_url}}" alt="{{this.titulo}}">
+                    <img src="{{this.cover}}" alt="{{this.titulo}}" onerror="this.src='https://placehold.co/300x400/1a1a1a/FFF?text=GAME'">
                 </div>
                 
                 <div class="card-info">
@@ -67,7 +67,7 @@
                         <span class="new-price">{{formatPrice this.preco}}</span>
                     </div>
                     
-                    <a href="/product/{{this.slug}}" class="btn-add-cart">
+                    <a href="/catalog/product/{{this.slug}}" class="btn-add-cart">
                         <i class="fas fa-shopping-bag"></i> Ver Detalhes
                     </a>
                 </div>

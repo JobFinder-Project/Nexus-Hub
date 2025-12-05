@@ -10,6 +10,8 @@ import createPurchaseModel from './Purchase.js';
 import createPurchaseItemModel from './PurchaseItem.js';
 import createProductKeyModel from './ProductKey.js';
 import createPromotionModel from './Promotion.js';
+import createRequirementModel from './Requirement.js';
+import createGaleryModel from './Galery.js';
 
 // 2. Inicialização dos Modelos
 const User = createUserModel(sequelize, DataTypes);
@@ -20,6 +22,8 @@ const Purchase = createPurchaseModel(sequelize, DataTypes);
 const PurchaseItem = createPurchaseItemModel(sequelize, DataTypes);
 const ProductKey = createProductKeyModel(sequelize, DataTypes);
 const Promotion = createPromotionModel(sequelize, DataTypes);
+const Requirement = createRequirementModel(sequelize, DataTypes);
+const Galery = createGaleryModel(sequelize, DataTypes);
 
 // 3. Definição das Associações (Relacionamentos)
 
@@ -55,6 +59,30 @@ ProductKey.belongsTo(PurchaseItem, { foreignKey: 'item_compra_id', as: 'orderIte
 Product.hasOne(Promotion, { foreignKey: 'produto_id', as: 'promotion' });
 Promotion.belongsTo(Product, { foreignKey: 'produto_id', as: 'product' });
 
+// Relação 1:1 com Requisitos
+Product.hasOne(Requirement, {
+  foreignKey: 'produto_id',
+  sourceKey: 'id',
+  as: 'systemRequirements',
+  onDelete: 'CASCADE',
+});
+Requirement.belongsTo(Product, {
+  foreignKey: 'produto_id',
+  targetKey: 'id',
+  as: 'product',
+});
+
+// Relação 1:N com ImagensGaleria
+Product.hasMany(Galery, {
+  foreignKey: 'produto_id',
+  as: 'galleryImages',
+  onDelete: 'CASCADE',
+});
+Galery.belongsTo(Product, {
+  foreignKey: 'produto_id',
+  as: 'product',
+});
+
 // Product <-> Genre (N:M)
 Product.belongsToMany(Genre, {
   through: 'produto_generos',
@@ -82,8 +110,22 @@ const db = {
   PurchaseItem,
   ProductKey,
   Promotion,
+  Requirement,
+  Galery,
 };
 
-export { sequelize, User, Platform, Genre, Product, Purchase, PurchaseItem, ProductKey, Promotion };
+export {
+  sequelize,
+  User,
+  Platform,
+  Genre,
+  Product,
+  Purchase,
+  PurchaseItem,
+  ProductKey,
+  Promotion,
+  Requirement,
+  Galery,
+};
 
 export default db;

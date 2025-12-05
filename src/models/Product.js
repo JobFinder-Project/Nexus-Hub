@@ -40,18 +40,36 @@ export default (sequelize) => {
         defaultValue: 'Livre',
         allowNull: false,
       },
-      url_imagem: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      requisitos_sistema: {
-        type: DataTypes.TEXT,
+      cover: {
+        type: DataTypes.STRING(512),
         allowNull: true,
       },
       status: {
         type: DataTypes.STRING, // 'pendente_aprovacao', 'aprovado', 'rejeitado'
         defaultValue: 'pendente_aprovacao',
         allowNull: false,
+      },
+      tipo: {
+        type: DataTypes.STRING(50), // jogo, software ou gift card
+        defaultValue: 'jogo',
+        allowNull: false,
+      },
+      requisitos_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true, // Pode ser NULL se for um produto de console ou gift card
+        unique: true,
+      },
+      desenvolvedor: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      data_lancamento: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      sistema: {
+        type: DataTypes.STRING, // windows, android, ios
+        allowNull: true,
       },
     },
     {
