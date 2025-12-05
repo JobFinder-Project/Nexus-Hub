@@ -59,7 +59,7 @@ const renderPartnerHome = async (req, res, next) => {
       }))
       .filter((x) => x.keysLeft <= 5);
 
-    // Histórico simples de vendas (últimos 5)
+    // Histórico (últimos 5) com status
     const lastSales = await Purchase.findAll({
       limit: 5,
       order: [['id', 'DESC']],
@@ -72,13 +72,19 @@ const renderPartnerHome = async (req, res, next) => {
       ],
     });
     const salesHistory = [];
-    for (const p of lastSales) {
-      for (const it of p.items || []) {
-        if (it.product?.parceiro_id === partnerId) {
+    for (const purchase of lastSales) {
+      const dataCompra =
+        purchase.data_compra || purchase.criado_em || purchase.updatedAt || new Date();
+      const statusPagamento = purchase.status_pagamento || 'pendente';
+      for (const item of purchase.items || []) {
+        const it = item.get ? item.get({ plain: true }) : item;
+        const prod = it.product;
+        if (prod?.parceiro_id === partnerId) {
           salesHistory.push({
-            data: new Date(p.criado_em || p.updatedAt || Date.now()).toLocaleDateString('pt-BR'),
-            produto: it.product.titulo,
+            data: new Date(dataCompra).toLocaleDateString('pt-BR'),
+            produto: prod.titulo,
             valor: `R$ ${Number(it.preco_na_compra || 0).toFixed(2)}`,
+            status: statusPagamento,
           });
         }
       }
@@ -95,6 +101,15 @@ const renderPartnerHome = async (req, res, next) => {
       discount: `${pr.percentual_desconto}%`,
     }));
 
+    const productsViews = fullProducts.map((p) => {
+      const plain = p.get({ plain: true });
+      return {
+        id: plain.id,
+        titulo: plain.titulo,
+        slug: plain.slug,
+      };
+    });
+
     return res.render('dashboard/home', {
       layout: 'dashboard',
       title: 'Painel do Parceiro',
@@ -104,6 +119,7 @@ const renderPartnerHome = async (req, res, next) => {
       kpis,
       lowStockItems,
       salesHistory,
+      products: productsViews,
       activePromotions,
       chartData: JSON.stringify({
         labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
@@ -125,7 +141,7 @@ const renderPartnerProducts = async (req, res, next) => {
         include: [
           { model: Platform, as: 'platform' },
           { model: Promotion, as: 'promotion' },
-          { model: Requirement, as: 'systemRequirements' }, // <- adicionar
+          { model: Requirement, as: 'systemRequirements' },
         ],
         order: [['criado_em', 'DESC']],
       }),
@@ -136,14 +152,46 @@ const renderPartnerProducts = async (req, res, next) => {
     const stocks = await computeStockFor(products);
     const stockMap = new Map(stocks.map((s) => [s.id, s.stock]));
 
+    // Histórico (últimos 5) com status
+    const lastSales = await Purchase.findAll({
+      limit: 5,
+      order: [['id', 'DESC']],
+      include: [
+        {
+          model: PurchaseItem,
+          as: 'items',
+          include: [{ model: Product, as: 'product', attributes: ['titulo', 'parceiro_id'] }],
+        },
+      ],
+    });
+    const salesHistory = [];
+    for (const purchase of lastSales) {
+      const dataCompra =
+        purchase.data_compra || purchase.criado_em || purchase.updatedAt || new Date();
+      const statusPagamento = purchase.status_pagamento || 'pendente';
+      for (const item of purchase.items || []) {
+        const it = item.get ? item.get({ plain: true }) : item;
+        const prod = it.product;
+        if (prod?.parceiro_id === partnerId) {
+          salesHistory.push({
+            data: new Date(dataCompra).toLocaleDateString('pt-BR'),
+            produto: prod.titulo,
+            valor: `R$ ${Number(it.preco_na_compra || 0).toFixed(2)}`,
+            status: statusPagamento,
+          });
+        }
+      }
+    }
+
     const productsView = products.map((p) => {
       const plain = p.get({ plain: true });
       return {
         id: plain.id,
         titulo: plain.titulo,
         slug: plain.slug,
+        descricao: plain.descricao,
         plataforma: plain.platform?.nome || '-',
-        plataforma_id: plain.plataforma_id, // <- necessário para setar o <select>
+        plataforma_id: plain.plataforma_id,
         preco: Number(plain.preco).toFixed(2),
         estoque: stockMap.get(plain.id) ?? 0,
         status: plain.status || 'ativo',
@@ -166,6 +214,8 @@ const renderPartnerProducts = async (req, res, next) => {
       pageTitle: 'Meus Jogos',
       activePage: 'products',
       userRole: 'parceiro',
+      session: req.session,
+      salesHistory, // <- usado pelo modal de relatórios
       products: productsView,
       platforms: platforms.map((x) => x.get({ plain: true })),
       genres: genres.map((x) => x.get({ plain: true })),

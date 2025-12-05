@@ -146,7 +146,7 @@
                             <td>{{this.data}}</td>
                             <td>{{this.produto}}</td>
                             <td>{{this.valor}}</td>
-                            <td><span class="status-pill success">Pago</span></td>
+                            <td>{{this.status}}</td>
                         </tr>
                         {{/each}}
                     </tbody>
@@ -164,7 +164,11 @@
             <form class="nh-modal-body">
                 <div class="form-group">
                     <label class="form-label">Produto</label>
-                    <select class="form-control"><option>Elden Ring</option></select>
+                    <select class='form-control'>
+                        {{#each products}}
+                        <option>{{this.titulo}}</option>
+                        {{/each}}
+                    </select>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Desconto (%)</label>
