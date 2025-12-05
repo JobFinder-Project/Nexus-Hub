@@ -163,60 +163,13 @@ const renderAdminProducts = async (req, res, next) => {
   }
 };
 
-// GET /dashboard/categories
-const renderCategories = async (req, res, next) => {
-  try {
-    const platforms = await Platform.findAll({ order: [['nome', 'ASC']] });
-    return res.render('dashboard/categories', {
-      layout: 'dashboard',
-      title: 'Plataformas & Categorias',
-      pageTitle: 'Plataformas',
-      activePage: 'categories',
-      userRole: 'admin',
-      platforms: platforms.map((p) => p.get({ plain: true })),
-    });
-  } catch (err) {
-    return next(err);
-  }
-};
-
 // POST /dashboard/admin/categories/create
-const createCategory = async (req, res, next) => {
+const createPlataform = async (req, res, next) => {
   try {
     const { nome, slug } = req.body;
     if (!nome || !slug) return res.redirect('/dashboard/categories');
     await Platform.create({ nome, slug });
-    return res.redirect('/dashboard/categories');
-  } catch (err) {
-    return next(err);
-  }
-};
-
-// GET /dashboard/promotions
-const renderPromotions = async (req, res, next) => {
-  try {
-    const [promos, products] = await Promise.all([
-      Promotion.findAll({ include: [{ model: Product, as: 'product' }] }),
-      Product.findAll({ attributes: ['id', 'titulo'], order: [['titulo', 'ASC']] }),
-    ]);
-
-    const promotions = promos.map((pr) => ({
-      id: pr.id,
-      produto_nome: pr.product?.titulo || 'Produto',
-      percentual_desconto: pr.percentual_desconto,
-      data_fim: pr.data_fim ? new Date(pr.data_fim).toLocaleDateString('pt-BR') : '-',
-      ativa: pr.esta_ativo ?? true,
-    }));
-
-    return res.render('dashboard/promotions', {
-      layout: 'dashboard',
-      title: 'Promoções',
-      pageTitle: 'Campanhas Promocionais',
-      activePage: 'promotions',
-      userRole: 'admin',
-      promotions,
-      products: products.map((p) => p.get({ plain: true })),
-    });
+    return res.redirect('/dashboard/admin-test');
   } catch (err) {
     return next(err);
   }
@@ -240,11 +193,4 @@ const createPromotion = async (req, res, next) => {
   }
 };
 
-export {
-  renderAdminHome,
-  renderAdminProducts,
-  renderCategories,
-  createCategory,
-  renderPromotions,
-  createPromotion,
-};
+export { renderAdminHome, renderAdminProducts, createPlataform, createPromotion };

@@ -71,16 +71,16 @@
                 <button onclick="closeModal('categoriesModal')" class="btn-close-modal">&times;</button>
             </div>
             <div class="nh-modal-body">
-                <form class="modal-form-grid">
+                <form class="modal-form-grid" action="/dashboard/admin/plataforms/create" method="POST">
                     <div class="form-group">
                         <label class="form-label">Nome</label>
-                        <input type="text" class="form-control" placeholder="Ex: PlayStation 6">
+                        <input type="text" name="nome" class="form-control" placeholder="Ex: PlayStation 6">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Slug</label>
-                        <input type="text" class="form-control" placeholder="ex: ps6">
+                        <input type="text" name="slug" class="form-control" placeholder="ex: ps6">
                     </div>
-                    <button class="btn-dash btn-dash-primary full-width">Adicionar</button>
+                    <button type="submit" class="btn-dash btn-dash-primary full-width">Adicionar</button>
                 </form>
                 
                 <div class="modal-list-container">

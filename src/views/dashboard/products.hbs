@@ -32,8 +32,8 @@
                 <td>R$ {{this.preco}}</td>
                 <td>{{this.estoque}} keys</td>
                 <td>
-                    {{#if (eq this.status 'ativo')}}
-                        <span class="status-pill success">Ativo</span>
+                    {{#if (eq this.status 'aprovado')}}
+                        <span class="status-pill success">Aprovado</span>
                     {{else}}
                         <span class="status-pill warning">Pendente</span>
                     {{/if}}
