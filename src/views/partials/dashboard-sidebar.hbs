@@ -1,0 +1,65 @@
+<aside class="dash-sidebar {{#if (eq userRole 'admin')}}theme-admin{{else}}theme-partner{{/if}}">
+    
+    <div class="sidebar-header">
+        <a href="/" class="dash-logo">NEXUS<span>HUB</span></a>
+    </div>
+
+    <nav class="sidebar-menu">
+        
+        <a href="/dashboard/{{#if (eq userRole 'admin')}}admin{{else}}partner{{/if}}-test" class="menu-link {{#if (eq activePage 'home')}}active{{/if}}">
+            <i class="fas fa-home"></i> Visão Geral
+        </a>
+
+        {{#if (eq userRole 'parceiro')}}
+            <div class="menu-label">Gestão</div>
+            
+            <a href="/dashboard/products?role=parceiro" class="menu-link {{#if (eq activePage 'products')}}active{{/if}}">
+                <i class="fas fa-gamepad"></i> Meus Jogos
+            </a>
+            
+            <a href="#" onclick="openModal('salesModal'); return false;" class="menu-link">
+                <i class="fas fa-file-invoice-dollar"></i> Financeiro
+            </a>
+            
+            <a href="#" onclick="openModal('promoModal'); return false;" class="menu-link">
+                <i class="fas fa-tags"></i> Criar Promoção
+            </a>
+        {{/if}}
+
+
+        {{#if (eq userRole 'admin')}}
+            <div class="menu-label">Gestão da Plataforma</div>
+            
+            <a href="#" onclick="openModal('approvalsModal'); return false;" class="menu-link">
+                <i class="fas fa-clipboard-check"></i> Aprovações
+                <span style="margin-left: auto; background: var(--primary); padding: 2px 6px; border-radius: 4px; font-size: 0.7rem;">!</span>
+            </a>
+            
+            <a href="#" onclick="openModal('usersModal'); return false;" class="menu-link">
+                <i class="fas fa-users-cog"></i> Usuários
+            </a>
+            
+            <a href="#" onclick="openModal('categoriesModal'); return false;" class="menu-link">
+                <i class="fas fa-layer-group"></i> Categorias
+            </a>
+
+            <a href="/dashboard/products?role=admin" class="menu-link {{#if (eq activePage 'products')}}active{{/if}}">
+                <i class="fas fa-box"></i> Todos Produtos
+            </a>
+            
+            <a href="#" onclick="openModal('promoModal'); return false;" class="menu-link">
+                <i class="fas fa-tags"></i> Promoções
+            </a>
+        {{/if}}
+
+    </nav>
+
+    <div class="sidebar-footer">
+        <div class="user-avatar-circle">{{#if userInitials}}{{userInitials}}{{else}}U{{/if}}</div>
+        <div class="user-info">
+            <strong style="display: block; font-size: 0.9rem;">{{userName}}</strong>
+            <small>{{#if (eq userRole 'admin')}}Admin{{else}}Parceiro{{/if}}</small>
+        </div>
+        <a href="/logout" style="margin-left: auto; color: #ff6b6b;" title="Sair"><i class="fas fa-power-off"></i></a>
+    </div>
+</aside>

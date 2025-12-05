@@ -48,6 +48,10 @@ const helpers = {
   },
   
   mult: (a, b) => a * b,
+  
+  json: (context) => {
+    return JSON.stringify(context);
+  }
 };
 
 

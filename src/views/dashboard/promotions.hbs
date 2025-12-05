@@ -1,0 +1,73 @@
+<div class="dash-table-card">
+    <div class="card-header">
+        <h3><i class="fas fa-tags"></i> Campanhas Promocionais</h3>
+        <button onclick="openModal('promoModal')" class="btn-dash btn-dash-primary">
+            <i class="fas fa-plus"></i> Nova Promoção
+        </button>
+    </div>
+
+    <table class="clean-table">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Desconto</th>
+                <th>Validade</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each promotions}}
+            <tr>
+                <td>{{this.produto_nome}}</td>
+                <td><span class="status-pill success">{{this.percentual_desconto}}%</span></td>
+                <td>{{this.data_fim}}</td>
+                <td>{{#if this.ativa}}Ativa{{else}}Inativa{{/if}}</td>
+                <td><a href="#" style="color: var(--danger);"><i class="fas fa-trash"></i></a></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<div id="promoModal" class="nh-modal-overlay">
+    <div class="nh-modal-box">
+        <div class="nh-modal-header">
+            <h3>Nova Promoção</h3>
+            <button onclick="closeModal('promoModal')" class="btn-close-modal">&times;</button>
+        </div>
+        
+        <form action="/dashboard/promotions/create" method="POST">
+            <div class="form-group">
+                <label class="form-label">Produto</label>
+                <select name="produto_id" class="form-control" required>
+                    <option value="">Selecione...</option>
+                    {{#each products}}
+                        <option value="{{this.id}}">{{this.titulo}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Desconto (%)</label>
+                <input type="number" name="percentual_desconto" class="form-control" placeholder="20" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Início</label>
+                    <input type="date" name="data_inicio" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Fim</label>
+                    <input type="date" name="data_fim" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" onclick="closeModal('promoModal')" class="btn-dash" style="background: #eee;">Cancelar</button>
+                <button type="submit" class="btn-dash btn-dash-primary">Salvar</button>
+            </div>
+        </form>
+    </div>
+</div>
