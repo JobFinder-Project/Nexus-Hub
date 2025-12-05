@@ -90,7 +90,7 @@
                 <div class="form-group">
                     <label class="form-label">Plataforma</label>
                     <select name="plataforma_id" id="prodPlataforma" class="form-control" required>
-                        <option value="">Selecione...</option>
+                        <option value="{{plataforma.nome}}">Selecione...</option>
                         {{#each platforms}}
                             <option value="{{this.id}}">{{this.nome}}</option>
                         {{/each}}
@@ -181,13 +181,21 @@
         document.getElementById('prodTitulo').value = product.titulo;
         document.getElementById('prodSlug').value = product.slug;
         document.getElementById('prodPreco').value = product.preco;
-        document.getElementById('prodPlataforma').value = product.plataforma_id; // Precisamos do ID aqui no objeto
-        document.getElementById('prodDescricao').value = product.descricao;
-        document.getElementById('prodCapa').value = product.imagem;
-        
+        document.getElementById('prodPlataforma').value = product.plataforma_id; // setar <select> pela ID
+        document.getElementById('prodDescricao').value = product.descricao || '';
+        document.getElementById('prodCapa').value = product.imagem || '';
+
+        // usar os nomes do model Requirement
         if (product.requirements) {
-            document.getElementById('prodReqOS').value = product.requirements.os || '';
-            document.getElementById('prodReqCPU').value = product.requirements.cpu || '';
+          document.getElementById('prodReqOS').value = product.requirements.os || '';
+          document.getElementById('prodReqCPU').value = product.requirements.processador || '';
+          document.getElementById('prodReqRAM').value = product.requirements.memoria || '';
+          document.getElementById('prodReqGPU').value = product.requirements.graficos || '';
+        } else {
+          document.getElementById('prodReqOS').value = '';
+          document.getElementById('prodReqCPU').value = '';
+          document.getElementById('prodReqRAM').value = '';
+          document.getElementById('prodReqGPU').value = '';
         }
 
         openModal('productModal');

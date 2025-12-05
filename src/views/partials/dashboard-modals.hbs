@@ -86,8 +86,16 @@
                 <div class="modal-list-container">
                     <h4>Existentes</h4>
                     <ul class="simple-list">
-                        <li>Steam (PC) <button class="btn-icon-danger"><i class="fas fa-trash"></i></button></li>
-                        <li>PlayStation 5 <button class="btn-icon-danger"><i class="fas fa-trash"></i></button></li>
+                        {{#if platforms}}
+                            {{#each platforms}}
+                                <li>
+                                    {{this.nome}} <small><code>{{this.slug}}</code></small>
+                                    <button class="btn-icon-danger" title="Remover"><i class="fas fa-trash"></i></button>
+                                </li>
+                            {{/each}}
+                        {{else}}
+                            <li>Nenhuma plataforma cadastrada.</li>
+                        {{/if}}
                     </ul>
                 </div>
             </div>
