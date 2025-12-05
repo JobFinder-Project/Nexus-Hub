@@ -50,8 +50,8 @@ export default (sequelize) => {
         allowNull: false,
       },
       tipo: {
-        type: DataTypes.STRING(50),
-        defaultValue: 'KEY',
+        type: DataTypes.STRING(50), // jogo, software ou gift card
+        defaultValue: 'jogo',
         allowNull: false,
       },
       requisitos_id: {
@@ -65,6 +65,10 @@ export default (sequelize) => {
       },
       data_lancamento: {
         type: DataTypes.DATE,
+        allowNull: true,
+      },
+      sistema: {
+        type: DataTypes.STRING, // windows, android, ios
         allowNull: true,
       },
     },
