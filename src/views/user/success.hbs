@@ -17,7 +17,7 @@
         </div>
         <div class="order-row">
             <span>Enviado para</span>
-            <span>{{userEmail}}</span>
+            <span>{{session.userEmail}}</span>
         </div>
         <div class="order-row">
             <span>Status</span>
@@ -33,7 +33,7 @@
         </a>
         
         {{#if (eq status 'approved')}}
-            <a href="/profile/library" class="btn-library">
+            <a href="/library/keys/{{orderId}}" class="btn-library">
                 <i class="fas fa-key"></i> Acessar Minha Biblioteca
             </a>
         {{else}}

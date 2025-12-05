@@ -155,6 +155,7 @@ const processLogin = async (req, res, next) => {
     // Configura a sessão do usuário
     req.session.userId = user.id;
     req.session.userName = user.nome;
+    req.session.userEmail = user.email;
     req.session.userRole = user.perfil;
 
     // Redireciona com base no perfil do usuário

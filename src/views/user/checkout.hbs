@@ -6,7 +6,7 @@
         </h1>
     </div>
 
-    <form action="/order/place" method="POST" class="nh-checkout-layout">
+    <form action="/checkout" method="POST" class="nh-checkout-layout">
         
         <div class="nh-checkout-main">
             
@@ -17,18 +17,18 @@
                 
                 <div class="nh-form-group">
                     <label class="nh-label">Nome Completo</label>
-                    <input type="text" class="nh-input" value="{{user.nome}}" disabled>
+                    <input type="text" class="nh-input" value="{{session.userName}}" disabled>
                     <small style="color: #666;">Conta autenticada</small>
                 </div>
 
                 <div class="nh-form-row">
                     <div class="nh-form-group">
                         <label class="nh-label">E-mail (para envio das chaves)</label>
-                        <input type="email" class="nh-input" value="{{user.email}}" disabled>
+                        <input type="email" class="nh-input" value="{{session.userEmail}}" disabled>
                     </div>
                     <div class="nh-form-group">
                         <label class="nh-label">CPF (Obrigatório para Nota Fiscal)</label>
-                        <input type="text" class="nh-input" value="{{user.cpf}}" placeholder="000.000.000-00">
+                        <input type="text" class="nh-input" placeholder="000.000.000-00" required>
                     </div>
                 </div>
             </div>
@@ -131,7 +131,7 @@
                     </div>
                 </div>
 
-                <button type="button" onclick="alert('Funcionalidade de API ainda não implementada!')" class="nh-btn-confirm">
+                <button type="submit" class="nh-btn-confirm">
                     CONFIRMAR PAGAMENTO <i class="fas fa-lock"></i>
                 </button>
                 

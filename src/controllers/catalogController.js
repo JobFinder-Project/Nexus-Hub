@@ -103,6 +103,7 @@ const renderCatalog = async (req, res, next) => {
       title: 'Nexus Hub - Catálogo',
       products: productsPlain,
       activePage: 'catalog',
+      session: req.session,
       filters,
       message,
       status,
@@ -146,6 +147,7 @@ const renderProductDetails = async (req, res, next) => {
     return res.render('catalog/product', {
       title: productPlain.titulo,
       product: productPlain,
+      session: req.session,
       activePage: 'catalog',
     });
   } catch (err) {
