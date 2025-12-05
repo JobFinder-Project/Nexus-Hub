@@ -111,7 +111,7 @@ Aqui definimos as principais rotas da aplicação que serão gerenciadas pelo Ex
       * `POST /admin/approvals/:id/reject`: Rejeita um produto (US19).
       * `GET /admin/users`: Gerenciamento de usuários (US23).
 
-#### 4\. Estrutura de Pastas do Projeto (ainda incompleto)
+#### 4\. Estrutura de Pastas do Projeto
 
 ```
 /nexus-hub
@@ -121,6 +121,7 @@ Aqui definimos as principais rotas da aplicação que serão gerenciadas pelo Ex
 |-- server.js             # Ponto de entrada: inicializa o servidor Express e as rotas
 |
 |-- /src
+|   |-- app.js
 |   |-- /config           # Configurações
 |   |   |-- database.js   # Configuração da conexão com o banco de dados (Sequelize/Prisma)
 |   |   |-- session.js    # Configuração de sessões de usuário
@@ -170,9 +171,8 @@ Aqui definimos as principais rotas da aplicação que serão gerenciadas pelo Ex
 |       |   |-- register.handlebars
 |       |
 |       |-- /catalog      # Telas da loja pública
-|       |   |-- home.handlebars
-|       |   |-- catalog.handlebars
-|       |   |-- product-details.handlebars
+|       |   |-- index.handlebars
+|       |   |-- product.handlebars
 |       |
 |       |-- /user         # Painel e telas do cliente logado
 |       |   |-- cart.handlebars
@@ -188,6 +188,7 @@ Aqui definimos as principais rotas da aplicação que serão gerenciadas pelo Ex
 |       |-- /layouts
 |       |   |-- main.handlebars          # Layout principal para a loja e áreas de cliente
 |       |   |-- dashboard.handlebars     # Layout unificado para as páginas da pasta /dashboard
+|       |   |-- auth.handlebars          # Layout para login e criação de conta
 |       |
 |       |-- /partials
 |           |-- /widgets                 # Componentes específicos dos dashboards
