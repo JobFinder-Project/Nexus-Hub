@@ -1,5 +1,11 @@
 import express from 'express';
-import { renderCatalog, renderCatalogByGenre, renderCatalogByPlatform, renderHome, renderProductDetails } from '../controllers/catalogController.js';
+import {
+  renderCatalog,
+  renderCatalogByGenre,
+  renderCatalogByPlatform,
+  renderHome,
+  renderProductDetails,
+} from '../controllers/catalogController.js';
 const router = express.Router();
 
 router.get('/', renderHome);
