@@ -1,0 +1,45 @@
+<div class="dash-table-card">
+    <div class="card-header">
+        <h3><i class="fas fa-layer-group"></i> Plataformas & Categorias</h3>
+        <button onclick="openModal('catModal')" class="btn-dash btn-dash-primary">
+            <i class="fas fa-plus"></i> Adicionar
+        </button>
+    </div>
+    
+    <table class="clean-table">
+        <thead>
+            <tr><th>Nome</th><th>Slug</th><th>Ações</th></tr>
+        </thead>
+        <tbody>
+            {{#each platforms}}
+            <tr>
+                <td>{{this.nome}}</td>
+                <td><code>{{this.slug}}</code></td>
+                <td><a href="#"><i class="fas fa-trash"></i></a></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<div id="catModal" class="nh-modal-overlay">
+    <div class="nh-modal-box">
+        <div class="nh-modal-header">
+            <h3>Nova Plataforma</h3>
+            <button onclick="closeModal('catModal')" class="btn-close-modal">&times;</button>
+        </div>
+        <form action="/dashboard/admin/categories/create" method="POST">
+            <div class="form-group">
+                <label class="form-label">Nome</label>
+                <input type="text" name="nome" class="form-control" placeholder="Ex: Nintendo Switch">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Slug</label>
+                <input type="text" name="slug" class="form-control" placeholder="Ex: nintendo-switch">
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-dash btn-dash-primary">Salvar</button>
+            </div>
+        </form>
+    </div>
+</div>

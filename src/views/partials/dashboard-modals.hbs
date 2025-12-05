@@ -1,0 +1,170 @@
+{{#if (eq userRole 'admin')}}
+
+    <div id="approvalsModal" class="nh-modal-overlay">
+        <div class="nh-modal-box modal-lg">
+            <div class="nh-modal-header">
+                <h3>Fila de Aprovação</h3>
+                <button onclick="closeModal('approvalsModal')" class="btn-close-modal">&times;</button>
+            </div>
+            <div class="nh-modal-body">
+                <table class="clean-table">
+                    <thead><tr><th>Tipo</th><th>Solicitação</th><th>Data</th><th>Ação</th></tr></thead>
+                    <tbody>
+                        {{#each pendingApprovals}}
+                        <tr>
+                            <td><span class="status-pill warning">{{this.type}}</span></td>
+                            <td><strong>{{this.name}}</strong><br><small>{{this.author}}</small></td>
+                            <td>{{this.date}}</td>
+                            <td>
+                                <div class="modal-btn-group">
+                                    <button class="btn-modal-action approve" title="Aprovar"><i class="fas fa-check"></i></button>
+                                    <button class="btn-modal-action reject" title="Rejeitar"><i class="fas fa-times"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        {{else}}
+                        <tr><td colspan="4" class="text-center">Nenhuma pendência.</td></tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="usersModal" class="nh-modal-overlay">
+        <div class="nh-modal-box modal-lg">
+            <div class="nh-modal-header">
+                <h3>Gestão de Usuários</h3>
+                <button onclick="closeModal('usersModal')" class="btn-close-modal">&times;</button>
+            </div>
+            <div class="nh-modal-body">
+                <table class="clean-table">
+                    <thead><tr><th>Usuário</th><th>Perfil</th><th>Status</th><th>Ação</th></tr></thead>
+                    <tbody>
+                        {{#each usersList}}
+                        <tr>
+                            <td><strong>{{this.nome}}</strong><br><small>{{this.email}}</small></td>
+                            <td>{{this.tipo}}</td>
+                            <td>
+                                <span class="status-pill {{#if (eq this.status 'ativo')}}success{{else}}danger{{/if}}">
+                                    {{this.status}}
+                                </span>
+                            </td>
+                            <td>
+                                <button class="btn-modal-action edit" title="Editar"><i class="fas fa-edit"></i></button>
+                                {{#if (eq this.status 'ativo')}}
+                                    <button class="btn-modal-action reject" title="Banir"><i class="fas fa-ban"></i></button>
+                                {{/if}}
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="categoriesModal" class="nh-modal-overlay">
+        <div class="nh-modal-box">
+            <div class="nh-modal-header">
+                <h3>Gerenciar Plataformas</h3>
+                <button onclick="closeModal('categoriesModal')" class="btn-close-modal">&times;</button>
+            </div>
+            <div class="nh-modal-body">
+                <form class="modal-form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Nome</label>
+                        <input type="text" class="form-control" placeholder="Ex: PlayStation 6">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Slug</label>
+                        <input type="text" class="form-control" placeholder="ex: ps6">
+                    </div>
+                    <button class="btn-dash btn-dash-primary full-width">Adicionar</button>
+                </form>
+                
+                <div class="modal-list-container">
+                    <h4>Existentes</h4>
+                    <ul class="simple-list">
+                        <li>Steam (PC) <button class="btn-icon-danger"><i class="fas fa-trash"></i></button></li>
+                        <li>PlayStation 5 <button class="btn-icon-danger"><i class="fas fa-trash"></i></button></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="promoModal" class="nh-modal-overlay">
+        <div class="nh-modal-box modal-lg">
+            <div class="nh-modal-header">
+                <h3>Promoções da Loja</h3>
+                <button onclick="closeModal('promoModal')" class="btn-close-modal">&times;</button>
+            </div>
+            <div class="nh-modal-body">
+                <table class="clean-table mb-4">
+                    <thead><tr><th>Campanha</th><th>Desconto</th><th>Status</th><th>Ação</th></tr></thead>
+                    <tbody>
+                        {{#each activePromotions}}
+                        <tr>
+                            <td>{{this.title}}<br><small>{{this.product}}</small></td>
+                            <td><span class="status-pill success">-{{this.discount}}</span></td>
+                            <td>Ativa</td>
+                            <td><button class="btn-modal-action reject"><i class="fas fa-trash"></i></button></td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+                <button class="btn-dash btn-dash-primary full-width">Criar Nova Campanha</button>
+            </div>
+        </div>
+    </div>
+
+{{/if}}
+
+{{#if (eq userRole 'parceiro')}}
+
+    <div id="salesModal" class="nh-modal-overlay">
+        <div class="nh-modal-box modal-lg">
+            <div class="nh-modal-header">
+                <h3>Relatórios Financeiros</h3>
+                <button onclick="closeModal('salesModal')" class="btn-close-modal">&times;</button>
+            </div>
+            <div class="nh-modal-body">
+                <table class="clean-table">
+                    <thead><tr><th>Data</th><th>Produto</th><th>Valor</th><th>Status</th></tr></thead>
+                    <tbody>
+                        {{#each salesHistory}}
+                        <tr>
+                            <td>{{this.data}}</td>
+                            <td>{{this.produto}}</td>
+                            <td>{{this.valor}}</td>
+                            <td><span class="status-pill success">Pago</span></td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="promoModal" class="nh-modal-overlay">
+        <div class="nh-modal-box">
+            <div class="nh-modal-header">
+                <h3>Nova Promoção</h3>
+                <button onclick="closeModal('promoModal')" class="btn-close-modal">&times;</button>
+            </div>
+            <form class="nh-modal-body">
+                <div class="form-group">
+                    <label class="form-label">Produto</label>
+                    <select class="form-control"><option>Elden Ring</option></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Desconto (%)</label>
+                    <input type="number" class="form-control" placeholder="20">
+                </div>
+                <button class="btn-dash btn-dash-primary full-width">Salvar</button>
+            </form>
+        </div>
+    </div>
+
+{{/if}}

@@ -3,26 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus Hub - Dashboard</title>
+    <title>{{title}} | Painel Nexus Hub</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <link rel="stylesheet" href="/css/dashboard.css">
 </head>
-<body>
+<body class="dashboard-body">
 
-    <div class="dashboard-wrapper">
-        <nav class="sidebar">
-            <h3>Painel Nexus</h3>
-            </nav>
+    {{> dashboard-sidebar}}
 
-        <div class="content">
-            {{> header}}
+    <main class="dash-content">
+        
+        <header class="dash-topbar">
+            <h1 class="page-title">{{pageTitle}}</h1>
             
-            <main>
-                {{{body}}}
-            </main>
+            <div class="actions">
+                <a href="/" target="_blank" style="text-decoration: none; color: var(--dash-text-muted); font-size: 0.9rem;">
+                    <i class="fas fa-external-link-alt"></i> Ir para a Loja
+                </a>
+            </div>
+        </header>
 
-            {{> footer}}
+        <div class="main-view">
+            {{{body}}}
         </div>
-    </div>
+    </main>
+    {{> dashboard-modals}}
+<script>
+    function openModal(modalId) {
+                const modal = document.getElementById(modalId);
+                if(modal) modal.classList.add('active');
+            }
 
+    /*function openModal(modalId) {
+        document.getElementById(modalId).classList.add('active');
+    }*/
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).classList.remove('active');
+    }
+
+    window.onclick = function(event) {
+        if (event.target.classList.contains('nh-modal-overlay')) {
+            event.target.classList.remove('active');
+        }
+    }
+</script>
 </body>
 </html>
