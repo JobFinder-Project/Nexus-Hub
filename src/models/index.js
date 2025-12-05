@@ -110,8 +110,10 @@ const db = {
   PurchaseItem,
   ProductKey,
   Promotion,
+  Requirement,
+  Galery,
 };
 
-export { sequelize, User, Platform, Genre, Product, Purchase, PurchaseItem, ProductKey, Promotion };
+export { sequelize, User, Platform, Genre, Product, Purchase, PurchaseItem, ProductKey, Promotion, Requirement, Galery };
 
 export default db;
