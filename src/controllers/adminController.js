@@ -175,22 +175,4 @@ const createPlataform = async (req, res, next) => {
   }
 };
 
-// POST /dashboard/promotions/create
-const createPromotion = async (req, res, next) => {
-  try {
-    const { produto_id, percentual_desconto, data_inicio, data_fim } = req.body;
-    if (!produto_id || !percentual_desconto) return res.redirect('/dashboard/promotions');
-    await Promotion.create({
-      produto_id,
-      percentual_desconto: Number(percentual_desconto),
-      data_inicio: data_inicio || new Date(),
-      data_fim: data_fim || null,
-      esta_ativo: true,
-    });
-    return res.redirect('/dashboard/promotions');
-  } catch (err) {
-    return next(err);
-  }
-};
-
-export { renderAdminHome, renderAdminProducts, createPlataform, createPromotion };
+export { renderAdminHome, renderAdminProducts, createPlataform };

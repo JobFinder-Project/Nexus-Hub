@@ -225,4 +225,51 @@ const renderPartnerProducts = async (req, res, next) => {
   }
 };
 
-export { renderPartnerHome, renderPartnerProducts };
+// POST /dashboard/partner/promotions/create
+const createPromotion = async (req, res, next) => {
+  try {
+    const partnerId = req.session.userId;
+    const { produto_id, percentual_desconto, data_inicio, data_fim } = req.body;
+
+    if (!produto_id || !percentual_desconto) {
+      return res.redirect('/dashboard/partner-test');
+    }
+
+    // valida que o produto pertence ao parceiro
+    const product = await Product.findOne({
+      where: { id: produto_id, parceiro_id: partnerId },
+      attributes: ['id', 'parceiro_id', 'titulo'],
+    });
+    if (!product) {
+      // produto não pertence ao parceiro
+      return res.status(403).render('error/500', {
+        title: '500 - Erro Interno do Servidor',
+        message: 'Você não pode criar promoção para produtos de outros parceiros.',
+        stack: null,
+      });
+    }
+
+    // parse seguro das datas (YYYY-MM-DD do input date)
+    const parseDateOrNull = (str) => {
+      if (!str) return null;
+      const d = new Date(str);
+      return isNaN(d.getTime()) ? null : d;
+    };
+    const inicio = parseDateOrNull(data_inicio) || new Date(); // default: agora
+    const fim = parseDateOrNull(data_fim); // pode ser null (promo sem fim)
+
+    await Promotion.create({
+      produto_id: product.id,
+      percentual_desconto: Number(percentual_desconto),
+      data_inicio: inicio,
+      data_fim: fim,
+      esta_ativo: true,
+    });
+
+    return res.redirect('/dashboard/partner-test');
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export { renderPartnerHome, renderPartnerProducts, createPromotion };
