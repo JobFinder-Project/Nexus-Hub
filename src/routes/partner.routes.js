@@ -10,8 +10,8 @@ const router = express.Router();
 
 router.use(isPartner);
 
-router.get('/dashboard/partner-test', renderPartnerHome);
+router.get('/dashboard/partner', renderPartnerHome);
 router.get('/dashboard/partner/products', renderPartnerProducts);
-router.post('/dashboard/partner/promotions/create', createPromotion);
+router.post('/partner/promotions/create', createPromotion);
 
 export default router;
