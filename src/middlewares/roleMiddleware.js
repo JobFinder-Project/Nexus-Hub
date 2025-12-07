@@ -7,9 +7,13 @@ export const isAdmin = (req, res, next) => {
     return next();
   }
 
-  return res.status(403).render('error', {
-    message: 'Acesso negado: Apenas administradores podem acessar esta área.',
-  });
+  const error = {
+    status: 403,
+    message: 'Acesso negado. Você não tem permissão para acessar esta página.',
+    stack: null,
+  };
+
+  next(error);
 };
 
 export const isPartner = (req, res, next) => {
@@ -21,7 +25,11 @@ export const isPartner = (req, res, next) => {
     return next();
   }
 
-  return res.status(403).render('error', {
-    message: 'Acesso negado: Área restrita para parceiros.',
-  });
+  const error = {
+    status: 403,
+    message: 'Acesso negado. Você não tem permissão para acessar esta página.',
+    stack: null,
+  };
+
+  next(error);
 };

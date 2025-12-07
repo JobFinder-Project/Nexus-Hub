@@ -160,9 +160,9 @@ const processLogin = async (req, res, next) => {
 
     // Redireciona com base no perfil do usuário
     if (user.perfil === 'admin') {
-      return res.redirect('/dashboard/admin-test');
+      return res.redirect('/dashboard/admin');
     } else if (user.perfil === 'parceiro') {
-      return res.redirect('/dashboard/partner-test');
+      return res.redirect('/dashboard/partner');
     } else {
       return res.redirect('/');
     }
