@@ -21,7 +21,7 @@ export const isPartner = (req, res, next) => {
     return res.redirect('/login');
   }
 
-  if (req.session.userRole === 'parceiro' || req.session.userRole === 'admin') {
+  if (req.session.userRole === 'partner' || req.session.userRole === 'admin') {
     return next();
   }
 

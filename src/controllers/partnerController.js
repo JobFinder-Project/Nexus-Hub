@@ -232,7 +232,7 @@ const createPromotion = async (req, res, next) => {
     const { produto_id, percentual_desconto, data_inicio, data_fim } = req.body;
 
     if (!produto_id || !percentual_desconto) {
-      return res.redirect('/dashboard/partner-test');
+      return res.redirect('/dashboard/partner');
     }
 
     // valida que o produto pertence ao parceiro
@@ -266,10 +266,84 @@ const createPromotion = async (req, res, next) => {
       esta_ativo: true,
     });
 
-    return res.redirect('/dashboard/partner-test');
+    return res.redirect('/dashboard/partner');
   } catch (err) {
     return next(err);
   }
 };
 
-export { renderPartnerHome, renderPartnerProducts, createPromotion };
+// POST /partner/products/create
+const createProduct = async (req, res, next) => {
+  try {
+    const partnerId = req.session.userId;
+    const {
+      titulo,
+      descricao,
+      slug,
+      plataforma_id,
+      generos,
+      classificacao,
+      preco,
+      url_imagem,
+      req_os,
+      req_cpu,
+      req_ram,
+      req_gpu,
+      req_armazenamento,
+      tipo,
+      sistema,
+      data_lancamento,
+      desenvolvedor,
+    } = req.body;
+
+    // validação mínima
+    if (!titulo || !slug || !plataforma_id || !preco) {
+      return res.redirect('/dashboard/partner/products');
+    }
+
+    // normaliza gêneros (array de IDs)
+    const genreIds = Array.isArray(generos)
+      ? generos.map((g) => Number(g)).filter(Boolean)
+      : generos
+        ? [Number(generos)].filter(Boolean)
+        : [];
+
+    // criar produto
+    const newProduct = await Product.create({
+      titulo,
+      descricao: descricao || null,
+      slug,
+      plataforma_id: Number(plataforma_id),
+      classificacao: classificacao || 'Livre',
+      preco: Number(preco),
+      parceiro_id: partnerId,
+      cover: url_imagem || null,
+      tipo: tipo || null,
+      sistema: sistema || null,
+      data_lancamento: data_lancamento ? new Date(data_lancamento) : null,
+      desenvolvedor: desenvolvedor || null,
+      status: 'ativo',
+    });
+
+    // associa gêneros (se N:M estiver configurado como Product.belongsToMany(Genre, { as: 'genres', ... }))
+    if (genreIds.length && typeof newProduct.setGenres === 'function') {
+      await newProduct.setGenres(genreIds);
+    }
+
+    // requisitos de sistema
+    await Requirement.create({
+      produto_id: newProduct.id,
+      os: req_os || null,
+      processador: req_cpu || null,
+      memoria: req_ram || null,
+      graficos: req_gpu || null,
+      armazenamento: req_armazenamento || null,
+    });
+
+    return res.redirect('/dashboard/partner/products');
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export { renderPartnerHome, renderPartnerProducts, createPromotion, createProduct };
