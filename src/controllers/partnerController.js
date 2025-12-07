@@ -350,4 +350,99 @@ const createProduct = async (req, res, next) => {
   }
 };
 
-export { renderPartnerHome, renderPartnerProducts, createPromotion, createProduct };
+// POST /partner/products/update
+const updateProduct = async (req, res, next) => {
+  try {
+    const partnerId = req.session.userId;
+    const {
+      id, // hidden input
+      titulo,
+      descricao,
+      slug,
+      plataforma_id,
+      generos, // pode vir string ou array
+      classificacao,
+      preco,
+      url_imagem,
+      req_os,
+      req_cpu,
+      req_ram,
+      req_gpu,
+      req_armazenamento,
+      tipo,
+      sistema,
+      data_lancamento,
+      desenvolvedor,
+      status,
+    } = req.body;
+
+    const productId = Number(id);
+    if (!productId) return res.redirect('/dashboard/partner/products');
+
+    // validação mínima
+    if (!titulo || !slug || !plataforma_id || !preco) {
+      return res.redirect('/dashboard/partner/products');
+    }
+
+    // garantir que o produto pertence ao parceiro
+    const product = await Product.findOne({
+      where: { id: productId, parceiro_id: partnerId },
+      include: [{ model: Requirement, as: 'systemRequirements' }],
+    });
+    if (!product) {
+      return res.status(404).render('error/404', { title: '404 - Página Não Encontrada' });
+    }
+
+    // saneamento de enumerados
+    const allowedTipos = new Set(['jogo', 'software', 'gift card']);
+    const allowedSistemas = new Set(['windows', 'android', 'ios', 'linux']);
+
+    // atualizar produto
+    await product.update({
+      titulo,
+      descricao: descricao || null,
+      slug,
+      plataforma_id: Number(plataforma_id),
+      classificacao: classificacao || 'Livre',
+      preco: Number(preco),
+      cover: url_imagem || null,
+      tipo: allowedTipos.has((tipo || '').toLowerCase()) ? tipo.toLowerCase() : product.tipo,
+      sistema: allowedSistemas.has((sistema || '').toLowerCase())
+        ? sistema.toLowerCase()
+        : product.sistema,
+      data_lancamento: data_lancamento ? new Date(data_lancamento) : product.data_lancamento,
+      desenvolvedor: desenvolvedor || product.desenvolvedor,
+    });
+
+    // atualizar gêneros (N:M)
+    const genreIds = Array.isArray(generos)
+      ? generos.map((g) => Number(g)).filter(Boolean)
+      : generos
+        ? [Number(generos)].filter(Boolean)
+        : [];
+    if (typeof product.setGenres === 'function') {
+      await product.setGenres(genreIds); // limpa se vazio
+    }
+
+    // upsert requisitos de sistema
+    const reqBody = {
+      os: req_os || null,
+      processador: req_cpu || null,
+      memoria: req_ram || null,
+      graficos: req_gpu || null,
+      armazenamento: req_armazenamento || null,
+    };
+
+    if (product.systemRequirements) {
+      await product.systemRequirements.update(reqBody);
+    } else {
+      await Requirement.create({ produto_id: product.id, ...reqBody });
+    }
+
+    return res.redirect('/dashboard/partner/products');
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export { renderPartnerHome, renderPartnerProducts, createPromotion, createProduct, updateProduct };

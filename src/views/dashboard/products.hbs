@@ -63,7 +63,7 @@
       <button onclick="closeModal('productModal')" class="btn-close-modal">&times;</button>
     </div>
 
-    <form action="/{{#if (eq userRole 'parceiro')}}partner{{else}}admin{{/if}}/products/create" method="POST" class="nh-modal-body">
+    <form id="productForm" action="/{{#if (eq userRole 'parceiro')}}partner{{else}}admin{{/if}}/products/create" method="POST" class="nh-modal-body">
       <input type="hidden" name="id" id="prodId">
 
       <h4 style="border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; color: var(--primary);">
@@ -206,17 +206,21 @@
 </div>
 
 <script>
+  const userRole = '{{userRole}}';
+  const formEl = document.getElementById('productForm');
+
   function openProductModal() {
     document.getElementById('modalTitle').innerText = 'Novo Produto';
-    document.querySelector('#productModal form').reset();
+    formEl.action = `/${userRole === 'parceiro' ? 'partner' : 'admin'}/products/create`;
+    formEl.reset();
     document.getElementById('prodId').value = '';
-    // desmarcar gêneros
     document.querySelectorAll('.genre-check').forEach((chk) => (chk.checked = false));
     openModal('productModal');
   }
 
   function editProduct(product) {
     document.getElementById('modalTitle').innerText = 'Editar Produto';
+    formEl.action = `/${userRole === 'parceiro' ? 'partner' : 'admin'}/products/update`;
     document.getElementById('prodId').value = product.id;
     document.getElementById('prodTitulo').value = product.titulo;
     document.getElementById('prodSlug').value = product.slug;
