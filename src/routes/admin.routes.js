@@ -6,6 +6,7 @@ import {
   createPlataform,
   deletePromotion,
   createProduct,
+  updateProduct,
 } from '../controllers/adminController.js';
 
 const router = express.Router();
@@ -18,5 +19,6 @@ router.get('/dashboard/admin/products', renderAdminProducts);
 router.post('/admin/plataforms/create', createPlataform);
 router.post('/admin/promotions/delete/:promotionId', deletePromotion);
 router.post('/admin/products/create', createProduct);
+router.post('/admin/products/update', updateProduct);
 
 export default router;

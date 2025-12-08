@@ -273,4 +273,94 @@ const createProduct = async (req, res, next) => {
   }
 };
 
-export { renderAdminHome, renderAdminProducts, createPlataform, deletePromotion, createProduct };
+// POST /admin/products/update
+const updateProduct = async (req, res, next) => {
+  try {
+    const {
+      id,
+      titulo,
+      descricao,
+      slug,
+      plataforma_id,
+      generos,
+      classificacao,
+      preco,
+      url_imagem,
+      req_os,
+      req_cpu,
+      req_ram,
+      req_gpu,
+      req_armazenamento,
+      tipo,
+      sistema,
+      data_lancamento,
+      desenvolvedor,
+    } = req.body;
+
+    if (!id || !titulo || !slug || !plataforma_id || !preco) {
+      return res.redirect('/dashboard/admin/products');
+    }
+
+    const product = await Product.findByPk(id);
+    if (!product) {
+      return res.redirect('/dashboard/admin/products');
+    }
+
+    await product.update({
+      titulo,
+      descricao: descricao || null,
+      slug,
+      plataforma_id: Number(plataforma_id),
+      classificacao_etaria: classificacao || 'Livre',
+      preco: Number(preco),
+      cover: url_imagem || null,
+      tipo: tipo || null,
+      sistema: sistema || null,
+      data_lancamento: data_lancamento ? new Date(data_lancamento) : product.data_lancamento,
+      desenvolvedor: desenvolvedor || null,
+    });
+
+    // atualiza gêneros
+    const genreIds = Array.isArray(generos)
+      ? generos.map((g) => Number(g)).filter(Boolean)
+      : generos
+        ? [Number(generos)].filter(Boolean)
+        : [];
+    if (typeof product.setGenres === 'function') {
+      await product.setGenres(genreIds);
+    }
+
+    // atualiza ou cria requisitos de sistema
+    let requirements = await Requirement.findOne({ where: { produto_id: product.id } });
+    if (requirements) {
+      await requirements.update({
+        os: req_os || null,
+        processador: req_cpu || null,
+        memoria: req_ram || null,
+        graficos: req_gpu || null,
+        armazenamento: req_armazenamento || null,
+      });
+    } else if (req_os || req_cpu || req_ram || req_gpu || req_armazenamento) {
+      await Requirement.create({
+        produto_id: product.id,
+        os: req_os || null,
+        processador: req_cpu || null,
+        memoria: req_ram || null,
+        graficos: req_gpu || null,
+        armazenamento: req_armazenamento || null,
+      });
+    }
+    return res.redirect('/dashboard/admin/products');
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export {
+  renderAdminHome,
+  renderAdminProducts,
+  createPlataform,
+  deletePromotion,
+  createProduct,
+  updateProduct,
+};
