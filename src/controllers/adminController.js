@@ -53,9 +53,11 @@ const renderAdminHome = async (req, res, next) => {
       include: [{ model: Product, as: 'product' }],
     });
     const activePromotions = promos.map((pr) => ({
+      id: pr.id,
       title: pr.product?.titulo || 'Produto',
       product: pr.product?.titulo || '',
       discount: `${pr.percentual_desconto}%`,
+      ativo: pr.esta_ativo,
     }));
 
     // carregar plataformas para o modal de categorias
@@ -104,9 +106,11 @@ const renderAdminProducts = async (req, res, next) => {
       include: [{ model: Product, as: 'product' }],
     });
     const activePromotions = promos.map((pr) => ({
+      id: pr.id,
       title: pr.product?.titulo || 'Produto',
       product: pr.product?.titulo || '',
       discount: `${pr.percentual_desconto}%`,
+      ativo: pr.esta_ativo,
     }));
 
     const usersList = (await User.findAll({ limit: 10, order: [['id', 'DESC']] })).map((u) => ({
@@ -179,4 +183,20 @@ const createPlataform = async (req, res, next) => {
   }
 };
 
-export { renderAdminHome, renderAdminProducts, createPlataform };
+// POST /admin/promotions/delete/:promotionId
+const deletePromotion = async (req, res, next) => {
+  try {
+    const { promotionId } = req.params;
+    if (!promotionId) return res.redirect('/dashboard/admin');
+
+    const promotion = await Promotion.findByPk(promotionId);
+    if (!promotion) return res.redirect('/dashboard/admin');
+
+    await promotion.destroy();
+    return res.redirect('/dashboard/admin');
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export { renderAdminHome, renderAdminProducts, createPlataform, deletePromotion };

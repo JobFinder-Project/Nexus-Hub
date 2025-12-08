@@ -116,8 +116,12 @@
                         <tr>
                             <td>{{this.title}}<br><small>{{this.product}}</small></td>
                             <td><span class="status-pill success">-{{this.discount}}</span></td>
-                            <td>Ativa</td>
-                            <td><button class="btn-modal-action reject"><i class="fas fa-trash"></i></button></td>
+                            <td>{{#if this.ativo}}Ativa{{else}}Inativa{{/if}}</td>
+                            <td>
+                                <form action="/admin/promotions/delete/{{this.id}}" method="POST" onsubmit="return confirm('Tem certeza que deseja remover esta promoção?');">
+                                    <button type="submit" class="btn-icon-danger" title="Remover"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </td>
                         </tr>
                         {{/each}}
                     </tbody>
