@@ -183,6 +183,22 @@ const createPlataform = async (req, res, next) => {
   }
 };
 
+// POST /admin/plataforms/delete
+const deletePlataform = async (req, res, next) => {
+  try {
+    const { plataformaId } = req.params;
+    if (!plataformaId) return res.redirect('/dashboard/admin');
+
+    const platform = await Platform.findByPk(plataformaId);
+    if (!platform) return res.redirect('/dashboard/admin');
+
+    await platform.destroy();
+    return res.redirect('/dashboard/admin');
+  } catch (err) {
+    return next(err);
+  }
+};
+
 // POST /admin/promotions/delete/:promotionId
 const deletePromotion = async (req, res, next) => {
   try {
@@ -363,4 +379,5 @@ export {
   deletePromotion,
   createProduct,
   updateProduct,
+  deletePlataform,
 };

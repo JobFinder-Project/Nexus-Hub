@@ -53,7 +53,9 @@
                 {{#each platforms}}
                 <li>
                     {{this.nome}} <small><code>{{this.slug}}</code></small>
-                    <button class="btn-icon-danger" title="Remover"><i class="fas fa-trash"></i></button>
+                    <form action="/admin/plataforms/delete/{{this.id}}" method="POST" style="display:inline;">
+                        <button class="btn-icon-danger" title="Remover"><i class="fas fa-trash"></i></button>
+                    </form>
                 </li>
                 {{/each}}
                 {{else}}
