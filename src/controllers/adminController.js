@@ -42,6 +42,7 @@ const renderAdminHome = async (req, res, next) => {
     // Pendências/Usuários fictícios (placeholder)
     const pendingApprovals = [];
     const usersList = (await User.findAll({ limit: 10, order: [['id', 'DESC']] })).map((u) => ({
+      id: u.id,
       nome: u.nome,
       email: u.email,
       tipo: u.perfil,
@@ -114,6 +115,7 @@ const renderAdminProducts = async (req, res, next) => {
     }));
 
     const usersList = (await User.findAll({ limit: 10, order: [['id', 'DESC']] })).map((u) => ({
+      id: u.id,
       nome: u.nome,
       email: u.email,
       tipo: u.perfil,
@@ -209,6 +211,31 @@ const deletePromotion = async (req, res, next) => {
     if (!promotion) return res.redirect('/dashboard/admin');
 
     await promotion.destroy();
+    return res.redirect('/dashboard/admin');
+  } catch (err) {
+    return next(err);
+  }
+};
+
+// POST /admin/users/delete/:userId
+const deleteUser = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    if (!userId) return res.redirect('/dashboard/admin');
+
+    const user = await User.findByPk(userId);
+    if (!user) return res.redirect('/dashboard/admin');
+
+    // se for parceiro, remover produtos associados
+    if (user.perfil === 'parceiro') {
+      const products = await Product.findAll({ where: { parceiro_id: user.id } });
+      for (const product of products) {
+        await product.destroy();
+      }
+    }
+    // altera apenas o status para 'banido' (soft delete)
+    user.status = 'banido';
+    await user.save();
     return res.redirect('/dashboard/admin');
   } catch (err) {
     return next(err);
@@ -380,4 +407,5 @@ export {
   createProduct,
   updateProduct,
   deletePlataform,
+  deleteUser,
 };

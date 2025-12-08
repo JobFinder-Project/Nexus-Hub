@@ -53,7 +53,11 @@
                             <td>
                                 <button class="btn-modal-action edit" title="Editar"><i class="fas fa-edit"></i></button>
                                 {{#if (eq this.status 'ativo')}}
-                                    <button class="btn-modal-action reject" title="Banir"><i class="fas fa-ban"></i></button>
+                                    <form action="/admin/users/delete/{{this.id}}" method="POST" style="display:inline;">
+                                        <button class="btn-modal-action reject" title="Banir"><i class="fas fa-ban"></i></button>
+                                    </form>
+                                {{else}}
+                                    <button class="btn-modal-action approve" title="Reativar"><i class="fas fa-check-circle"></i></button>
                                 {{/if}}
                             </td>
                         </tr>
