@@ -326,7 +326,7 @@ const createProduct = async (req, res, next) => {
       sistema: sistema || null,
       data_lancamento: data_lancamento ? new Date(data_lancamento) : null,
       desenvolvedor: desenvolvedor || null,
-      status: 'ativo',
+      status: 'pendente_aprovacao',
     });
 
     // associa gêneros (se N:M estiver configurado como Product.belongsToMany(Genre, { as: 'genres', ... }))
@@ -335,14 +335,16 @@ const createProduct = async (req, res, next) => {
     }
 
     // requisitos de sistema
-    await Requirement.create({
-      produto_id: newProduct.id,
-      os: req_os || null,
-      processador: req_cpu || null,
-      memoria: req_ram || null,
-      graficos: req_gpu || null,
-      armazenamento: req_armazenamento || null,
-    });
+    if (req_os || req_cpu || req_ram || req_gpu || req_armazenamento) {
+      await Requirement.create({
+        produto_id: newProduct.id,
+        os: req_os || null,
+        processador: req_cpu || null,
+        memoria: req_ram || null,
+        graficos: req_gpu || null,
+        armazenamento: req_armazenamento || null,
+      });
+    }
 
     return res.redirect('/dashboard/partner/products');
   } catch (err) {

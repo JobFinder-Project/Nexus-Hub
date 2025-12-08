@@ -177,7 +177,7 @@ const createPlataform = async (req, res, next) => {
     const { nome, slug } = req.body;
     if (!nome || !slug) return res.redirect('/dashboard/categories');
     await Platform.create({ nome, slug });
-    return res.redirect('/dashboard/admin-test');
+    return res.redirect('/dashboard/admin');
   } catch (err) {
     return next(err);
   }
@@ -199,4 +199,78 @@ const deletePromotion = async (req, res, next) => {
   }
 };
 
-export { renderAdminHome, renderAdminProducts, createPlataform, deletePromotion };
+// POST /admin/products/create
+const createProduct = async (req, res, next) => {
+  try {
+    const adminId = req.session.userId;
+    const {
+      titulo,
+      descricao,
+      slug,
+      plataforma_id,
+      generos,
+      classificacao,
+      preco,
+      url_imagem,
+      req_os,
+      req_cpu,
+      req_ram,
+      req_gpu,
+      req_armazenamento,
+      tipo,
+      sistema,
+      data_lancamento,
+      desenvolvedor,
+    } = req.body;
+
+    if (!titulo || !slug || !plataforma_id || !preco) {
+      return res.redirect('/dashboard/admin/products');
+    }
+
+    // normaliza gêneros (array de IDs)
+    const genreIds = Array.isArray(generos)
+      ? generos.map((g) => Number(g)).filter(Boolean)
+      : generos
+        ? [Number(generos)].filter(Boolean)
+        : [];
+
+    const newProduct = await Product.create({
+      titulo,
+      descricao: descricao || null,
+      slug,
+      plataforma_id: Number(plataforma_id),
+      classificacao: classificacao || 'Livre',
+      preco: Number(preco),
+      parceiro_id: adminId,
+      cover: url_imagem || null,
+      tipo: tipo || null,
+      sistema: sistema || null,
+      data_lancamento: data_lancamento ? new Date(data_lancamento) : null,
+      desenvolvedor: desenvolvedor || null,
+      status: 'pendente_aprovacao',
+    });
+
+    // associa gêneros (se N:M estiver configurado como Product.belongsToMany(Genre, { as: 'genres', ... }))
+    if (genreIds.length && typeof newProduct.setGenres === 'function') {
+      await newProduct.setGenres(genreIds);
+    }
+
+    // requisitos de sistema (se fornecidos)
+    if (req_os || req_cpu || req_ram || req_gpu || req_armazenamento) {
+      await Requirement.create({
+        produto_id: newProduct.id,
+        os: req_os || null,
+        processador: req_cpu || null,
+        memoria: req_ram || null,
+        graficos: req_gpu || null,
+        armazenamento: req_armazenamento || null,
+      });
+    }
+
+    return res.redirect('/dashboard/admin/products');
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export { renderAdminHome, renderAdminProducts, createPlataform, deletePromotion, createProduct };
