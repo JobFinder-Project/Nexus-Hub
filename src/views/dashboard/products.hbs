@@ -1,195 +1,259 @@
 <div class="dash-table-card">
-    <div class="card-header">
-        <h3><i class="fas fa-gamepad"></i> Catálogo de Produtos</h3>
-        <button onclick="openProductModal()" class="btn-dash btn-dash-primary">
-            <i class="fas fa-plus"></i> Novo Jogo
-        </button>
-    </div>
+  <div class="card-header">
+    <h3><i class="fas fa-gamepad"></i> Catálogo de Produtos</h3>
+    <button onclick="openProductModal()" class="btn-dash btn-dash-primary">
+      <i class="fas fa-plus"></i> Novo Jogo
+    </button>
+  </div>
 
-    <table class="clean-table">
-        <thead>
-            <tr>
-                <th>Capa</th>
-                <th>Título</th>
-                <th>Plataforma</th>
-                <th>Preço</th>
-                <th>Estoque</th>
-                <th>Status</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each products}}
-            <tr>
-                <td>
-                    <img src="{{this.imagem}}" alt="Capa" style="width: 40px; height: 50px; object-fit: cover; border-radius: 4px;">
-                </td>
-                <td>
-                    <strong>{{this.titulo}}</strong><br>
-                    <small style="color: #888;">{{this.slug}}</small>
-                </td>
-                <td>{{this.plataforma}}</td>
-                <td>R$ {{this.preco}}</td>
-                <td>{{this.estoque}} keys</td>
-                <td>
-                    {{#if (eq this.status 'ativo')}}
-                        <span class="status-pill success">Ativo</span>
-                    {{else}}
-                        <span class="status-pill warning">Pendente</span>
-                    {{/if}}
-                </td>
-                <td>
-                    <!-- Botão Editar chama a função JS passando os dados do objeto -->
-                    <button onclick='editProduct({{json this}})' style="background: none; border: none; cursor: pointer; color: var(--primary);">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <a href="/dashboard/products/{{this.id}}/keys" title="Gerenciar Chaves" style="color: #00d2d3; margin-left: 10px;">
-                        <i class="fas fa-key"></i>
-                    </a>
-                </td>
-            </tr>
-            {{else}}
-            <tr>
-                <td colspan="7" style="text-align: center; padding: 20px;">Nenhum produto cadastrado.</td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
+  <table class="clean-table">
+    <thead>
+      <tr>
+        <th>Capa</th>
+        <th>Título</th>
+        <th>Plataforma</th>
+        <th>Preço</th>
+        <th>Estoque</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each products}}
+      <tr>
+        <td>
+          <img src="{{this.imagem}}" alt="Capa" style="width: 40px; height: 50px; object-fit: cover; border-radius: 4px;">
+        </td>
+        <td>
+          <strong>{{this.titulo}}</strong><br>
+          <small style="color: #888;">{{this.slug}}</small>
+        </td>
+        <td>{{this.plataforma}}</td>
+        <td>R$ {{this.preco}}</td>
+        <td>{{this.estoque}} keys</td>
+        <td>
+          {{#if (eq this.status 'aprovado')}}
+            <span class="status-pill success">Aprovado</span>
+          {{else}}
+            <span class="status-pill warning">Pendente</span>
+          {{/if}}
+        </td>
+        <td>
+          <button onclick='editProduct({{json this}})' style="background: none; border: none; cursor: pointer; color: var(--primary);">
+            <i class="fas fa-edit"></i>
+          </button>
+          <a href="/dashboard/products/{{this.id}}/keys" title="Gerenciar Chaves" style="color: #00d2d3; margin-left: 10px;">
+            <i class="fas fa-key"></i>
+          </a>
+        </td>
+      </tr>
+      {{else}}
+      <tr>
+        <td colspan="7" style="text-align: center; padding: 20px;">Nenhum produto cadastrado.</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </div>
 
 <div id="productModal" class="nh-modal-overlay">
-    <div class="nh-modal-box modal-lg">
-        <div class="nh-modal-header">
-            <h3 id="modalTitle">Novo Produto</h3>
-            <button onclick="closeModal('productModal')" class="btn-close-modal">&times;</button>
-        </div>
-        
-        <form action="/dashboard/products/save" method="POST" class="nh-modal-body">
-            <input type="hidden" name="id" id="prodId">
-
-            <h4 style="border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; color: var(--primary);">
-                <i class="fas fa-info-circle"></i> Informações Básicas
-            </h4>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="form-label">Título do Jogo</label>
-                    <input type="text" name="titulo" id="prodTitulo" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Slug (URL)</label>
-                    <input type="text" name="slug" id="prodSlug" class="form-control" placeholder="ex: god-of-war-ragnarok" required>
-                </div>
-            </div>
-
-            <div class="form-grid-3">
-                <div class="form-group">
-                    <label class="form-label">Preço (R$)</label>
-                    <input type="number" step="0.01" name="preco" id="prodPreco" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Plataforma</label>
-                    <select name="plataforma_id" id="prodPlataforma" class="form-control" required>
-                        <option value="">Selecione...</option>
-                        {{#each platforms}}
-                            <option value="{{this.id}}">{{this.nome}}</option>
-                        {{/each}}
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Classificação</label>
-                    <select name="classificacao" id="prodClassificacao" class="form-control">
-                        <option value="Livre">Livre</option>
-                        <option value="10+">10+</option>
-                        <option value="12+">12+</option>
-                        <option value="14+">14+</option>
-                        <option value="16+">16+</option>
-                        <option value="18+">18+</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Gêneros</label>
-                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    {{#each genres}}
-                        <label style="font-size: 0.9rem; display: flex; align-items: center; gap: 5px; cursor: pointer;">
-                            <input type="checkbox" name="generos" value="{{this.id}}" class="genre-check"> {{this.nome}}
-                        </label>
-                    {{/each}}
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Descrição Completa</label>
-                <textarea name="descricao" id="prodDescricao" class="form-control" rows="4"></textarea>
-            </div>
-
-            <h4 style="border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; margin-top: 20px; color: var(--primary);">
-                <i class="fas fa-images"></i> Mídia
-            </h4>
-
-            <div class="form-group">
-                <label class="form-label">URL da Capa (Vertical)</label>
-                <input type="url" name="url_imagem" id="prodCapa" class="form-control" placeholder="https://...">
-            </div>
-
-            <h4 style="border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; margin-top: 20px; color: var(--primary);">
-                <i class="fas fa-microchip"></i> Requisitos de Sistema
-            </h4>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="form-label">Sistema Operacional</label>
-                    <input type="text" name="req_os" id="prodReqOS" class="form-control" placeholder="Windows 10 64-bit">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Processador</label>
-                    <input type="text" name="req_cpu" id="prodReqCPU" class="form-control">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="form-label">Memória RAM</label>
-                    <input type="text" name="req_ram" id="prodReqRAM" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Placa de Vídeo</label>
-                    <input type="text" name="req_gpu" id="prodReqGPU" class="form-control">
-                </div>
-            </div>
-
-            <div class="form-actions" style="position: sticky; bottom: 0; background: #fff; padding-top: 15px; border-top: 1px solid #eee;">
-                <button type="button" onclick="closeModal('productModal')" class="btn-dash" style="background: #eee;">Cancelar</button>
-                <button type="submit" class="btn-dash btn-dash-primary">Salvar Produto</button>
-            </div>
-        </form>
+  <div class="nh-modal-box modal-lg">
+    <div class="nh-modal-header">
+      <h3 id="modalTitle">Novo Produto</h3>
+      <button onclick="closeModal('productModal')" class="btn-close-modal">&times;</button>
     </div>
+
+    <form id="productForm" action="/{{#if (eq userRole 'parceiro')}}partner{{else}}admin{{/if}}/products/create" method="POST" class="nh-modal-body">
+      <input type="hidden" name="id" id="prodId">
+
+      <h4 style="border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; color: var(--primary);">
+        <i class="fas fa-info-circle"></i> Informações Básicas
+      </h4>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Título do Jogo</label>
+          <input type="text" name="titulo" id="prodTitulo" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Slug (URL)</label>
+          <input type="text" name="slug" id="prodSlug" class="form-control" placeholder="ex: god-of-war-ragnarok" required>
+        </div>
+      </div>
+
+      <div class="form-grid-3">
+        <div class="form-group">
+          <label class="form-label">Preço (R$)</label>
+          <input type="number" step="0.01" name="preco" id="prodPreco" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Plataforma</label>
+          <select name="plataforma_id" id="prodPlataforma" class="form-control" required>
+            <option value="">Selecione...</option>
+            {{#each platforms}}
+              <option value="{{this.id}}">{{this.nome}}</option>
+            {{/each}}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Classificação Indicativa</label>
+          <select name="classificacao" id="prodClassificacao" class="form-control">
+            <option value="Livre">Livre</option>
+            <option value="10+">10+</option>
+            <option value="12+">12+</option>
+            <option value="14+">14+</option>
+            <option value="16+">16+</option>
+            <option value="18+">18+</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Gêneros</label>
+        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+          {{#each genres}}
+            <label style="font-size: 0.9rem; display: flex; align-items: center; gap: 5px; cursor: pointer;">
+              <input type="checkbox" name="generos" value="{{this.id}}" class="genre-check"> {{this.nome}}
+            </label>
+          {{/each}}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Descrição Completa</label>
+        <textarea name="descricao" id="prodDescricao" class="form-control" rows="4"></textarea>
+      </div>
+
+      <h4 style="border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; margin-top: 20px; color: var(--primary);">
+        <i class="fas fa-images"></i> Mídia
+      </h4>
+
+      <div class="form-group">
+        <label class="form-label">URL da Capa (Vertical)</label>
+        <input type="text" name="url_imagem" id="prodCapa" class="form-control" placeholder="https://...">
+      </div>
+
+      <h4 style="border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; margin-top: 20px; color: var(--primary);">
+        <i class="fas fa-microchip"></i> Requisitos de Sistema
+      </h4>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Sistema Operacional</label>
+          <input type="text" name="req_os" id="prodReqOS" class="form-control" placeholder="Windows 10 64-bit">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Processador</label>
+          <input type="text" name="req_cpu" id="prodReqCPU" class="form-control">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Memória RAM</label>
+          <input type="text" name="req_ram" id="prodReqRAM" class="form-control">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Placa de Vídeo</label>
+          <input type="text" name="req_gpu" id="prodReqGPU" class="form-control">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Armazenamento</label>
+          <input type="text" name="req_armazenamento" id="prodReqArmazenamento" class="form-control">
+        </div>
+      </div>
+
+      <h4 style="border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; margin-top: 20px; color: var(--primary);">
+        <i class="fas fa-cog"></i> Metadados
+      </h4>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Tipo</label>
+          <select name="tipo" id="prodTipo" class="form-control" required>
+            <option value="jogo">Jogo</option>
+            <option value="software">Software</option>
+            <option value="gift card">Gift Card</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Sistema (ex: Windows, Android)</label>
+          <select name="sistema" id="prodSistema" class="form-control">
+            <option value="">Selecione...</option>
+            <option value="windows">Windows</option>
+            <option value="android">Android</option>
+            <option value="ios">iOS</option>
+            <option value="linux">Linux</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Data de Lançamento</label>
+          <input type="date" name="data_lancamento" id="prodLancamento" class="form-control">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Desenvolvedor</label>
+          <input type="text" name="desenvolvedor" id="prodDev" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-actions" style="position: sticky; bottom: 0; background: #fff; padding-top: 15px; border-top: 1px solid #eee;">
+        <button type="button" onclick="closeModal('productModal')" class="btn-dash" style="background: #eee;">Cancelar</button>
+        <button type="submit" class="btn-dash btn-dash-primary">Salvar Produto</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <script>
-    function openProductModal() {
-        document.getElementById('modalTitle').innerText = 'Novo Produto';
-        document.querySelector('form').reset();
-        document.getElementById('prodId').value = '';
-        openModal('productModal');
+  const userRole = '{{userRole}}';
+  const formEl = document.getElementById('productForm');
+
+  function openProductModal() {
+    document.getElementById('modalTitle').innerText = 'Novo Produto';
+    formEl.action = `/${userRole === 'parceiro' ? 'partner' : 'admin'}/products/create`;
+    formEl.reset();
+    document.getElementById('prodId').value = '';
+    document.querySelectorAll('.genre-check').forEach((chk) => (chk.checked = false));
+    openModal('productModal');
+  }
+
+  function editProduct(product) {
+    document.getElementById('modalTitle').innerText = 'Editar Produto';
+    formEl.action = `/${userRole === 'parceiro' ? 'partner' : 'admin'}/products/update`;
+    document.getElementById('prodId').value = product.id;
+    document.getElementById('prodTitulo').value = product.titulo;
+    document.getElementById('prodSlug').value = product.slug;
+    document.getElementById('prodPreco').value = product.preco;
+    document.getElementById('prodPlataforma').value = product.plataforma_id;
+    document.getElementById('prodClassificacao').value = product.classificacao || 'Livre';
+    document.getElementById('prodDescricao').value = product.descricao || '';
+    document.getElementById('prodCapa').value = product.imagem || '';
+    document.getElementById('prodTipo').value = product.tipo || '';
+    document.getElementById('prodSistema').value = product.sistema || '';
+    document.getElementById('prodLancamento').value = product.data_lancamento || '';
+    document.getElementById('prodDev').value = product.desenvolvedor || '';
+
+    // requisitos
+    if (product.requirements) {
+      document.getElementById('prodReqOS').value = product.requirements.os || '';
+      document.getElementById('prodReqCPU').value = product.requirements.processador || '';
+      document.getElementById('prodReqRAM').value = product.requirements.memoria || '';
+      document.getElementById('prodReqGPU').value = product.requirements.graficos || '';
+      document.getElementById('prodReqArmazenamento').value = product.requirements.armazenamento || '';
+    } else {
+      document.getElementById('prodReqOS').value = '';
+      document.getElementById('prodReqCPU').value = '';
+      document.getElementById('prodReqRAM').value = '';
+      document.getElementById('prodReqGPU').value = '';
+      document.getElementById('prodReqArmazenamento').value = '';
     }
 
-    function editProduct(product) {
-        document.getElementById('modalTitle').innerText = 'Editar Produto';
-        document.getElementById('prodId').value = product.id;
-        document.getElementById('prodTitulo').value = product.titulo;
-        document.getElementById('prodSlug').value = product.slug;
-        document.getElementById('prodPreco').value = product.preco;
-        document.getElementById('prodPlataforma').value = product.plataforma_id; // Precisamos do ID aqui no objeto
-        document.getElementById('prodDescricao').value = product.descricao;
-        document.getElementById('prodCapa').value = product.imagem;
-        
-        if (product.requirements) {
-            document.getElementById('prodReqOS').value = product.requirements.os || '';
-            document.getElementById('prodReqCPU').value = product.requirements.cpu || '';
-        }
+    // marcar gêneros (espera product.genres como array de {id})
+    document.querySelectorAll('.genre-check').forEach((chk) => {
+      chk.checked = Array.isArray(product.genres) && product.genres.some((g) => String(g.id) === String(chk.value));
+    });
 
-        openModal('productModal');
-    }
+    openModal('productModal');
+  }
 </script>

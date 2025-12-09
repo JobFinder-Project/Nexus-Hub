@@ -113,11 +113,19 @@
         <button onclick="closeModal('salesModal')" class='btn-close-modal'>&times;</button>
       </div>
       <div class='nh-modal-body'>
-        <table class='clean-table'>
+        <table class="clean-table">
           <thead><tr><th>Data</th><th>Produto</th><th>Valor</th><th>Status</th></tr></thead>
           <tbody>
+              {{#each salesHistory}}
+              <tr>
+                  <td>{{this.data}}</td>
+                  <td>{{this.produto}}</td>
+                  <td>{{this.valor}}</td>
+                  <td>{{this.status}}</td>
+              </tr>
+              {{/each}}
           </tbody>
-        </table>
+      </table>
       </div>
     </div>
   </div>
@@ -128,17 +136,38 @@
         <h3>Criar Nova Promoção</h3>
         <button onclick="closeModal('promoModal')" class='btn-close-modal'>&times;</button>
       </div>
-      <form class='nh-modal-body'>
-        <div class='form-group'>
-          <label class='form-label'>Selecione o Jogo</label>
-          <select class='form-control'><option>Elden Ring</option><option>God of War</option></select>
-        </div>
-        <div class='form-group'>
-          <label class='form-label'>Desconto (%)</label>
-          <input type='number' class='form-control' placeholder='Ex: 20' />
-        </div>
-        <button class='btn-dash btn-dash-primary' style='width: 100%;'>Ativar Oferta</button>
-      </form>
+       <form class="nh-modal-body" action="/partner/promotions/create" method="POST">
+            <div class="form-group">
+                <label class="form-label">Produto</label>
+                <select name="produto_id" class="form-control" required>
+                    <option value="">Selecione...</option>
+                    {{#each products}}
+                        <option value="{{this.id}}">{{this.titulo}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Desconto (%)</label>
+                <input type="number" name="percentual_desconto" class="form-control" placeholder="20" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Início</label>
+                    <input type="date" name="data_inicio" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Fim</label>
+                    <input type="date" name="data_fim" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" onclick="closeModal('promoModal')" class="btn-dash" style="background: #eee;">Cancelar</button>
+                <button type="submit" class="btn-dash btn-dash-primary">Salvar</button>
+            </div>
+        </form>
     </div>
   </div>
 {{/if}}

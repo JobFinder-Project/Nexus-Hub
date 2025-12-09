@@ -5,10 +5,14 @@
             <i class="fas fa-plus"></i> Adicionar
         </button>
     </div>
-    
+
     <table class="clean-table">
         <thead>
-            <tr><th>Nome</th><th>Slug</th><th>Ações</th></tr>
+            <tr>
+                <th>Nome</th>
+                <th>Slug</th>
+                <th>Ações</th>
+            </tr>
         </thead>
         <tbody>
             {{#each platforms}}
@@ -28,18 +32,36 @@
             <h3>Nova Plataforma</h3>
             <button onclick="closeModal('catModal')" class="btn-close-modal">&times;</button>
         </div>
-        <form action="/dashboard/admin/categories/create" method="POST">
-            <div class="form-group">
-                <label class="form-label">Nome</label>
-                <input type="text" name="nome" class="form-control" placeholder="Ex: Nintendo Switch">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Slug</label>
-                <input type="text" name="slug" class="form-control" placeholder="Ex: nintendo-switch">
-            </div>
-            <div class="form-actions">
-                <button type="submit" class="btn-dash btn-dash-primary">Salvar</button>
-            </div>
-        </form>
+        <div class="nh-modal-body">
+            <form action="/admin/plataforms/create" method="POST">
+                <div class="form-group">
+                    <label class="form-label">Nome</label>
+                    <input type="text" name="nome" class="form-control" placeholder="Ex: PlayStation 6">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Slug</label>
+                    <input type="text" name="slug" class="form-control" placeholder="ex: ps6">
+                </div>
+                <button type="submit" class="btn-dash btn-dash-primary full-width">Adicionar</button>
+            </form>
+        </div>
+
+        <div class="modal-list-container">
+            <h4>Existentes</h4>
+            <ul class="simple-list">
+                {{#if platforms}}
+                {{#each platforms}}
+                <li>
+                    {{this.nome}} <small><code>{{this.slug}}</code></small>
+                    <form action="/admin/plataforms/delete/{{this.id}}" method="POST" style="display:inline;">
+                        <button class="btn-icon-danger" title="Remover"><i class="fas fa-trash"></i></button>
+                    </form>
+                </li>
+                {{/each}}
+                {{else}}
+                <li>Nenhuma plataforma cadastrada.</li>
+                {{/if}}
+            </ul>
+        </div>
     </div>
 </div>

@@ -53,7 +53,11 @@
                             <td>
                                 <button class="btn-modal-action edit" title="Editar"><i class="fas fa-edit"></i></button>
                                 {{#if (eq this.status 'ativo')}}
-                                    <button class="btn-modal-action reject" title="Banir"><i class="fas fa-ban"></i></button>
+                                    <form action="/admin/users/delete/{{this.id}}" method="POST" style="display:inline;">
+                                        <button class="btn-modal-action reject" title="Banir"><i class="fas fa-ban"></i></button>
+                                    </form>
+                                {{else}}
+                                    <button class="btn-modal-action approve" title="Reativar"><i class="fas fa-check-circle"></i></button>
                                 {{/if}}
                             </td>
                         </tr>
@@ -71,23 +75,33 @@
                 <button onclick="closeModal('categoriesModal')" class="btn-close-modal">&times;</button>
             </div>
             <div class="nh-modal-body">
-                <form class="modal-form-grid">
+                <form class="modal-form-grid" action="/admin/plataforms/create" method="POST">
                     <div class="form-group">
                         <label class="form-label">Nome</label>
-                        <input type="text" class="form-control" placeholder="Ex: PlayStation 6">
+                        <input type="text" name="nome" class="form-control" placeholder="Ex: PlayStation 6">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Slug</label>
-                        <input type="text" class="form-control" placeholder="ex: ps6">
+                        <input type="text" name="slug" class="form-control" placeholder="ex: ps6">
                     </div>
-                    <button class="btn-dash btn-dash-primary full-width">Adicionar</button>
+                    <button type="submit" class="btn-dash btn-dash-primary full-width">Adicionar</button>
                 </form>
                 
                 <div class="modal-list-container">
                     <h4>Existentes</h4>
                     <ul class="simple-list">
-                        <li>Steam (PC) <button class="btn-icon-danger"><i class="fas fa-trash"></i></button></li>
-                        <li>PlayStation 5 <button class="btn-icon-danger"><i class="fas fa-trash"></i></button></li>
+                        {{#if platforms}}
+                            {{#each platforms}}
+                                <li>
+                                    {{this.nome}} <small><code>{{this.slug}}</code></small>
+                                    <form action="/admin/plataforms/delete/{{this.id}}" method="POST" style="display:inline;">
+                                        <button class="btn-icon-danger" title="Remover"><i class="fas fa-trash"></i></button>
+                                    </form>
+                                </li>
+                            {{/each}}
+                        {{else}}
+                            <li>Nenhuma plataforma cadastrada.</li>
+                        {{/if}}
                     </ul>
                 </div>
             </div>
@@ -108,8 +122,12 @@
                         <tr>
                             <td>{{this.title}}<br><small>{{this.product}}</small></td>
                             <td><span class="status-pill success">-{{this.discount}}</span></td>
-                            <td>Ativa</td>
-                            <td><button class="btn-modal-action reject"><i class="fas fa-trash"></i></button></td>
+                            <td>{{#if this.ativo}}Ativa{{else}}Inativa{{/if}}</td>
+                            <td>
+                                <form action="/admin/promotions/delete/{{this.id}}" method="POST" onsubmit="return confirm('Tem certeza que deseja remover esta promoção?');">
+                                    <button type="submit" class="btn-icon-danger" title="Remover"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </td>
                         </tr>
                         {{/each}}
                     </tbody>
@@ -138,7 +156,7 @@
                             <td>{{this.data}}</td>
                             <td>{{this.produto}}</td>
                             <td>{{this.valor}}</td>
-                            <td><span class="status-pill success">Pago</span></td>
+                            <td>{{this.status}}</td>
                         </tr>
                         {{/each}}
                     </tbody>
@@ -153,17 +171,38 @@
                 <h3>Nova Promoção</h3>
                 <button onclick="closeModal('promoModal')" class="btn-close-modal">&times;</button>
             </div>
-            <form class="nh-modal-body">
+            <form class="nh-modal-body" action="/partner/promotions/create" method="POST">
+            <div class="form-group">
+                <label class="form-label">Produto</label>
+                <select name="produto_id" class="form-control" required>
+                    <option value="">Selecione...</option>
+                    {{#each products}}
+                        <option value="{{this.id}}">{{this.titulo}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Desconto (%)</label>
+                <input type="number" name="percentual_desconto" class="form-control" placeholder="20" required>
+            </div>
+
+            <div class="form-row">
                 <div class="form-group">
-                    <label class="form-label">Produto</label>
-                    <select class="form-control"><option>Elden Ring</option></select>
+                    <label class="form-label">Início</label>
+                    <input type="date" name="data_inicio" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Desconto (%)</label>
-                    <input type="number" class="form-control" placeholder="20">
+                    <label class="form-label">Fim</label>
+                    <input type="date" name="data_fim" class="form-control" required>
                 </div>
-                <button class="btn-dash btn-dash-primary full-width">Salvar</button>
-            </form>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" onclick="closeModal('promoModal')" class="btn-dash" style="background: #eee;">Cancelar</button>
+                <button type="submit" class="btn-dash btn-dash-primary">Salvar</button>
+            </div>
+        </form>
         </div>
     </div>
 

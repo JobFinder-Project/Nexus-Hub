@@ -6,14 +6,14 @@
 
     <nav class="sidebar-menu">
         
-        <a href="/dashboard/{{#if (eq userRole 'admin')}}admin{{else}}partner{{/if}}-test" class="menu-link {{#if (eq activePage 'home')}}active{{/if}}">
+        <a href="/dashboard/{{#if (eq userRole 'admin')}}admin{{else}}partner{{/if}}" class="menu-link {{#if (eq activePage 'home')}}active{{/if}}">
             <i class="fas fa-home"></i> Visão Geral
         </a>
 
         {{#if (eq userRole 'parceiro')}}
             <div class="menu-label">Gestão</div>
             
-            <a href="/dashboard/products?role=parceiro" class="menu-link {{#if (eq activePage 'products')}}active{{/if}}">
+            <a href="/dashboard/partner/products" class="menu-link {{#if (eq activePage 'products')}}active{{/if}}">
                 <i class="fas fa-gamepad"></i> Meus Jogos
             </a>
             
@@ -40,10 +40,10 @@
             </a>
             
             <a href="#" onclick="openModal('categoriesModal'); return false;" class="menu-link">
-                <i class="fas fa-layer-group"></i> Categorias
+                <i class="fas fa-layer-group"></i> Plataformas
             </a>
 
-            <a href="/dashboard/products?role=admin" class="menu-link {{#if (eq activePage 'products')}}active{{/if}}">
+            <a href="/dashboard/admin/products" class="menu-link {{#if (eq activePage 'products')}}active{{/if}}">
                 <i class="fas fa-box"></i> Todos Produtos
             </a>
             

@@ -54,10 +54,14 @@ const helpers = {
   },
 
   mult: (a, b) => a * b,
-  
+
   json: (context) => {
-    return JSON.stringify(context);
-  }
+    try {
+      return JSON.stringify(context);
+    } catch {
+      return '{}';
+    }
+  },
 };
 
 export default helpers;
