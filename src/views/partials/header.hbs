@@ -42,7 +42,7 @@
 
             <div class="header-actions">
                 <div class="action-item user-account has-dropdown">
-                    <a href="{{#if session.userId}}#{{else}}/login{{/if}}" onclick="{{#if session.userId}}return false;{{/if}}">
+                    <a href="{{#if session.userId}}/profile/account{{else}}/login{{/if}}">
                         <i class="far fa-user"></i>
                         <div class="action-text">
                             <span>{{#if session.userId}}Olá, {{session.userName}}{{else}}Bem-vindo{{/if}}</span>

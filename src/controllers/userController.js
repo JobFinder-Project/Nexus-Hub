@@ -317,6 +317,83 @@ const displayKeys = async (req, res, next) => {
   }
 };
 
+// GET /profile/account
+const renderAccountsDetails = async (req, res, next) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) return res.redirect('/login');
+
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).render('error/404', { title: '404 - Página Não Encontrada' });
+    }
+
+    const userData = user.get({ plain: true });
+    
+    return res.render('user/account', {
+      title: 'Meu Perfil - Nexus Hub',
+      activePage: 'profile',
+      session: req.session,
+      user: {
+        id: userData.id,
+        nome: userData.nome,
+        email: userData.email,
+        data_nascimento: userData.data_nascimento ? new Date(userData.data_nascimento).toISOString().split('T')[0] : '',
+        perfil: userData.perfil,
+        criado_em: new Date(userData.criado_em).toLocaleDateString('pt-BR', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        }),
+      },
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+// POST /profile/account/update
+const updateAccountDetails = async (req, res, next) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) return res.redirect('/login');
+
+    const { nome, email, data_nascimento } = req.body;
+
+    // Validações básicas
+    if (!nome || !email || !data_nascimento) {
+      req.session.error = 'Todos os campos são obrigatórios.';
+      return res.redirect('/profile/account');
+    }
+
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).render('error/404', { title: '404 - Página Não Encontrada' });
+    }
+
+    // Verifica se o email já existe (exceto o do usuário atual)
+    if (email !== user.email) {
+      const existingUser = await User.findOne({ where: { email } });
+      if (existingUser) {
+        req.session.error = 'Este email já está registrado.';
+        return res.redirect('/profile/account');
+      }
+    }
+
+    // Atualiza os dados do usuário
+    await user.update({
+      nome: nome.trim(),
+      email: email.trim(),
+      data_nascimento,
+    });
+
+    req.session.success = 'Perfil atualizado com sucesso!';
+    return res.redirect('/profile/account');
+  } catch (err) {
+    return next(err);
+  }
+};
+
 export {
   renderCart,
   addToCart,
@@ -325,4 +402,6 @@ export {
   processCheckout,
   renderLibrary,
   displayKeys,
+  renderAccountsDetails,
+  updateAccountDetails,
 };
