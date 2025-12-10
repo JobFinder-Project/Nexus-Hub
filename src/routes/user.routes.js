@@ -8,6 +8,10 @@ import {
   removeFromCart,
   processCheckout,
   displayKeys,
+  renderAccountsDetails,
+  updateAccountDetails,
+  renderOrdersHistory,
+  renderSettings,
 } from '../controllers/userController.js';
 
 const router = express.Router();
@@ -21,5 +25,9 @@ router.post('/cart/add/:productId', addToCart);
 router.post('/cart/remove/:productId', removeFromCart);
 router.post('/checkout', processCheckout);
 router.get('/library/keys/:purchaseId', displayKeys);
+router.get('/profile/account', renderAccountsDetails);
+router.post('/profile/account/update', updateAccountDetails);
+router.get('/profile/orders', renderOrdersHistory);
+router.get('/settings', renderSettings);
 
 export default router;

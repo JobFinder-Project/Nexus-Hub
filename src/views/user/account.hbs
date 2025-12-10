@@ -1,0 +1,180 @@
+<link rel="stylesheet" href="/css/account.css">
+<div class="profile-container">
+  
+  <!-- Alertas de Feedback -->
+  {{#if session.error}}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <i class="fas fa-exclamation-circle"></i>
+      <strong>Erro!</strong> {{session.error}}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
+    {{#if session.error}}{{set session.error null}}{{/if}}
+  {{/if}}
+
+  {{#if session.success}}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <i class="fas fa-check-circle"></i>
+      <strong>Sucesso!</strong> {{session.success}}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
+    {{#if session.success}}{{set session.success null}}{{/if}}
+  {{/if}}
+
+  <div class="profile-wrapper">
+    <!-- Sidebar de Navegação do Perfil -->
+    <aside class="profile-sidebar">
+      <div class="profile-header">
+        <div class="profile-avatar">
+          <i class="fas fa-user-circle"></i>
+        </div>
+        <div class="profile-info">
+          <h2 class="profile-name">{{user.nome}}</h2>
+        </div>
+      </div>
+
+      <nav class="profile-menu">
+        <a href="#" class="profile-menu-item active" data-tab="account">
+          <i class="fas fa-user"></i>
+          <span>Detalhes da Conta</span>
+        </a>
+        <a href="/library" class="profile-menu-item">
+          <i class="fas fa-gamepad"></i>
+          <span>Minha Biblioteca</span>
+        </a>
+        <a href="/profile/orders" class="profile-menu-item">
+          <i class="fas fa-box-open"></i>
+          <span>Meus Pedidos</span>
+        </a>
+        <a href="/cart" class="profile-menu-item">
+          <i class="fas fa-shopping-cart"></i>
+          <span>Meu Carrinho</span>
+        </a>
+        <a href="/settings" class="profile-menu-item">
+          <i class="fas fa-cog"></i>
+          <span>Configurações</span>
+        </a>
+      </nav>
+
+      <div class="profile-footer">
+        <small class="text-muted">
+          <i class="fas fa-calendar"></i>
+          Membro desde {{user.criado_em}}
+        </small>
+      </div>
+    </aside>
+
+    <!-- Conteúdo Principal -->
+    <main class="profile-content">
+      <div class="profile-section">
+        <div class="section-header">
+          <h1 class="section-title">
+            <i class="fas fa-user-edit"></i>
+            Detalhes da Conta
+          </h1>
+          <p class="section-subtitle">Gerencie suas informações pessoais e configurações de conta</p>
+        </div>
+
+        <!-- Formulário de Edição -->
+        <form method="POST" action="/profile/account/update" class="account-form">
+          <div class="form-group">
+            <label for="nome" class="form-label">
+              <i class="fas fa-user"></i>
+              Nome Completo
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              id="nome"
+              name="nome"
+              value="{{user.nome}}"
+              required
+              placeholder="Digite seu nome completo"
+            />
+            <small class="form-text text-muted">Seu nome será exibido em sua conta</small>
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="form-label">
+              <i class="fas fa-envelope"></i>
+              Endereço de Email
+            </label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              value="{{user.email}}"
+              required
+              placeholder="seu.email@exemplo.com"
+            />
+            <small class="form-text text-muted">Utilize um email válido para receber atualizações</small>
+          </div>
+
+          <div class="form-group">
+            <label for="data_nascimento" class="form-label">
+              <i class="fas fa-birthday-cake"></i>
+              Data de Nascimento
+            </label>
+            <input
+              type="date"
+              class="form-control"
+              id="data_nascimento"
+              name="data_nascimento"
+              value="{{user.data_nascimento}}"
+              required
+            />
+            <small class="form-text text-muted">Usada para verificação de idade</small>
+          </div>
+
+          <!-- Botões de Ação -->
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-lg">
+              <i class="fas fa-save"></i>
+              Salvar Alterações
+            </button>
+            <a href="/" class="btn btn-secondary btn-lg">
+              <i class="fas fa-times"></i>
+              Cancelar
+            </a>
+          </div>
+        </form>
+
+        <!-- Seção de Segurança -->
+        <div class="security-section">
+          <div class="section-divider"></div>
+          <h2 class="section-title">
+            <i class="fas fa-lock"></i>
+            Segurança
+          </h2>
+          <p class="section-subtitle">Gerencie sua senha e opções de segurança</p>
+
+          <div class="security-options">
+            <div class="security-card">
+              <div class="security-card-header">
+                <h3>Alterar Senha</h3>
+                <i class="fas fa-key"></i>
+              </div>
+              <p class="security-card-text">Atualize sua senha regularmente para manter sua conta segura</p>
+              <button class="btn btn-outline-primary btn-sm" disabled>
+                <i class="fas fa-pencil"></i>
+                Em Breve
+              </button>
+            </div>
+
+            <div class="security-card">
+              <div class="security-card-header">
+                <h3>Autenticação de Dois Fatores</h3>
+                <i class="fas fa-shield-alt"></i>
+              </div>
+              <p class="security-card-text">Adicione uma camada extra de segurança à sua conta</p>
+              <button class="btn btn-outline-primary btn-sm" disabled>
+                <i class="fas fa-cog"></i>
+                Em Breve
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

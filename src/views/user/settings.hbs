@@ -1,0 +1,321 @@
+<link rel="stylesheet" href="/css/settings.css">
+
+<div class="profile-container">
+    <!-- Alertas de Feedback -->
+  {{#if session.error}}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <i class="fas fa-exclamation-circle"></i>
+      <strong>Erro!</strong> {{session.error}}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
+    {{#if session.error}}{{set session 'error' null}}{{/if}}
+  {{/if}}
+
+  {{#if session.success}}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <i class="fas fa-check-circle"></i>
+      <strong>Sucesso!</strong> {{session.success}}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
+    {{#if session.success}}{{set session 'success' null}}{{/if}}
+  {{/if}}
+
+  <div class="profile-wrapper">
+    <!-- Sidebar de Navegação do Perfil -->
+    <aside class="profile-sidebar">
+      <div class="profile-header">
+        <div class="profile-avatar">
+          <i class="fas fa-user-circle"></i>
+        </div>
+        <div class="profile-info">
+          <h2 class="profile-name">{{user.nome}}</h2>
+        </div>
+      </div>
+
+      <nav class="profile-menu">
+        <a href="/profile/account" class="profile-menu-item">
+          <i class="fas fa-user"></i>
+          <span>Detalhes da Conta</span>
+        </a>
+        <a href="/library" class="profile-menu-item">
+          <i class="fas fa-gamepad"></i>
+          <span>Minha Biblioteca</span>
+        </a>
+        <a href="/profile/orders" class="profile-menu-item">
+          <i class="fas fa-box-open"></i>
+          <span>Meus Pedidos</span>
+        </a>
+        <a href="/cart" class="profile-menu-item">
+          <i class="fas fa-shopping-cart"></i>
+          <span>Meu Carrinho</span>
+        </a>
+        <a href="/settings" class="profile-menu-item active">
+          <i class="fas fa-cog"></i>
+          <span>Configurações</span>
+        </a>
+      </nav>
+
+      <div class="profile-footer">
+        <small class="text-muted">
+          <i class="fas fa-shield-alt"></i>
+          Privacidade e segurança
+        </small>
+      </div>
+    </aside>
+
+    <!-- Conteúdo Principal -->
+    <main class="profile-content">
+      <div class="profile-section">
+        <div class="section-header">
+          <h1 class="section-title">
+            <i class="fas fa-cog"></i>
+            Configurações
+          </h1>
+          <p class="section-subtitle">Gerencie suas preferências e configurações de conta</p>
+        </div>
+
+        <!-- Estatísticas Rápidas -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-shopping-bag"></i>
+            </div>
+            <div class="stat-info">
+              <span class="stat-value">{{stats.totalPurchases}}</span>
+              <span class="stat-label">Compras Realizadas</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-calendar"></i>
+            </div>
+            <div class="stat-info">
+              <span class="stat-value">{{user.criado_em}}</span>
+              <span class="stat-label">Membro Desde</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seções de Configurações -->
+        <div class="settings-sections">
+          
+          <!-- Notificações -->
+          <div class="settings-section">
+            <div class="section-header-settings">
+              <h2 class="section-title-settings">
+                <i class="fas fa-bell"></i>
+                Notificações
+              </h2>
+            </div>
+            
+            <div class="settings-options">
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h3 class="setting-title">Notificações por Email</h3>
+                  <p class="setting-description">Receba atualizações sobre promoções e novos produtos</p>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" checked disabled>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h3 class="setting-title">Alertas de Preço</h3>
+                  <p class="setting-description">Seja notificado quando produtos da sua lista baixarem de preço</p>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" checked disabled>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h3 class="setting-title">Novos Lançamentos</h3>
+                  <p class="setting-description">Receba emails sobre jogos recém-adicionados</p>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" disabled>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="settings-note">
+              <i class="fas fa-info-circle"></i>
+              <span>As configurações de notificação estarão disponíveis em breve</span>
+            </div>
+          </div>
+
+          <!-- Privacidade -->
+          <div class="settings-section">
+            <div class="section-header-settings">
+              <h2 class="section-title-settings">
+                <i class="fas fa-lock"></i>
+                Privacidade e Segurança
+              </h2>
+            </div>
+            
+            <div class="settings-options">
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h3 class="setting-title">Alterar Senha</h3>
+                  <p class="setting-description">Mantenha sua conta segura atualizando sua senha regularmente</p>
+                </div>
+                <button class="btn-setting" disabled>
+                  <i class="fas fa-key"></i>
+                  Em Breve
+                </button>
+              </div>
+
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h3 class="setting-title">Autenticação em Dois Fatores</h3>
+                  <p class="setting-description">Adicione uma camada extra de segurança à sua conta</p>
+                </div>
+                <button class="btn-setting" disabled>
+                  <i class="fas fa-shield-alt"></i>
+                  Em Breve
+                </button>
+              </div>
+
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h3 class="setting-title">Sessões Ativas</h3>
+                  <p class="setting-description">Gerencie os dispositivos conectados à sua conta</p>
+                </div>
+                <button class="btn-setting" disabled>
+                  <i class="fas fa-desktop"></i>
+                  Em Breve
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preferências -->
+          <div class="settings-section">
+            <div class="section-header-settings">
+              <h2 class="section-title-settings">
+                <i class="fas fa-sliders-h"></i>
+                Preferências
+              </h2>
+            </div>
+            
+            <div class="settings-options">
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h3 class="setting-title">Idioma</h3>
+                  <p class="setting-description">Português (Brasil)</p>
+                </div>
+                <button class="btn-setting" disabled>
+                  <i class="fas fa-globe"></i>
+                  Alterar
+                </button>
+              </div>
+
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h3 class="setting-title">Tema</h3>
+                  <p class="setting-description">Modo escuro ativado</p>
+                </div>
+                <button class="btn-setting" disabled>
+                  <i class="fas fa-moon"></i>
+                  Alterar
+                </button>
+              </div>
+
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h3 class="setting-title">Moeda</h3>
+                  <p class="setting-description">Real Brasileiro (R$)</p>
+                </div>
+                <button class="btn-setting" disabled>
+                  <i class="fas fa-dollar-sign"></i>
+                  Alterar
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dados e Privacidade -->
+          <div class="settings-section danger-zone">
+            <div class="section-header-settings">
+              <h2 class="section-title-settings">
+                <i class="fas fa-exclamation-triangle"></i>
+                Zona de Perigo
+              </h2>
+            </div>
+            
+            <div class="settings-options">
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h3 class="setting-title">Baixar Meus Dados</h3>
+                  <p class="setting-description">Solicite uma cópia de todos os seus dados pessoais</p>
+                </div>
+                <button class="btn-setting btn-outline" disabled>
+                  <i class="fas fa-download"></i>
+                  Solicitar
+                </button>
+              </div>
+
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h3 class="setting-title">Desativar Conta</h3>
+                  <p class="setting-description">Desative temporariamente sua conta sem perder seus dados</p>
+                </div>
+                <button class="btn-setting btn-warning" disabled>
+                  <i class="fas fa-pause"></i>
+                  Desativar
+                </button>
+              </div>
+
+              <div class="setting-item">
+                <div class="setting-info">
+                  <h3 class="setting-title">Excluir Conta Permanentemente</h3>
+                  <p class="setting-description">Esta ação não pode ser desfeita. Todos os seus dados serão perdidos</p>
+                </div>
+                <button class="btn-setting btn-danger" disabled>
+                  <i class="fas fa-trash"></i>
+                  Excluir Conta
+                </button>
+              </div>
+            </div>
+
+            <div class="settings-warning">
+              <i class="fas fa-exclamation-triangle"></i>
+              <span>As ações desta seção estarão disponíveis em breve. Entre em contato com o suporte se precisar de ajuda.</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Links Úteis -->
+        <div class="useful-links">
+          <h3>Links Úteis</h3>
+          <div class="links-grid">
+            <a href="#" class="link-card" title="Em breve">
+              <i class="fas fa-file-contract"></i>
+              <span>Termos de Serviço</span>
+            </a>
+            <a href="#" class="link-card" title="Em breve">
+              <i class="fas fa-shield-alt"></i>
+              <span>Política de Privacidade</span>
+            </a>
+            <a href="#" class="link-card" title="Em breve">
+              <i class="fas fa-headset"></i>
+              <span>Suporte</span>
+            </a>
+            <a href="#" class="link-card" title="Em breve">
+              <i class="fas fa-question-circle"></i>
+              <span>FAQ</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>

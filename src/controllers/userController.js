@@ -317,6 +317,205 @@ const displayKeys = async (req, res, next) => {
   }
 };
 
+// GET /profile/account
+const renderAccountsDetails = async (req, res, next) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) return res.redirect('/login');
+
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).render('error/404', { title: '404 - Página Não Encontrada' });
+    }
+
+    const userData = user.get({ plain: true });
+    
+    return res.render('user/account', {
+      title: 'Meu Perfil - Nexus Hub',
+      activePage: 'profile',
+      session: req.session,
+      user: {
+        id: userData.id,
+        nome: userData.nome,
+        email: userData.email,
+        data_nascimento: userData.data_nascimento ? new Date(userData.data_nascimento).toISOString().split('T')[0] : '',
+        perfil: userData.perfil,
+        criado_em: new Date(userData.criado_em).toLocaleDateString('pt-BR', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        }),
+      },
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+// POST /profile/account/update
+const updateAccountDetails = async (req, res, next) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) return res.redirect('/login');
+
+    const { nome, email, data_nascimento } = req.body;
+
+    // Validações básicas
+    if (!nome || !email || !data_nascimento) {
+      req.session.error = 'Todos os campos são obrigatórios.';
+      return res.redirect('/profile/account');
+    }
+
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).render('error/404', { title: '404 - Página Não Encontrada' });
+    }
+
+    // Verifica se o email já existe (exceto o do usuário atual)
+    if (email !== user.email) {
+      const existingUser = await User.findOne({ where: { email } });
+      if (existingUser) {
+        req.session.error = 'Este email já está registrado.';
+        return res.redirect('/profile/account');
+      }
+    }
+
+    // Atualiza os dados do usuário
+    await user.update({
+      nome: nome.trim(),
+      email: email.trim(),
+      data_nascimento,
+    });
+
+    req.session.success = 'Perfil atualizado com sucesso!';
+    return res.redirect('/profile/account');
+  } catch (err) {
+    return next(err);
+  }
+};
+
+// GET /profile/orders
+const renderOrdersHistory = async (req, res, next) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) return res.redirect('/login');
+
+    // Busca todas as compras do usuário com itens e produtos
+    const purchases = await Purchase.findAll({
+      where: { cliente_id: userId },
+      order: [['data_compra', 'DESC']],
+      include: [
+        {
+          model: PurchaseItem,
+          as: 'items',
+          include: [
+            {
+              model: Product,
+              as: 'product',
+              attributes: ['id', 'titulo', 'cover', 'slug'],
+            },
+          ],
+        },
+      ],
+    });
+
+    // Formata os pedidos para exibição
+    const orders = purchases.map((purchase) => {
+      const purchaseData = purchase.get({ plain: true });
+      const items = purchaseData.items || [];
+
+      return {
+        id: purchaseData.id,
+        data_compra: new Date(purchaseData.data_compra).toLocaleDateString('pt-BR', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
+        data_compra_iso: purchaseData.data_compra,
+        preco_total: Number(purchaseData.preco_total) || 0,
+        status_pagamento: purchaseData.status_pagamento,
+        status_label:
+          purchaseData.status_pagamento === 'aprovado'
+            ? 'Aprovado'
+            : purchaseData.status_pagamento === 'pendente'
+              ? 'Pendente'
+              : 'Recusado',
+        status_badge:
+          purchaseData.status_pagamento === 'aprovado'
+            ? 'success'
+            : purchaseData.status_pagamento === 'pendente'
+              ? 'warning'
+              : 'danger',
+        quantidade_itens: items.length,
+        itens: items.map((item) => ({
+          id: item.id,
+          produto_id: item.produto_id,
+          titulo: item.product?.titulo || 'Produto Indisponível',
+          slug: item.product?.slug || '#',
+          cover: item.product?.cover || 'https://placehold.co/80x100/1a1a1a/fff?text=IMG',
+          preco_na_compra: Number(item.preco_na_compra) || 0,
+          chave_revelada_em: item.chave_revelada_em,
+        })),
+      };
+    });
+
+    return res.render('user/orders', {
+      title: 'Meus Pedidos - Nexus Hub',
+      activePage: 'orders',
+      session: req.session,
+      orders,
+      hasOrders: orders.length > 0,
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+// GET /profile/settings
+const renderSettings = async (req, res, next) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) return res.redirect('/login');
+
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).render('error/404', { title: '404 - Página Não Encontrada' });
+    }
+
+    const userData = user.get({ plain: true });
+
+    // Contadores para estatísticas
+    const [totalPurchases] = await Promise.all([
+      Purchase.count({ where: { cliente_id: userId } }),
+    ]);
+
+    return res.render('user/settings', {
+      title: 'Configurações - Nexus Hub',
+      activePage: 'settings',
+      session: req.session,
+      user: {
+        id: userData.id,
+        nome: userData.nome,
+        email: userData.email,
+        perfil: userData.perfil,
+        status: userData.status,
+        criado_em: new Date(userData.criado_em).toLocaleDateString('pt-BR', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        }),
+      },
+      stats: {
+        totalPurchases,
+      },
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
 export {
   renderCart,
   addToCart,
@@ -325,4 +524,8 @@ export {
   processCheckout,
   renderLibrary,
   displayKeys,
+  renderAccountsDetails,
+  updateAccountDetails,
+  renderOrdersHistory,
+  renderSettings,
 };
