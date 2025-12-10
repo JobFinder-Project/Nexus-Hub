@@ -11,6 +11,7 @@ import {
   renderAccountsDetails,
   updateAccountDetails,
   renderOrdersHistory,
+  renderSettings,
 } from '../controllers/userController.js';
 
 const router = express.Router();
@@ -27,5 +28,6 @@ router.get('/library/keys/:purchaseId', displayKeys);
 router.get('/profile/account', renderAccountsDetails);
 router.post('/profile/account/update', updateAccountDetails);
 router.get('/profile/orders', renderOrdersHistory);
+router.get('/settings', renderSettings);
 
 export default router;

@@ -473,6 +473,49 @@ const renderOrdersHistory = async (req, res, next) => {
   }
 };
 
+// GET /profile/settings
+const renderSettings = async (req, res, next) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) return res.redirect('/login');
+
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).render('error/404', { title: '404 - Página Não Encontrada' });
+    }
+
+    const userData = user.get({ plain: true });
+
+    // Contadores para estatísticas
+    const [totalPurchases] = await Promise.all([
+      Purchase.count({ where: { cliente_id: userId } }),
+    ]);
+
+    return res.render('user/settings', {
+      title: 'Configurações - Nexus Hub',
+      activePage: 'settings',
+      session: req.session,
+      user: {
+        id: userData.id,
+        nome: userData.nome,
+        email: userData.email,
+        perfil: userData.perfil,
+        status: userData.status,
+        criado_em: new Date(userData.criado_em).toLocaleDateString('pt-BR', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        }),
+      },
+      stats: {
+        totalPurchases,
+      },
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
 export {
   renderCart,
   addToCart,
@@ -484,4 +527,5 @@ export {
   renderAccountsDetails,
   updateAccountDetails,
   renderOrdersHistory,
+  renderSettings,
 };
