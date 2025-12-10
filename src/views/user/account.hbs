@@ -29,15 +29,6 @@
         </div>
         <div class="profile-info">
           <h2 class="profile-name">{{user.nome}}</h2>
-          <p class="profile-role">
-            {{#if (eq user.perfil 'admin')}}
-              <span class="badge bg-danger">Administrador</span>
-            {{else if (eq user.perfil 'parceiro')}}
-              <span class="badge bg-warning">Parceiro</span>
-            {{else}}
-              <span class="badge bg-primary">Cliente</span>
-            {{/if}}
-          </p>
         </div>
       </div>
 
@@ -49,6 +40,10 @@
         <a href="/library" class="profile-menu-item">
           <i class="fas fa-gamepad"></i>
           <span>Minha Biblioteca</span>
+        </a>
+        <a href="/profile/orders" class="profile-menu-item">
+          <i class="fas fa-box-open"></i>
+          <span>Meus Pedidos</span>
         </a>
         <a href="/cart" class="profile-menu-item">
           <i class="fas fa-shopping-cart"></i>
@@ -129,43 +124,6 @@
               required
             />
             <small class="form-text text-muted">Usada para verificação de idade</small>
-          </div>
-
-          <!-- Seção de Informações Adicionais (somente leitura) -->
-          <div class="form-section">
-            <h3 class="form-section-title">Informações Adicionais</h3>
-
-            <div class="info-group">
-              <label class="info-label">
-                <i class="fas fa-id-badge"></i>
-                ID da Conta
-              </label>
-              <div class="info-value">{{user.id}}</div>
-            </div>
-
-            <div class="info-group">
-              <label class="info-label">
-                <i class="fas fa-crown"></i>
-                Tipo de Perfil
-              </label>
-              <div class="info-value">
-                {{#if (eq user.perfil 'admin')}}
-                  <span class="badge bg-danger">Administrador</span>
-                {{else if (eq user.perfil 'parceiro')}}
-                  <span class="badge bg-warning">Parceiro</span>
-                {{else}}
-                  <span class="badge bg-primary">Cliente</span>
-                {{/if}}
-              </div>
-            </div>
-
-            <div class="info-group">
-              <label class="info-label">
-                <i class="fas fa-calendar-check"></i>
-                Membro Desde
-              </label>
-              <div class="info-value">{{user.criado_em}}</div>
-            </div>
           </div>
 
           <!-- Botões de Ação -->

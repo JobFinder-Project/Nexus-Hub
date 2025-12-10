@@ -29,15 +29,6 @@
         </div>
         <div class="profile-info">
           <h2 class="profile-name">{{user.nome}}</h2>
-          <p class="profile-role">
-            {{#if (eq user.perfil 'admin')}}
-              <span class="badge bg-danger">Administrador</span>
-            {{else if (eq user.perfil 'parceiro')}}
-              <span class="badge bg-warning">Parceiro</span>
-            {{else}}
-              <span class="badge bg-primary">Cliente</span>
-            {{/if}}
-          </p>
         </div>
       </div>
 
