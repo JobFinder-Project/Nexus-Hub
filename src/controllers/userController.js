@@ -394,6 +394,85 @@ const updateAccountDetails = async (req, res, next) => {
   }
 };
 
+// GET /profile/orders
+const renderOrdersHistory = async (req, res, next) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) return res.redirect('/login');
+
+    // Busca todas as compras do usuário com itens e produtos
+    const purchases = await Purchase.findAll({
+      where: { cliente_id: userId },
+      order: [['data_compra', 'DESC']],
+      include: [
+        {
+          model: PurchaseItem,
+          as: 'items',
+          include: [
+            {
+              model: Product,
+              as: 'product',
+              attributes: ['id', 'titulo', 'cover', 'slug'],
+            },
+          ],
+        },
+      ],
+    });
+
+    // Formata os pedidos para exibição
+    const orders = purchases.map((purchase) => {
+      const purchaseData = purchase.get({ plain: true });
+      const items = purchaseData.items || [];
+
+      return {
+        id: purchaseData.id,
+        data_compra: new Date(purchaseData.data_compra).toLocaleDateString('pt-BR', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
+        data_compra_iso: purchaseData.data_compra,
+        preco_total: Number(purchaseData.preco_total) || 0,
+        status_pagamento: purchaseData.status_pagamento,
+        status_label:
+          purchaseData.status_pagamento === 'aprovado'
+            ? 'Aprovado'
+            : purchaseData.status_pagamento === 'pendente'
+              ? 'Pendente'
+              : 'Recusado',
+        status_badge:
+          purchaseData.status_pagamento === 'aprovado'
+            ? 'success'
+            : purchaseData.status_pagamento === 'pendente'
+              ? 'warning'
+              : 'danger',
+        quantidade_itens: items.length,
+        itens: items.map((item) => ({
+          id: item.id,
+          produto_id: item.produto_id,
+          titulo: item.product?.titulo || 'Produto Indisponível',
+          slug: item.product?.slug || '#',
+          cover: item.product?.cover || 'https://placehold.co/80x100/1a1a1a/fff?text=IMG',
+          preco_na_compra: Number(item.preco_na_compra) || 0,
+          chave_revelada_em: item.chave_revelada_em,
+        })),
+      };
+    });
+
+    return res.render('user/orders', {
+      title: 'Meus Pedidos - Nexus Hub',
+      activePage: 'orders',
+      session: req.session,
+      orders,
+      hasOrders: orders.length > 0,
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
 export {
   renderCart,
   addToCart,
@@ -404,4 +483,5 @@ export {
   displayKeys,
   renderAccountsDetails,
   updateAccountDetails,
+  renderOrdersHistory,
 };

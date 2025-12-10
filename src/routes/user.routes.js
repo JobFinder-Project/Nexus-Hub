@@ -10,6 +10,7 @@ import {
   displayKeys,
   renderAccountsDetails,
   updateAccountDetails,
+  renderOrdersHistory,
 } from '../controllers/userController.js';
 
 const router = express.Router();
@@ -25,5 +26,6 @@ router.post('/checkout', processCheckout);
 router.get('/library/keys/:purchaseId', displayKeys);
 router.get('/profile/account', renderAccountsDetails);
 router.post('/profile/account/update', updateAccountDetails);
+router.get('/profile/orders', renderOrdersHistory);
 
 export default router;
